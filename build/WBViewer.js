@@ -2,6 +2,7 @@ import { WBVWidget } from "./WBVWidget.js";
 import WBVToolBar from "./WBVToolBar.js";
 import { WBVObjectListWidget } from './WBVObjectListWidget.js';
 import { WBVViewListWidget } from './WBVViewListWidget.js';
+import WB3DView from "./WB3DView.js";
 import WBVViewManagerWidget from "./WBVViewManagerWidget.js";
 export class WBViewer extends WBVWidget {
     constructor(parentId) {
@@ -13,6 +14,7 @@ export class WBViewer extends WBVWidget {
         this.toolbar.widgets.push(new WBVObjectListWidget(this.toolbar.id));
         this.toolbar.widgets.push(new WBVViewListWidget(this.toolbar.id));
         this.toolbar.widgets.push(new WBVViewManagerWidget(this.toolbar.id));
+        this.activeView = null;
         this.update();
     }
     html() {
@@ -25,6 +27,9 @@ export class WBViewer extends WBVWidget {
     update() {
         super.update();
         this.toolbar.update();
+        if (!this.activeView) {
+            this.activeView = new WB3DView(this.id + "_view", null, null, 600);
+        }
     }
 }
 //# sourceMappingURL=WBViewer.js.map

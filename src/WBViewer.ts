@@ -10,7 +10,7 @@ import WBVViewManagerWidget from "./WBVViewManagerWidget.js";
 export class WBViewer extends WBVWidget {
     toolbar: WBVToolBar = null;
     name: string = null;
-    //activeView: WBView;
+    activeView: WBView;
 
     constructor(parentId) {
         super(parentId);
@@ -26,7 +26,7 @@ export class WBViewer extends WBVWidget {
         // Add view manager widget
         this.toolbar.widgets.push(new WBVViewManagerWidget(this.toolbar.id));
 
-
+        this.activeView = null;
         this.update();
     }
 
@@ -41,5 +41,9 @@ export class WBViewer extends WBVWidget {
     update() {
         super.update();
         this.toolbar.update();
+
+        if(!this.activeView) {
+            this.activeView = new WB3DView( this.id + "_view", null, null, 600);
+        }
     }
 }
