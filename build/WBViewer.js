@@ -11,11 +11,17 @@ export class WBViewer extends WBVWidget {
         this.name = null;
         this.name = 'Web Brain Viewer';
         this.toolbar = new WBVToolBar("wb_viewer_tb", "Viewer toolbar");
+        this.viewList = new WBVViewListWidget(this.toolbar.id);
+        this.viewManager = new WBVViewManagerWidget(this.toolbar.id);
         this.toolbar.widgets.push(new WBVObjectListWidget(this.toolbar.id));
-        this.toolbar.widgets.push(new WBVViewListWidget(this.toolbar.id));
-        this.toolbar.widgets.push(new WBVViewManagerWidget(this.toolbar.id));
+        this.toolbar.widgets.push(this.viewList);
+        this.toolbar.widgets.push(this.viewManager);
         this.activeView = null;
         this.update();
+    }
+    changeView(id) {
+        this.activeView = this.viewList.getView(id);
+        this.viewManager.setView(this.activeView);
     }
     html() {
         let html = "<div class='row wb-viewer' id='" + this.id + "'>";
@@ -28,7 +34,13 @@ export class WBViewer extends WBVWidget {
         super.update();
         this.toolbar.update();
         if (!this.activeView) {
-            this.activeView = new WB3DView(this.id + "_view", null, null, 600);
+            if (this.viewList.views.length > 0) {
+                this.changeView(this.viewList.views[0].id);
+            }
+            else {
+                this.viewList.addView(new WB3DView(this.id + "_view", null, "Example view", null, 600));
+                this.changeView(this.viewList.views[0].id);
+            }
         }
     }
 }

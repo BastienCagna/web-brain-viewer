@@ -1,23 +1,31 @@
 import { WBView } from "./WBView.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
-import WBVViewManagerWidget from "./WBVViewManagerWidget.js";
+
 
 class WBVViewListWidget extends WBVSectionWidget {
-    viewManagers: WBVViewManagerWidget[];
+    views: WBView[];
 
     constructor(parentId: string = null) {
         super(parentId, 'Views');
-        this.viewManagers = [];
+        this.views = [];
     }
 
-    addView(WBView): void {
-        console.log("I gonna add a new view");
+    addView(view: WBView): void {
+        this.views.push(view);
+        this.update();
+    }
+
+    getView(id: string): WBView {
+        for(const view of this.views) {
+            if(view.id.localeCompare(id)) return view;
+        }
+        return null;
     }
 
     bodyHtml(): string {
         let html = "<table><tr><th>Name</th><th>Type</th></tr>";
-        for(const manager of this.viewManagers) {
-            html += "<tr><td>" + manager.id + "</td><td></td></tr>";
+        for(const view of this.views) {
+            html += '<tr id="' + view.id + '"><td>' + view.title + "</td><td>" + view.type + "</td></tr>";
         }
         html += '</table>';
         return html;

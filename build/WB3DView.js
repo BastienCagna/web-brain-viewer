@@ -3,10 +3,12 @@ import { BasicShadowMap } from "../dependencies/three.js/build/three.module.js";
 import { WBView } from './WBView.js';
 import { OrbitControls } from '../dependencies/three.js/examples/jsm/controls/OrbitControls.js';
 export default class WB3DView extends WBView {
-    constructor(parentId, id = null, width = null, height = null) {
+    constructor(parentId, id = null, title = null, width = null, height = null) {
         super(parentId, id, width, height);
         this.mouse = new THREE.Vector2();
         this.clickInfosSection = false;
+        this.type = "3D";
+        this.title = title;
         super.update();
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 1000);

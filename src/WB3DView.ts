@@ -16,9 +16,11 @@ export default class WB3DView extends WBView {
 
   clickInfosSection = false;
 
-  constructor(parentId: string, id: string = null, width:number = null,
+  constructor(parentId: string, id: string = null, title = null, width:number = null,
               height:number = null) {
     super(parentId, id, width, height);
+    this.type = "3D";
+    this.title = title;
     super.update();
 
     this.scene = new THREE.Scene();

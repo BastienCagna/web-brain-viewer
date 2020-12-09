@@ -2,10 +2,18 @@ import WBVSectionWidget from "./WBVSectionWidget.js";
 export default class WBVViewManagerWidget extends WBVSectionWidget {
     constructor(parentId = null) {
         super(parentId, 'View Infos');
-        this.views = [];
     }
     bodyHtml() {
-        return "<p>To be implemented</p>";
+        if (!this.view) {
+            return '<p>No selected view.</p>';
+        }
+        else {
+            return '<h4>' + this.view.title + '</h4>';
+        }
+    }
+    setView(view) {
+        this.view = view;
+        this.update();
     }
 }
 //# sourceMappingURL=WBVViewManagerWidget.js.map

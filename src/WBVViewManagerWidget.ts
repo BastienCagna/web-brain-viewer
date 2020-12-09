@@ -2,15 +2,23 @@ import { WBView } from "./WBView.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
 
 export default class WBVViewManagerWidget extends WBVSectionWidget {
-    views: WBView[];
+    view: WBView;
 
     constructor(parentId: string = null) {
         super(parentId, 'View Infos');
-        this.views = [];
     }
 
     bodyHtml(): string {
-        return "<p>To be implemented</p>";
+        if(!this.view) {
+            return '<p>No selected view.</p>';
+        }
+        else {
+            return '<h4>' + this.view.title + '</h4>';
+        }
     }
 
+    setView(view: WBView): void {
+        this.view = view;
+        this.update();
+    }
 }

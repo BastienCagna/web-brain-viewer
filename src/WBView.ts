@@ -25,7 +25,8 @@ class WB3DCross extends THREE.Vector3 {
 
 
 export abstract class WBView extends WBVWidget {
-  // title: string;
+  title: string;
+  type: string;
   toolbar = null;
   objects = [];
   mouse: THREE.Vector2;
