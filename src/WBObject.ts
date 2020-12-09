@@ -3,11 +3,11 @@ import generateUUID = MathUtils.generateUUID;
 
 
 enum WBOState {
-    WBONone,
-    WBOLoading,
-    WBOReady,
-    WBOUsed,
-    WBOError
+    None,
+    Loading,
+    Ready,
+    Used,
+    Error
 }
 
 abstract class WBObject {
@@ -16,11 +16,13 @@ abstract class WBObject {
     type: string;
     state: WBOState;
     onStateChange = null;
+    usages: number;
 
     protected constructor(id:string = null) {
         this.uid = generateUUID();
         this.id = (!id) ? this.uid : id;
-        this.state = WBOState.WBONone;
+        this.state = WBOState.None;
+        this.usages = 0;
     }
 
     updateState(state: WBOState): void {
@@ -44,7 +46,7 @@ abstract class WBTextReadableObject extends WBObject {
             if(this.onLoadEnd) {
                 this.onLoadEnd();
             }
-            this.updateState(WBOState.WBOReady);
+            this.updateState(WBOState.Ready);
 
             // Reset fr
             this.fr = new FileReader();
@@ -55,7 +57,7 @@ abstract class WBTextReadableObject extends WBObject {
     loadFile(file:File) {
         this.id = file.name;
         this.fr.readAsText(file);
-        this.updateState(WBOState.WBOLoading);
+        this.updateState(WBOState.Loading);
     }
 
     abstract parseFile(): void;

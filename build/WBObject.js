@@ -2,18 +2,19 @@ import { MathUtils } from "../dependencies/three.js/build/three.module.js";
 var generateUUID = MathUtils.generateUUID;
 var WBOState;
 (function (WBOState) {
-    WBOState[WBOState["WBONone"] = 0] = "WBONone";
-    WBOState[WBOState["WBOLoading"] = 1] = "WBOLoading";
-    WBOState[WBOState["WBOReady"] = 2] = "WBOReady";
-    WBOState[WBOState["WBOUsed"] = 3] = "WBOUsed";
-    WBOState[WBOState["WBOError"] = 4] = "WBOError";
+    WBOState[WBOState["None"] = 0] = "None";
+    WBOState[WBOState["Loading"] = 1] = "Loading";
+    WBOState[WBOState["Ready"] = 2] = "Ready";
+    WBOState[WBOState["Used"] = 3] = "Used";
+    WBOState[WBOState["Error"] = 4] = "Error";
 })(WBOState || (WBOState = {}));
 class WBObject {
     constructor(id = null) {
         this.onStateChange = null;
         this.uid = generateUUID();
         this.id = (!id) ? this.uid : id;
-        this.state = WBOState.WBONone;
+        this.state = WBOState.None;
+        this.usages = 0;
     }
     updateState(state) {
         this.state = state;
@@ -33,7 +34,7 @@ class WBTextReadableObject extends WBObject {
             if (this.onLoadEnd) {
                 this.onLoadEnd();
             }
-            this.updateState(WBOState.WBOReady);
+            this.updateState(WBOState.Ready);
             this.fr = new FileReader();
             this.fr.onload = () => { this.parseFile(); };
         };
@@ -41,7 +42,7 @@ class WBTextReadableObject extends WBObject {
     loadFile(file) {
         this.id = file.name;
         this.fr.readAsText(file);
-        this.updateState(WBOState.WBOLoading);
+        this.updateState(WBOState.Loading);
     }
 }
 export { WBObject, WBTextReadableObject, WBOState };

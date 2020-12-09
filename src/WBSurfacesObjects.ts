@@ -1,16 +1,25 @@
 import * as THREE from "../dependencies/three.js/build/three.js";
+import {WBObject, WBOState} from "./WBObject.js";
 
 
-class WBMeshObject {
+class WBMeshObject extends WBObject {
     vertices: [];
     triangles: [];
     offset: THREE.Vector3;
     metadata: {};
 
-    constructor(vertices: [], triangles: [], offset: THREE.Vector3 = null) {
+    constructor(id:string = null, vertices: [], triangles: [], offset: THREE.Vector3 = null) {
+        super(id);
         this.offset = offset;
         this.vertices = vertices;
         this.triangles = triangles;
+    }
+
+    checkState(): void {
+        if((!this.vertices || !this.triangles) && this.state != WBOState.Error)
+            this.updateState(WBOState.Error);
+        else
+            this.updateState(WBOState.Ready);
     }
 
     estimateOffset(pointsVect): void {
@@ -35,7 +44,7 @@ class WBMeshObject {
         this.offset = new THREE.Vector3(offset[0], offset[1], offset[2]);
     }
 
-    mesh(color:number|THREE.Color = 0x777777): THREE.Mesh {
+    asThreeMesh(color:number|THREE.Color = 0x777777, metadata:{} = null, metadataMerge = false): THREE.Mesh {
         if(!this.offset) { this.estimateOffset(this.vertices); }
 
         let vertices = [];
@@ -77,21 +86,46 @@ class WBMeshObject {
         const mesh = new THREE.Mesh( geometry, material);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
-        mesh.userData = this.metadata;
+        if(metadataMerge) Object.assign(metadata, this.metadata);
+        mesh.userData = (!metadata) ? this.metadata : metadata;
         return mesh;
     }
 }
 
+class WBMeshesObject extends WBObject {
+    meshes: WBMeshObject[];
+    offset: THREE.Vector3;
 
-/*
-class WBTextureObject extends {
+    constructor(id: string = null, offset: THREE.Vector3 = null) {
+        super(id);
+        this.offset = offset;
+    }
+
+    addMesh(mesh: WBMeshObject): void {
+        if(mesh.state === WBOState.Error) {
+            throw new Error("Can not add under error mesh.");
+        }
+        if(this.offset) mesh.offset = this.offset;
+        this.meshes.push(mesh);
+        this.updateState(WBOState.Ready);
+    }
+
+    setOffset(offset: THREE.Vector3): void {
+        this.offset = offset;
+        for(const mesh of this.meshes)
+            mesh.offset = offset;
+    }
+}
+
+
+class WBTextureObject extends WBObject {
+    values: number[];
+    metadata: {};
+
     constructor(id:string = null) {
+        super(id);
         this.type = "Texture";
     }
+}
 
-    parseFile(): number {
-        throw new Error("Not implemented");
-    }
-}*/
-
-export { WBMeshObject/*, WBMeshesObject*/ };
+export { WBMeshObject, WBMeshesObject, WBTextureObject };

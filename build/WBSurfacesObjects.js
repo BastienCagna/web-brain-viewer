@@ -1,9 +1,17 @@
 import * as THREE from "../dependencies/three.js/build/three.js";
-class WBMeshObject {
-    constructor(vertices, triangles, offset = null) {
+import { WBObject, WBOState } from "./WBObject.js";
+class WBMeshObject extends WBObject {
+    constructor(id = null, vertices, triangles, offset = null) {
+        super(id);
         this.offset = offset;
         this.vertices = vertices;
         this.triangles = triangles;
+    }
+    checkState() {
+        if ((!this.vertices || !this.triangles) && this.state != WBOState.Error)
+            this.updateState(WBOState.Error);
+        else
+            this.updateState(WBOState.Ready);
     }
     estimateOffset(pointsVect) {
         const minPos = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
@@ -26,7 +34,7 @@ class WBMeshObject {
         }
         this.offset = new THREE.Vector3(offset[0], offset[1], offset[2]);
     }
-    mesh(color = 0x777777) {
+    asThreeMesh(color = 0x777777, metadata = null, metadataMerge = false) {
         if (!this.offset) {
             this.estimateOffset(this.vertices);
         }
@@ -58,9 +66,37 @@ class WBMeshObject {
         const mesh = new THREE.Mesh(geometry, material);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
-        mesh.userData = this.metadata;
+        if (metadataMerge)
+            Object.assign(metadata, this.metadata);
+        mesh.userData = (!metadata) ? this.metadata : metadata;
         return mesh;
     }
 }
-export { WBMeshObject };
+class WBMeshesObject extends WBObject {
+    constructor(id = null, offset = null) {
+        super(id);
+        this.offset = offset;
+    }
+    addMesh(mesh) {
+        if (mesh.state === WBOState.Error) {
+            throw new Error("Can not add under error mesh.");
+        }
+        if (this.offset)
+            mesh.offset = this.offset;
+        this.meshes.push(mesh);
+        this.updateState(WBOState.Ready);
+    }
+    setOffset(offset) {
+        this.offset = offset;
+        for (const mesh of this.meshes)
+            mesh.offset = offset;
+    }
+}
+class WBTextureObject extends WBObject {
+    constructor(id = null) {
+        super(id);
+        this.type = "Texture";
+    }
+}
+export { WBMeshObject, WBMeshesObject, WBTextureObject };
 //# sourceMappingURL=WBSurfacesObjects.js.map

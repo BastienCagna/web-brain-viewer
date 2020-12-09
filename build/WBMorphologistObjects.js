@@ -62,6 +62,7 @@ class WBMorphLabellingObject extends WBTextReadableObject {
     constructor(id = null, nameKey = "name") {
         super(id);
         this.nomenclature = null;
+        this.meshes = null;
         this.type = "Fold Labelling";
         this.nameKey = nameKey;
     }
@@ -122,8 +123,17 @@ class WBMorphLabellingObject extends WBTextReadableObject {
             fold.label = this.nomenclature.getLabelByName(fold.label.name);
         }
     }
+    setMeshes(meshes) {
+        this.meshes = meshes;
+        for (let f = 0; f < meshes.meshes.length; f++) {
+            this.folds[f].mesh = meshes.meshes[f];
+        }
+    }
     getThreeMeshes() {
         const meshes = [];
+        for (const fold of this.folds) {
+            meshes.push(fold.mesh.asThreeMesh(fold.label.color, fold.metadata));
+        }
         return meshes;
     }
 }

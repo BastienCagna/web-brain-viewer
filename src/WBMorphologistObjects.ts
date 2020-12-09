@@ -1,6 +1,6 @@
 import * as THREE from "../dependencies/three.js/build/three.module.js";
 import { WBObject, WBTextReadableObject } from "./WBObject.js";
-import {WBMeshObject} from "./WBSurfacesObjects";
+import { WBMeshObject, WBMeshesObject } from "./WBSurfacesObjects.js";
 
 
 class WBMorphFoldObject extends WBObject {
@@ -79,8 +79,7 @@ class WBMorphLabellingObject extends WBTextReadableObject {
     folds: WBMorphFoldObject[];
     nameKey: string;
     nomenclature: WBMorphNomenclatureObject = null;
-    // TODO: fix it
-    //meshes: WBMeshesObject = null;
+    meshes: WBMeshesObject = null;
 
     constructor(id:string = null, nameKey:string = "name") {
         super(id);
@@ -150,18 +149,18 @@ class WBMorphLabellingObject extends WBTextReadableObject {
         }
     }
 
-    /*setMeshes(meshes: WBMeshesObject) {
+    setMeshes(meshes: WBMeshesObject) {
         this.meshes = meshes;
         for(let f = 0; f < meshes.meshes.length; f++) {
             this.folds[f].mesh = meshes.meshes[f];
         }
-    }*/
+    }
 
     getThreeMeshes(): THREE.Mesh[] {
         const meshes = [];
-        /*for(const fold of this.folds) {
-            meshes.push(fold.mesh.mesh(fold.label.color, fold.metadata));
-        }*/
+        for(const fold of this.folds) {
+            meshes.push(fold.mesh.asThreeMesh(fold.label.color, fold.metadata));
+        }
         return meshes;
     }
 }

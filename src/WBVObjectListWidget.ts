@@ -25,10 +25,10 @@ class WBVObjectWidget extends WBVWidget {
     html(): string {
         let stateHtml;
         switch(this.object.state) {
-            case WBOState.WBOLoading: stateHtml = '<div class="spinner-border spinner-border-sm"> </div>'; break;
-            case WBOState.WBOReady: stateHtml = '<div class="wb-badge-sm bg-success"> </div>'; break;
-            case WBOState.WBOUsed: stateHtml = '<div class="wb-badge-sm bg-primary"> </div>'; break;
-            case WBOState.WBOError: stateHtml = '<div class="wb-badge-sm bg-danger"> </div>'; break;
+            case WBOState.Loading: stateHtml = '<div class="spinner-border spinner-border-sm"> </div>'; break;
+            case WBOState.Ready: stateHtml = '<div class="wb-badge-sm bg-success"> </div>'; break;
+            case WBOState.Used: stateHtml = '<div class="wb-badge-sm bg-primary"> </div>'; break;
+            case WBOState.Error: stateHtml = '<div class="wb-badge-sm bg-danger"> </div>'; break;
             case WBOState.WBONone:
             default: stateHtml = '<div class="wb-badge-sm bg-secondary"></div>';
                 break;

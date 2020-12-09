@@ -794,7 +794,7 @@ THREE.MMDPhysics = ( function () {
 	 */
 	function RigidBody( mesh, world, params, manager ) {
 
-		this.mesh = mesh;
+		this.asThreeMesh = mesh;
 		this.world = world;
 		this.params = params;
 		this.manager = manager;
@@ -1103,7 +1103,7 @@ THREE.MMDPhysics = ( function () {
 	 */
 	function Constraint( mesh, world, bodyA, bodyB, params, manager ) {
 
-		this.mesh = mesh;
+		this.asThreeMesh = mesh;
 		this.world = world;
 		this.bodyA = bodyA;
 		this.bodyB = bodyB;
