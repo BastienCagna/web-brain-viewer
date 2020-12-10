@@ -1,8 +1,9 @@
 import { WBOState } from "./WBObject.js";
-import { WBMorphLabellingObject, WBMorphNomenclatureObject } from "./WBMorphologistObjects.js";
+import { WBMorphFoldsInfosObject, WBMorphLabellingRecipe, WBMorphNomenclatureObject } from "./WBMorphologistObjects.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
 import { WBVWidget } from "./WBVWidget.js";
 import { WBGiftiImage } from "./WBGifti.js";
+import { WBTexturedMeshRecipe } from "./WBSurfacesObjects.js";
 var WBVOType;
 (function (WBVOType) {
     WBVOType[WBVOType["WBVODefault"] = 0] = "WBVODefault";
@@ -31,7 +32,7 @@ class WBVObjectWidget extends WBVWidget {
             case WBOState.Error:
                 stateHtml = '<div class="wb-badge-sm bg-danger"> </div>';
                 break;
-            case WBOState.WBONone:
+            case WBOState.None:
             default:
                 stateHtml = '<div class="wb-badge-sm bg-secondary"></div>';
                 break;
@@ -47,9 +48,9 @@ class WBVObjectWidget extends WBVWidget {
 class WBVTextReadableObjectWidget extends WBVObjectWidget {
     constructor(parentId = null, id = null, file = null, fid = null, type = WBVOType.WBVODefault) {
         super(parentId, id, null, type);
-        if (file) {
+        this.selected = false;
+        if (file)
             this.object = this.loadFile(file, fid);
-        }
     }
     loadFile(file, fid = null) {
         const extension = file.name.split('.').slice(-1)[0];
@@ -59,7 +60,7 @@ class WBVTextReadableObjectWidget extends WBVObjectWidget {
                 f = new WBGiftiImage(fid);
                 break;
             case "arg":
-                f = new WBMorphLabellingObject(fid);
+                f = new WBMorphFoldsInfosObject(fid);
                 break;
             case "hie":
                 f = new WBMorphNomenclatureObject(fid);
@@ -78,21 +79,17 @@ class WBVObjectListWidget extends WBVSectionWidget {
         super(parentId, 'Objects');
         this.items = [];
         this.counts = {};
+        this.mergeRecipes = [
+            new WBTexturedMeshRecipe(), new WBMorphLabellingRecipe()
+        ];
         $(document).on('change', '#wbv_add_file', function (event) {
             for (const file of event.target.files) {
-                let fid;
-                if (this.counts[file.name] === undefined) {
-                    fid = file.name;
-                    this.counts[file.name] = 1;
-                }
-                else {
-                    fid = file.name + "(" + this.counts[file.name] + ")";
-                    this.counts[file.name] += 1;
-                }
-                const newItem = new WBVTextReadableObjectWidget(this.id + "_list", null, file, fid, WBVOType.WBVOTr);
-                this.items.push(newItem);
+                const newItem = new WBVTextReadableObjectWidget(this.id + "_list", null, file, this.checkName(file.name), WBVOType.WBVOTr);
+                if (newItem.object)
+                    this.items.push(newItem);
             }
         }.bind(this));
+        const that = this;
         $(document).on('click', '.wbv-object-item', function () {
             if ($(this).attr('selected')) {
                 $(this).removeAttr('selected');
@@ -100,20 +97,80 @@ class WBVObjectListWidget extends WBVSectionWidget {
             else {
                 $(this).attr('selected', 'selected');
             }
-            if ($(".wbv-object-item[selected]").length > 0) {
-                $("#wbv_add_view").removeAttr("disabled");
+            const nSel = $(".wbv-object-item[selected]").length;
+            let validRecipes = [];
+            if (nSel > 1) {
+                const objects = that.selectedObjects();
+                for (const recipe of that.mergeRecipes) {
+                    if (recipe.findIngredients(objects)) {
+                        validRecipes.push(recipe);
+                    }
+                }
             }
-            else {
-                $("#wbv_add_view").attr("disabled", "disabled");
+            if (validRecipes.length > 0) {
+                $("#wbv_merge_objects").removeAttr("disabled");
+                let options = '<option selected value="-1">Merge to...</option>';
+                for (const recipe of validRecipes) {
+                    options += '<option value="' + recipe.id + '">' + recipe.name + '</option>';
+                }
+                $("#wbv_merge_objects").html(options);
+            }
+            else
+                $("#wbv_merge_objects").attr("disabled", "disabled");
+            if (nSel > 0)
+                $("#wbv_add_to_view").removeAttr("disabled");
+            else
+                $("#wbv_add_to_view").attr("disabled");
+        });
+        $(document).on('change', '#wbv_merge_objects', function () {
+            if ($(this).val() !== -1) {
+                for (const recipe of that.mergeRecipes) {
+                    if (recipe.id === $(this).val()) {
+                        const name = that.checkName("Fusion");
+                        const newObj = recipe.merge(name, that.selectedObjects());
+                        if (!newObj) {
+                            throw new Error("Merging failed");
+                        }
+                        const widget = new WBVObjectWidget(that.id + "_list", null, newObj, WBVOType.WBVOTr);
+                        that.items.push(widget);
+                        that.update();
+                        break;
+                    }
+                }
             }
         });
+    }
+    checkName(name) {
+        let fid;
+        if (this.counts[name] === undefined) {
+            fid = name;
+            this.counts[name] = 1;
+        }
+        else {
+            fid = name + "(" + this.counts[name] + ")";
+            this.counts[name] += 1;
+        }
+        return fid;
+    }
+    selectedObjects() {
+        let objects = [];
+        for (const el of $(".wbv-object-item[selected]")) {
+            for (const item of this.items) {
+                if (item.id === el.id) {
+                    objects.push(item.object);
+                    break;
+                }
+            }
+        }
+        return objects;
     }
     bodyHtml() {
         let html = '<table><thead><tr><th></th></th><th>Name</th><th>Type</th></tr></thead><tbody id="' + this.id + '_list">';
         html += '</tbody></table>';
         html += '<input type="file" class="phantom" id="wbv_add_file" name="wbv_add_file" multiple="multiple"/>';
         html += '<input type="button" class="button" value="Open files" onclick="document.getElementById(\'wbv_add_file\').click();">';
-        html += '<input type="button" class="button" id="wbv_add_view" value="New view" disabled="disabled">';
+        html += '<input type="button" class="button" id="wbv_add_to_view" value="Add to the view" disabled="disabled">';
+        html += '<select id="wbv_merge_objects" disabled="disabled"></select>';
         return html;
     }
     update() {

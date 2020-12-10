@@ -17,9 +17,11 @@ class WBObject {
         this.usages = 0;
     }
     updateState(state) {
-        this.state = state;
-        if (this.onStateChange) {
-            this.onStateChange(this);
+        if (this.state !== state) {
+            this.state = state;
+            if (this.onStateChange) {
+                this.onStateChange(this);
+            }
         }
     }
 }

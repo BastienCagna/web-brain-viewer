@@ -10,6 +10,7 @@ enum WBOState {
     Error
 }
 
+
 abstract class WBObject {
     uid: string;
     id: string;
@@ -26,9 +27,11 @@ abstract class WBObject {
     }
 
     updateState(state: WBOState): void {
-        this.state = state;
-        if(this.onStateChange) {
-            this.onStateChange(this);
+        if(this.state !== state) {
+            this.state = state;
+            if (this.onStateChange) {
+                this.onStateChange(this);
+            }
         }
     }
 }

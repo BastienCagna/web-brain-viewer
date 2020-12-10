@@ -1,5 +1,6 @@
 import * as THREE from "../dependencies/three.js/build/three.js";
 import {WBObject, WBOState} from "./WBObject.js";
+import {WBMergeRecipe} from "./WBMergeRecipe.js";
 
 
 class WBMeshObject extends WBObject {
@@ -92,6 +93,7 @@ class WBMeshObject extends WBObject {
     }
 }
 
+
 class WBMeshesObject extends WBObject {
     meshes: WBMeshObject[];
     offset: THREE.Vector3;
@@ -128,4 +130,28 @@ class WBTextureObject extends WBObject {
     }
 }
 
-export { WBMeshObject, WBMeshesObject, WBTextureObject };
+
+class WBTexturedMeshObject extends WBObject {
+    mesh: WBMeshObject;
+    texture: WBTextureObject;
+
+    constructor(id: string = null, mesh: WBMeshObject = null, texture: WBTextureObject = null) {
+        super(id);
+        this.mesh = mesh;
+        this.texture = texture;
+    }
+}
+
+class WBTexturedMeshRecipe extends WBMergeRecipe {
+    constructor() {
+        super("Textured Mesh", {'WBTextureObject': 1, 'WBMeshObject': 1});
+    }
+
+    merge(id:string = null, objects: WBObject[]):WBTexturedMeshObject {
+        const ingredients = this.findIngredients(objects);
+        return new WBTexturedMeshObject(id, ingredients['WBMeshObject'], ingredients['WBTextureObject']);
+    }
+}
+
+
+export { WBMeshObject, WBMeshesObject, WBTextureObject, WBTexturedMeshObject, WBTexturedMeshRecipe };

@@ -10,7 +10,7 @@ class WBVViewListWidget extends WBVSectionWidget {
     }
     getView(id) {
         for (const view of this.views) {
-            if (view.id.localeCompare(id))
+            if (view.id.localeCompare(id) === 0)
                 return view;
         }
         return null;
@@ -21,6 +21,8 @@ class WBVViewListWidget extends WBVSectionWidget {
             html += '<tr id="' + view.id + '"><td>' + view.title + "</td><td>" + view.type + "</td></tr>";
         }
         html += '</table>';
+        html += '<input type="button" class="button" id="wbv_add_view" value="New 2D view">';
+        html += '<input type="button" class="button" id="wbv_add_view" value="New 3D view">';
         return html;
     }
     update() {

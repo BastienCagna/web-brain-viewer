@@ -1,10 +1,11 @@
 import * as THREE from "../dependencies/three.js/build/three.module.js";
-import { WBObject, WBTextReadableObject } from "./WBObject.js";
+import { WBObject, WBOState, WBTextReadableObject } from "./WBObject.js";
+import { WBMergeRecipe } from "./WBMergeRecipe.js";
 class WBMorphFoldObject extends WBObject {
-    constructor(id = null) {
+    constructor(id = null, metadata = {}) {
         super(id);
         this.type = "Fold";
-        this.metadata = {};
+        this.metadata = metadata;
     }
 }
 class WBMorphFoldLabelObject extends WBObject {
@@ -57,21 +58,27 @@ class WBMorphNomenclatureObject extends WBTextReadableObject {
         }
         return null;
     }
+    getLabelByLabel(label) {
+        for (const foldLabel of this.folds) {
+            if (!foldLabel.label.localeCompare(label)) {
+                return foldLabel;
+            }
+        }
+        return null;
+    }
 }
-class WBMorphLabellingObject extends WBTextReadableObject {
-    constructor(id = null, nameKey = "name") {
+class WBMorphFoldsInfosObject extends WBTextReadableObject {
+    constructor(id = null) {
         super(id);
-        this.nomenclature = null;
-        this.meshes = null;
         this.type = "Fold Labelling";
-        this.nameKey = nameKey;
+        this.metadataArray = [];
     }
     parseFile() {
-        this.folds = [];
         const lines = String(this.fr.result).split('\n');
+        this.header = {};
+        this.metadataArray = [];
         let state = 'waiting';
-        const header = {};
-        let currentFold = new WBMorphFoldObject();
+        let currentInfos = {};
         let splitIndex = null;
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
@@ -80,16 +87,16 @@ class WBMorphLabellingObject extends WBTextReadableObject {
                     state = 'waiting_for_node';
                 }
                 else {
-                    header[line.substring(0, 38).trim()] = line.substring(38).trim();
+                    this.header[line.substring(0, 38).trim()] = line.substring(38).trim();
                 }
             }
             else {
                 if (state.localeCompare('in_fold') === 0) {
                     if (line.substring(-4).localeCompare('*END') === 0) {
-                        this.folds.push(currentFold);
+                        this.metadataArray.push(currentInfos);
                         state = 'waiting_for_node';
                         splitIndex = null;
-                        currentFold = new WBMorphFoldObject();
+                        currentInfos = {};
                     }
                     else {
                         if (!splitIndex) {
@@ -100,12 +107,7 @@ class WBMorphLabellingObject extends WBTextReadableObject {
                             splitIndex++;
                             c = line[splitIndex];
                         }
-                        const key = line.substring(0, splitIndex).trim();
-                        const value = line.substring(splitIndex).trim();
-                        if (this.nomenclature && key.localeCompare(this.nameKey) === 0) {
-                            currentFold.label = this.nomenclature.getLabelByName(value);
-                        }
-                        currentFold.metadata[key] = value;
+                        currentInfos[line.substring(0, splitIndex).trim()] = line.substring(splitIndex).trim();
                     }
                 }
             }
@@ -117,17 +119,52 @@ class WBMorphLabellingObject extends WBTextReadableObject {
             }
         }
     }
+}
+class WBMorphLabellingObject extends WBObject {
+    constructor(id = null, nomenclature = null, foldsInfos = null, meshes = null, nameKey = "name") {
+        super(id);
+        this.nomenclature = null;
+        this.meshes = null;
+        this.type = "Sulci Graph Labelling";
+        this.nameKey = nameKey;
+        this.nomenclature = nomenclature;
+        this.meshes = meshes;
+        if (foldsInfos)
+            this.setFoldsInfos(foldsInfos);
+        this.checkState();
+    }
+    checkState() {
+        if (this.folds.length > 0)
+            this.updateState(WBOState.Ready);
+        else if (this.folds.length === 0)
+            this.updateState(WBOState.Error);
+    }
+    setFoldsInfos(foldsInfos) {
+        this.foldsInfos = foldsInfos;
+        this.folds = [];
+        for (const infos of this.foldsInfos.metadataArray) {
+            this.folds.push(new WBMorphFoldObject(null, infos));
+        }
+        this.checkState();
+    }
     setNomenclature(nomenclature) {
         this.nomenclature = nomenclature;
-        for (const fold of this.folds) {
-            fold.label = this.nomenclature.getLabelByName(fold.label.name);
+        if (this.nameKey.localeCompare("name") === 0) {
+            for (const fold of this.folds)
+                fold.label = this.nomenclature.getLabelByName(fold.label.name);
         }
+        else {
+            for (const fold of this.folds)
+                fold.label = this.nomenclature.getLabelByLabel(fold.label.label);
+        }
+        this.checkState();
     }
     setMeshes(meshes) {
         this.meshes = meshes;
         for (let f = 0; f < meshes.meshes.length; f++) {
             this.folds[f].mesh = meshes.meshes[f];
         }
+        this.checkState();
     }
     getThreeMeshes() {
         const meshes = [];
@@ -137,5 +174,14 @@ class WBMorphLabellingObject extends WBTextReadableObject {
         return meshes;
     }
 }
-export { WBMorphNomenclatureObject, WBMorphLabellingObject, WBMorphFoldLabelObject, WBMorphFoldObject };
+class WBMorphLabellingRecipe extends WBMergeRecipe {
+    constructor() {
+        super("Sulci Graph Labelling", { 'WBMorphNomenclatureObject': 1, 'Meshes': 1, 'WBMorphFoldsInfosObject': 1 });
+    }
+    merge(id = null, objects) {
+        const ingredients = this.findIngredients(objects);
+        return new WBMorphLabellingObject(id, ingredients['WBMorphNomenclatureObject'], ingredients['WBMorphFoldsInfosObject'], ingredients['Meshes']);
+    }
+}
+export { WBMorphNomenclatureObject, WBMorphFoldsInfosObject, WBMorphFoldLabelObject, WBMorphFoldObject, WBMorphLabellingObject, WBMorphLabellingRecipe };
 //# sourceMappingURL=WBMorphologistObjects.js.map
