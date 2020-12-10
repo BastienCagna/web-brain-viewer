@@ -24,6 +24,9 @@ class WBObject {
             }
         }
     }
+    toObject3D() {
+        return null;
+    }
 }
 class WBTextReadableObject extends WBObject {
     constructor(id = null) {
@@ -43,8 +46,8 @@ class WBTextReadableObject extends WBObject {
     }
     loadFile(file) {
         this.id = file.name;
-        this.fr.readAsText(file);
         this.updateState(WBOState.Loading);
+        this.fr.readAsText(file);
     }
 }
 export { WBObject, WBTextReadableObject, WBOState };

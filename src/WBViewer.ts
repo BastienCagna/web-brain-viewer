@@ -11,6 +11,7 @@ export class WBViewer extends WBVWidget {
     toolbar: WBVToolBar = null;
     name: string = null;
     activeView: WBView;
+    objectList: WBVObjectListWidget;
     viewList: WBVViewListWidget;
     viewManager: WBVViewManagerWidget;
 
@@ -24,8 +25,9 @@ export class WBViewer extends WBVWidget {
         this.toolbar = new WBVToolBar("wb_viewer_tb", "Viewer toolbar");
         this.viewList = new WBVViewListWidget(this.toolbar.id)
         this.viewManager = new WBVViewManagerWidget(this.toolbar.id);
+        this.objectList = new WBVObjectListWidget(this.toolbar.id);
         // Add objects (or files) manager widget
-        this.toolbar.widgets.push(new WBVObjectListWidget(this.toolbar.id));
+        this.toolbar.widgets.push(this.objectList);
         // Add view manager widget
         this.toolbar.widgets.push(this.viewList);
         // Add view manager widget
@@ -33,6 +35,13 @@ export class WBViewer extends WBVWidget {
 
         this.activeView = null;
         this.update();
+
+        const that = this;
+        $(document).on('click', '#wbv_add_to_view', function() {
+            for(const obj of that.objectList.selectedObjects()) {
+                that.activeView.addObject(obj);
+            }
+        });
     }
 
     changeView(id: string) {

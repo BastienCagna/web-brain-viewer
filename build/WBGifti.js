@@ -1,7 +1,7 @@
 import { WBNiftiDataType, WBNiftiIntent } from "./WBNifti.js";
 import { b64ToFloat32Array, b64ToInt32Array } from "./convert.js";
 import { WBTextReadableObject } from "./WBObject.js";
-import { WBMeshObject } from "./WBSurfacesObjects.js";
+import { WBMeshesObject, WBMeshObject } from "./WBSurfacesObjects.js";
 var WBArrayIndenxingOrder;
 (function (WBArrayIndenxingOrder) {
     WBArrayIndenxingOrder[WBArrayIndenxingOrder["RowMajorOrder"] = 0] = "RowMajorOrder";
@@ -111,12 +111,12 @@ class WBGiftiImage extends WBTextReadableObject {
     setMeshes() {
         for (let d = 0; d < this.darrays.length; d++) {
             if (this.darrays[d].intent == WBNiftiIntent.NIFTI_INTENT_POINTSET && this.darrays[d + 1].intent == WBNiftiIntent.NIFTI_INTENT_TRIANGLE) {
-                const mesh = new WBMeshObject(this.darrays[d].data, this.darrays[d + 1].data, this.commonOffset);
+                const mesh = new WBMeshObject(null, this.darrays[d].data, this.darrays[d + 1].data, this.commonOffset);
                 this.meshes.push(mesh);
                 d += 1;
             }
             else if (this.darrays[d + 1].intent == WBNiftiIntent.NIFTI_INTENT_POINTSET && this.darrays[d].intent == WBNiftiIntent.NIFTI_INTENT_TRIANGLE) {
-                const mesh = new WBMeshObject(this.darrays[d + 1].data, this.darrays[d].data, this.commonOffset);
+                const mesh = new WBMeshObject(null, this.darrays[d + 1].data, this.darrays[d].data, this.commonOffset);
                 this.meshes.push(mesh);
                 d += 1;
             }
@@ -127,6 +127,19 @@ class WBGiftiImage extends WBTextReadableObject {
         for (const mesh of this.meshes) {
             mesh.offset = commonOffset;
         }
+    }
+    toWBMorphMeshesObject() {
+        const newObj = new WBMeshesObject(null, this.commonOffset);
+        newObj.meshes = this.meshes;
+        newObj.state = this.state;
+        return newObj;
+    }
+    toObject3D() {
+        let meshes = [];
+        for (const mesh of this.meshes) {
+            meshes.push(mesh.toObject3D());
+        }
+        return meshes;
     }
 }
 export { WBGiftiImage };

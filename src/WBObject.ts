@@ -34,6 +34,10 @@ abstract class WBObject {
             }
         }
     }
+
+    toObject3D(): THREE.Object3D|THREE.Object3D[] {
+        return null;
+    }
 }
 
 
@@ -59,11 +63,15 @@ abstract class WBTextReadableObject extends WBObject {
 
     loadFile(file:File) {
         this.id = file.name;
-        this.fr.readAsText(file);
         this.updateState(WBOState.Loading);
+        this.fr.readAsText(file);
     }
 
     abstract parseFile(): void;
 }
+/*
+abstract class WB3DObject extends WBObject {
+    abstract getMesh();
+}*/
 
 export { WBObject, WBTextReadableObject, WBOState };

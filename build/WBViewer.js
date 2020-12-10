@@ -13,11 +13,18 @@ export class WBViewer extends WBVWidget {
         this.toolbar = new WBVToolBar("wb_viewer_tb", "Viewer toolbar");
         this.viewList = new WBVViewListWidget(this.toolbar.id);
         this.viewManager = new WBVViewManagerWidget(this.toolbar.id);
-        this.toolbar.widgets.push(new WBVObjectListWidget(this.toolbar.id));
+        this.objectList = new WBVObjectListWidget(this.toolbar.id);
+        this.toolbar.widgets.push(this.objectList);
         this.toolbar.widgets.push(this.viewList);
         this.toolbar.widgets.push(this.viewManager);
         this.activeView = null;
         this.update();
+        const that = this;
+        $(document).on('click', '#wbv_add_to_view', function () {
+            for (const obj of that.objectList.selectedObjects()) {
+                that.activeView.addObject(obj);
+            }
+        });
     }
     changeView(id) {
         this.activeView = this.viewList.getView(id);

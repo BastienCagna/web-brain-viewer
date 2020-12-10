@@ -121,66 +121,79 @@ class WBMorphFoldsInfosObject extends WBTextReadableObject {
     }
 }
 class WBMorphLabellingObject extends WBObject {
-    constructor(id = null, nomenclature = null, foldsInfos = null, meshes = null, nameKey = "name") {
+    constructor(id = null, nomenclature = null, brainMesh = null, foldsInfos = null, meshes = null, nameKey = "name", labelKey = "Tmtktri_label") {
         super(id);
         this.nomenclature = null;
         this.meshes = null;
         this.type = "Sulci Graph Labelling";
         this.nameKey = nameKey;
+        this.labelKey = labelKey;
         this.nomenclature = nomenclature;
+        this.brainMesh = brainMesh;
         this.meshes = meshes;
-        if (foldsInfos)
-            this.setFoldsInfos(foldsInfos);
+        this.brainMesh.estimateOffset();
+        this.meshes.setOffset(this.brainMesh.offset);
+        this.foldsInfos = foldsInfos;
         this.checkState();
+        if (this.state == WBOState.Loading) {
+            this.folds = [];
+            const nFolds = this.meshes.meshes.length;
+            let fold, label, item;
+            for (let f = 0; f < nFolds; f++) {
+                fold = new WBMorphFoldObject();
+                fold.mesh = this.meshes.meshes[f];
+                for (let i = 0; i < this.foldsInfos.metadataArray.length; i++) {
+                    item = this.foldsInfos.metadataArray[i];
+                    if ((parseInt(item[this.labelKey], 10) - 1) === f) {
+                        label = (this.nameKey === "name") ? this.nomenclature.getLabelByName(item["name"]) : this.nomenclature.getLabelByLabel(item["label"]);
+                        fold.metadata = item;
+                        fold.metadata['meshFoldId'] = f;
+                        fold.metadata['labelFoldId'] = i;
+                        fold.metadata['color'] = [label.color.r, label.color.g, label.color.b];
+                        fold.label = label;
+                        if (!label)
+                            console.log("no label for ", fold);
+                        break;
+                    }
+                }
+                this.folds.push(fold);
+            }
+            this.checkState();
+        }
     }
     checkState() {
-        if (this.folds.length > 0)
+        if (this.folds && this.folds.length > 0)
             this.updateState(WBOState.Ready);
-        else if (this.folds.length === 0)
+        else if (this.foldsInfos.state === WBOState.Ready && this.nomenclature.state === WBOState.Ready &&
+            this.meshes.state === WBOState.Ready)
+            this.updateState(WBOState.Loading);
+        else
             this.updateState(WBOState.Error);
     }
-    setFoldsInfos(foldsInfos) {
-        this.foldsInfos = foldsInfos;
-        this.folds = [];
-        for (const infos of this.foldsInfos.metadataArray) {
-            this.folds.push(new WBMorphFoldObject(null, infos));
-        }
-        this.checkState();
-    }
-    setNomenclature(nomenclature) {
-        this.nomenclature = nomenclature;
-        if (this.nameKey.localeCompare("name") === 0) {
-            for (const fold of this.folds)
-                fold.label = this.nomenclature.getLabelByName(fold.label.name);
-        }
-        else {
-            for (const fold of this.folds)
-                fold.label = this.nomenclature.getLabelByLabel(fold.label.label);
-        }
-        this.checkState();
-    }
-    setMeshes(meshes) {
-        this.meshes = meshes;
-        for (let f = 0; f < meshes.meshes.length; f++) {
-            this.folds[f].mesh = meshes.meshes[f];
-        }
-        this.checkState();
-    }
-    getThreeMeshes() {
-        const meshes = [];
+    toObject3D() {
+        const meshes = [this.brainMesh.asThreeMesh(undefined, undefined, undefined, -1)];
         for (const fold of this.folds) {
-            meshes.push(fold.mesh.asThreeMesh(fold.label.color, fold.metadata));
+            if (!fold.label)
+                meshes.push(fold.mesh.asThreeMesh(0x333333, fold.metadata, true, -1));
+            else
+                meshes.push(fold.mesh.asThreeMesh(fold.label.color, fold.metadata, true, -1));
         }
         return meshes;
     }
 }
 class WBMorphLabellingRecipe extends WBMergeRecipe {
     constructor() {
-        super("Sulci Graph Labelling", { 'WBMorphNomenclatureObject': 1, 'Meshes': 1, 'WBMorphFoldsInfosObject': 1 });
+        super("Sulci Graph Labelling", { 'WBMorphNomenclatureObject': 1, 'Meshes': 1, 'Mesh': 1, 'WBMorphFoldsInfosObject': 1 });
     }
     merge(id = null, objects) {
         const ingredients = this.findIngredients(objects);
-        return new WBMorphLabellingObject(id, ingredients['WBMorphNomenclatureObject'], ingredients['WBMorphFoldsInfosObject'], ingredients['Meshes']);
+        if (ingredients['Meshes'].constructor.name.localeCompare("WBGiftiImage") === 0) {
+            ingredients['Meshes'] = ingredients['Meshes'].toWBMorphMeshesObject();
+        }
+        if (ingredients['Mesh'].constructor.name.localeCompare("WBGiftiImage") === 0) {
+            ingredients['Mesh'] = ingredients['Mesh'].meshes[0];
+        }
+        return new WBMorphLabellingObject(id, ingredients['WBMorphNomenclatureObject'], ingredients['Mesh'], ingredients['WBMorphFoldsInfosObject'], ingredients['Meshes']);
     }
 }
 export { WBMorphNomenclatureObject, WBMorphFoldsInfosObject, WBMorphFoldLabelObject, WBMorphFoldObject, WBMorphLabellingObject, WBMorphLabellingRecipe };

@@ -169,7 +169,7 @@ class WBVObjectListWidget extends WBVSectionWidget {
         html += '</tbody></table>';
         html += '<input type="file" class="phantom" id="wbv_add_file" name="wbv_add_file" multiple="multiple"/>';
         html += '<input type="button" class="button" value="Open files" onclick="document.getElementById(\'wbv_add_file\').click();">';
-        html += '<input type="button" class="button" id="wbv_add_to_view" value="Add to the view" disabled="disabled">';
+        html += '<input type="button" class="button" id="wbv_add_to_view" value="Add to the current view" disabled="disabled">';
         html += '<select id="wbv_merge_objects" disabled="disabled"></select>';
         return html;
     }

@@ -1,7 +1,7 @@
 import * as THREE from "../dependencies/three.js/build/three.module.js";
 import { BasicShadowMap } from "../dependencies/three.js/build/three.module.js";
-import { WBView } from './WBView.js';
 import { OrbitControls } from '../dependencies/three.js/examples/jsm/controls/OrbitControls.js';
+import { WBView } from './WBView.js';
 export default class WB3DView extends WBView {
     constructor(parentId, id = null, title = null, width = null, height = null) {
         super(parentId, id, width, height);
@@ -30,19 +30,23 @@ export default class WB3DView extends WBView {
         const sun = new THREE.DirectionalLight(0xffffff, 0.5);
         sun.position.set(0, 0, -1000);
         this.scene.add(sun);
-        const geometry = new THREE.BoxGeometry(50, 50, 50);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const cube = new THREE.Mesh(geometry, material);
-        this.scene.add(cube);
+        const axesHelper = new THREE.AxesHelper(1000);
+        this.scene.add(axesHelper);
         const animate = () => {
             requestAnimationFrame(animate);
             this.controls.update();
             this.renderer.render(this.scene, this.camera);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
         };
         animate();
         this.renderer.domElement.addEventListener(`click`, (evt) => this.onClick(evt));
+    }
+    addObject(obj) {
+        let obj3d = obj.toObject3D();
+        obj3d = (!Array.isArray(obj3d)) ? [obj3d] : obj3d;
+        for (const o of obj3d) {
+            this.objects.push(o);
+            this.scene.add(o);
+        }
     }
     onClick(event) {
         event.preventDefault();
@@ -59,6 +63,7 @@ export default class WB3DView extends WBView {
                     txt += '<tr><td>' + key + '</td><td>' + object.userData[key] + '</td>';
                 }
                 txt += '</table>';
+                console.log(object.name);
                 this.clickInfosSection = true;
             }
             else {

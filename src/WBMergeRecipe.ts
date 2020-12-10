@@ -24,7 +24,6 @@ abstract class WBMergeRecipe {
             ingredients[type] = [];
             for(const obj of objects) {
                 // FIXME: checking also the type is a beat tricky to load ingredients when merging. It mights be better.
-                // @ts-ignore
                 if(obj.constructor.name.localeCompare(type)===0 || obj.type.localeCompare(type)===0) {
                     if(spec == 1) {
                         ingredients[type] = obj;
@@ -44,6 +43,7 @@ abstract class WBMergeRecipe {
                 return null;
             }
         }
+
         return ingredients;
     }
 

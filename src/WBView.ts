@@ -6,6 +6,7 @@
 import * as THREE from "../dependencies/three.js/build/three.module.js";
 import WBVToolBar from './WBVToolBar.js';
 import {WBVWidget} from './WBVWidget.js';
+import {WBObject} from "./WBObject";
 
 class WB3DCross extends THREE.Vector3 {
     vector = null;
@@ -41,8 +42,9 @@ export abstract class WBView extends WBVWidget {
         this.toolbar = new WBVToolBar();
         if(this.parentId) {
             const parent = document.getElementById(this.parentId);
-            this.height = (!height) ? parent.clientHeight : height;
-            this.width = (!width) ? parent.clientWidth : width;
+            this.height = (!height) ? parent.clientHeight: height;
+            // FIXME: canvas if too large without *0.9
+            this.width = (!width) ? parent.clientWidth * 0.9  : width;
         }
         else {
             this.height = (!height) ? window.innerHeight : height;
@@ -60,4 +62,6 @@ export abstract class WBView extends WBVWidget {
     viewElement(): HTMLElement {
         return document.getElementById(this.id + '_screen');
     }
+
+    abstract addObject(obj: WBObject): void;
 }

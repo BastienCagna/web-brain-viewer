@@ -24,7 +24,7 @@ export class WBView extends WBVWidget {
         if (this.parentId) {
             const parent = document.getElementById(this.parentId);
             this.height = (!height) ? parent.clientHeight : height;
-            this.width = (!width) ? parent.clientWidth : width;
+            this.width = (!width) ? parent.clientWidth * 0.9 : width;
         }
         else {
             this.height = (!height) ? window.innerHeight : height;

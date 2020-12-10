@@ -1,4 +1,4 @@
-import * as THREE from "../dependencies/three.js/build/three.js";
+import * as THREE from "../dependencies/three.js/build/three.module.js";
 import { WBObject, WBOState } from "./WBObject.js";
 import { WBMergeRecipe } from "./WBMergeRecipe.js";
 class WBMeshObject extends WBObject {
@@ -14,16 +14,16 @@ class WBMeshObject extends WBObject {
         else
             this.updateState(WBOState.Ready);
     }
-    estimateOffset(pointsVect) {
+    estimateOffset() {
         const minPos = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
         const maxPos = [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
-        for (let i = 0; i < pointsVect.length; i += 3) {
+        for (let i = 0; i < this.vertices.length; i += 3) {
             for (let j = 0; j < 3; j++) {
-                if (pointsVect[i + j] < minPos[j]) {
-                    minPos[j] = pointsVect[i + j];
+                if (this.vertices[i + j] < minPos[j]) {
+                    minPos[j] = this.vertices[i + j];
                 }
-                if (pointsVect[i + j] > maxPos[j]) {
-                    maxPos[j] = pointsVect[i + j];
+                if (this.vertices[i + j] > maxPos[j]) {
+                    maxPos[j] = this.vertices[i + j];
                 }
             }
         }
@@ -35,28 +35,26 @@ class WBMeshObject extends WBObject {
         }
         this.offset = new THREE.Vector3(offset[0], offset[1], offset[2]);
     }
-    asThreeMesh(color = 0x777777, metadata = null, metadataMerge = false) {
+    asThreeMesh(color = 0xaaaaaa, metadata = null, metadataMerge = false, scale = 1) {
         if (!this.offset) {
-            this.estimateOffset(this.vertices);
+            this.estimateOffset();
         }
-        let vertices = [];
+        let vertices = [], faces = [];
         for (let i = 0; i < this.vertices.length; i += 3) {
-            vertices.push(new THREE.Vector3(this.vertices[i] - this.offset[0].x, this.vertices[i + 1] - this.offset[1].y, this.vertices[i + 2] - this.offset[2].z));
+            vertices.push(new THREE.Vector3(scale * (this.vertices[i] - this.offset.x), scale * (this.vertices[i + 1] - this.offset.y), scale * (this.vertices[i + 2] - this.offset.z)));
         }
-        let triangles = [];
         for (let i = 0; i < this.triangles.length; i += 3) {
-            triangles.push(new THREE.Vector3(this.triangles[i], this.triangles[i + 1], this.triangles[i + 2]));
+            faces.push(new THREE.Face3(this.triangles[i], this.triangles[i + 1], this.triangles[i + 2]));
         }
         const geometry = new THREE.Geometry();
-        for (const tri of this.triangles) {
-            geometry.faces.push(tri);
-        }
+        geometry.vertices = vertices;
+        geometry.faces = faces;
+        geometry.computeVertexNormals();
+        geometry.computeMorphNormals();
+        geometry.computeFaceNormals();
         geometry.rotateX(Math.PI / 2);
         geometry.rotateZ(-Math.PI / 2);
         geometry.rotateY(-Math.PI / 2);
-        geometry.computeMorphNormals();
-        geometry.computeFaceNormals();
-        geometry.computeVertexNormals();
         const material = new THREE.MeshLambertMaterial({
             morphTargets: true,
             flatShading: false,
@@ -71,6 +69,9 @@ class WBMeshObject extends WBObject {
             Object.assign(metadata, this.metadata);
         mesh.userData = (!metadata) ? this.metadata : metadata;
         return mesh;
+    }
+    toObject3D() {
+        return this.asThreeMesh(undefined, undefined, undefined, -1);
     }
 }
 class WBMeshesObject extends WBObject {
