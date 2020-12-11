@@ -52,9 +52,6 @@ class WBMeshObject extends WBObject {
         geometry.computeVertexNormals();
         geometry.computeMorphNormals();
         geometry.computeFaceNormals();
-        geometry.rotateX(Math.PI / 2);
-        geometry.rotateZ(-Math.PI / 2);
-        geometry.rotateY(-Math.PI / 2);
         const material = new THREE.MeshLambertMaterial({
             morphTargets: true,
             flatShading: false,
