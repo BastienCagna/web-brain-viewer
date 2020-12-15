@@ -7,7 +7,7 @@ import * as THREE from "../dependencies/three.js/build/three.module.js";
 import WBVToolBar from './WBVToolBar.js';
 import {WBVWidget} from './WBVWidget.js';
 import {WBObject} from "./WBObject.js";
-import WBVViewManagerWidget from "./WBVViewManagerWidget.js";
+import WBVViewWidget from "./WBVViewWidget.js";
 
 class WB3DCross extends THREE.Vector3 {
     vector = null;
@@ -36,21 +36,18 @@ export abstract class WBView extends WBVWidget {
     origin: WB3DCross;
     height:number = null;
     width: number = null;
-    widget: WBVViewManagerWidget;
-
+    widget: WBVViewWidget = null;
 
     protected constructor(parentId: string = null, id: string = null, width:number = null,
                           height:number = null) {
         super(parentId, id);
-        this.toolbar = new WBVToolBar(this.id, "View toolbar");
-        this.widget = new WBVViewManagerWidget(this.toolbar.id);
-        this.widget.view = this;
+        this.toolbar = new WBVToolBar();
 
         if(this.parentId) {
             const parent = document.getElementById(this.parentId);
             this.height = (!height) ? parent.clientHeight: height;
-            // FIXME: canvas if too large without *0.9
-            this.width = (!width) ? parent.clientWidth * 0.9  : width;
+            // FIXME: need of correction otherwise the canvas' width is a bit to large
+            this.width = (!width) ? parent.clientWidth  * .98: width;
         }
         else {
             this.height = (!height) ? window.innerHeight : height;
@@ -59,21 +56,25 @@ export abstract class WBView extends WBVWidget {
     }
 
     html(): string {
-        let html = '<div id="' + this.id + '" class="wb-view">';
-        html += '<div class="wbv-screen" id="' + this.id + '_screen"></div>';
-        html += "<div class='wb-sidebar' id='" + this.toolbar.parentId + "_toolbar'></div>";
-        html += '</div>';
+        let html = '<div class="wb-view" id="' + this.id + '"></div>';
         return html;
     }
 
     viewElement(): HTMLElement {
-        return document.getElementById(this.id + '_screen');
+        return document.getElementById(this.id);
     }
 
     abstract addObject(obj: WBObject): void;
 
     update() {
         super.update();
-        this.toolbar.update();
+
+        if(!this.widget) {
+            console.log("hlo");
+            this.widget = new WBVViewWidget(this);
+            this.toolbar.widgets.push(this.widget);
+        }
+
+        this.widget.update();
     }
 }

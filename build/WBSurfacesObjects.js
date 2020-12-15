@@ -7,6 +7,7 @@ class WBMeshObject extends WBObject {
         this.offset = offset;
         this.vertices = vertices;
         this.triangles = triangles;
+        this.metadata = {};
     }
     checkState() {
         if ((!this.vertices || !this.triangles) && this.state != WBOState.Error)
@@ -60,6 +61,7 @@ class WBMeshObject extends WBObject {
             side: THREE.BackSide
         });
         const mesh = new THREE.Mesh(geometry, material);
+        mesh.name = this.id;
         mesh.castShadow = true;
         mesh.receiveShadow = true;
         if (metadataMerge)

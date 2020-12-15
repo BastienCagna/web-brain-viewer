@@ -209,6 +209,7 @@ class WBMorphLabellingObject extends WBObject {
     toObject3D(): THREE.Mesh[] {
         const meshes = [this.brainMesh.asThreeMesh(undefined, undefined, undefined, -1)];
         for(const fold of this.folds) {
+
             if(!fold.label)
                 meshes.push(fold.mesh.asThreeMesh(0x333333, fold.metadata, true, -1));
             else

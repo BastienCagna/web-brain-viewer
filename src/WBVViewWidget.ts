@@ -1,11 +1,13 @@
 import { WBView } from "./WBView.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
 
-export default class WBVViewManagerWidget extends WBVSectionWidget {
+
+export default class WBVViewWidget extends WBVSectionWidget {
     view: WBView;
 
-    constructor(parentId: string = null) {
-        super(parentId, 'View Infos');
+    constructor(view: WBView, title:string = 'View Infos') {
+        super(view.toolbar.id, title);
+        this.view = view;
     }
 
     bodyHtml(): string {
@@ -13,7 +15,8 @@ export default class WBVViewManagerWidget extends WBVSectionWidget {
             return '<p>No selected view.</p>';
         }
         else {
-            return '<h4>' + this.view.title + '</h4>';
+            let html = '<h4>' + this.view.title + '</h4>';
+            return html;
         }
     }
 
@@ -21,4 +24,5 @@ export default class WBVViewManagerWidget extends WBVSectionWidget {
         this.view = view;
         this.update();
     }
+
 }

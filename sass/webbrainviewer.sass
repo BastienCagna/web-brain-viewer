@@ -18,13 +18,13 @@ h1
   min-width: 600px
 
 .wb-viewer
-  display: flex
-  flex-direction: row
-  justify-content: flex-start
-
+  padding: 0px
+  float: left
   background: black
   color: #cacaca
   font-family: Ubuntu, sans-serif
+  width: 100%
+  position: relative
 
   h1
     font-size: 16pt
@@ -42,50 +42,54 @@ h1
   p, input, td, th
     font-size: 10pt
 
-.wb-badge-sm
-  display: block
-  width: 10px
-  height: 10px
-  margin: 1px auto
-  border-radius: 2px
-
-.wb-view-container
-  display: block
-  float: left
+.wb-view
+  margin: 0
+  padding: 0
+  width: 100%
+  display: flex
+  flex-direction: row
 
 // Sidebar
 .wb-sidebar
   padding: 4px
+  position: absolute
+  top: 0
+  height: 100%
+  display: flex
+  flex-direction: row
   background: #393939
+
+  header
+    margin: 0
+    padding: 0
+    height: 100%
+    writing-mode: vertical-lr
+    text-align: center
+    vertical-align: center
+
+    h2
+      margin: 0
+      padding: 0
+
+  header:hover
+    cursor: pointer
+
 
 // Toolbars
 .wbv-tb
   display: flex
-  flex-direction: row
-  height: 100%
+  flex-direction: column
+  position: relative
   overflow: -moz-scrollbars-vertical
-
-.wbv-tb-header
-  margin: 0
-  padding: 4px
-  writing-mode: vertical-lr
-  text-align: center
-  vertical-align: center
 
   h2
     margin: 0
     padding: 0
 
-.wbv-tb-body
-  height: 100%
-  display: flex
-  flex-direction: column
-
   section
     margin: 2px 0
     padding: 3px
     background-color: #545454
-    border: 1px solid #292929
     border-radius: 4px
     overflow: hidden
 
@@ -100,14 +104,16 @@ h1
     th
       text-align: center
 
-.wb-view
-  margin: 0
-  padding: 0
-  width: 40%
-
 .wbv-object-item:hover
   cursor: pointer
   background: #259595
 
 .wbv-object-item[selected]
   background: #1b6e6e
+
+.wb-badge-sm
+  display: block
+  width: 10px
+  height: 10px
+  margin: 1px auto
+  border-radius: 2px

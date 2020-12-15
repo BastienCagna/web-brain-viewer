@@ -23,9 +23,6 @@ export abstract class WBVWidget {
       if(parent){
         parent.innerHTML += this.html();
       }
-      else {
-        throw new Error("Parent #" + this.parentId + " cannot be found.");
-      }
     }
   }
 }

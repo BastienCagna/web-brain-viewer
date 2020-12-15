@@ -14,6 +14,7 @@ class WBMeshObject extends WBObject {
         this.offset = offset;
         this.vertices = vertices;
         this.triangles = triangles;
+        this.metadata = {};
     }
 
     checkState(): void {
@@ -68,9 +69,10 @@ class WBMeshObject extends WBObject {
         geometry.computeVertexNormals();
         geometry.computeMorphNormals();
         geometry.computeFaceNormals();
-        /*geometry.rotateX(Math.PI / 2);
-        geometry.rotateZ(-Math.PI / 2);
-        geometry.rotateY(-Math.PI / 2);*/
+        //geometry.rotateX(Math.PI / 2);
+        //geometry.rotateZ(Math.PI / 2);
+        //geometry.rotateX(Math.PI);
+        //geometry.rotateY(-Math.PI / 2);
 
         const material = new THREE.MeshLambertMaterial({
             //opacity: 0.95,
@@ -83,6 +85,7 @@ class WBMeshObject extends WBObject {
         });
 
         const mesh = new THREE.Mesh( geometry, material);
+        mesh.name = this.id;
         mesh.castShadow = true;
         mesh.receiveShadow = true;
         if(metadataMerge) Object.assign(metadata, this.metadata);

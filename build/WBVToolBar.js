@@ -7,9 +7,7 @@ export default class WBVToolBar extends WBVWidget {
         this.widgets = [];
     }
     html() {
-        let html = '<div class="wbv-tb">';
-        html += '<div class="wbv-tb-header" target-data="' + this.id + '"><h2>' + this.name + '</h2></div>';
-        html += '<div id="' + this.id + '" class="wbv-tb-body"></div></div>';
+        let html = '<div id="' + this.id + '" class="wbv-tb"></div>';
         return html;
     }
     update() {

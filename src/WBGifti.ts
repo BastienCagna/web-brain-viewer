@@ -88,6 +88,7 @@ class WBGiftiImage extends WBTextReadableObject {
     meshes: WBMeshObject[] = [];
     textures: WBTextureObject[] = [];
     commonOffset: THREE.Vector3;
+    nameKey: string = "name";
 
     constructor(id:string = null, file: File = null, commonOffset: THREE.Vector3 = null) {
         super(id);
@@ -145,14 +146,30 @@ class WBGiftiImage extends WBTextReadableObject {
      }
 
     setMeshes(): void {
+        let pointset = null, triangles = null;
         for(let d = 0; d < this.darrays.length; d++) {
+            pointset = null;
+            triangles = null;
             if(this.darrays[d].intent == WBNiftiIntent.NIFTI_INTENT_POINTSET && this.darrays[d+1].intent == WBNiftiIntent.NIFTI_INTENT_TRIANGLE) {
-                const mesh = new WBMeshObject(null, this.darrays[d].data, this.darrays[d+1].data, this.commonOffset);
-                this.meshes.push(mesh);
-                d += 1;
+                pointset = this.darrays[d];
+                triangles = this.darrays[d+1];
             }
             else if (this.darrays[d+1].intent == WBNiftiIntent.NIFTI_INTENT_POINTSET && this.darrays[d].intent == WBNiftiIntent.NIFTI_INTENT_TRIANGLE) {
-                const mesh = new WBMeshObject(null, this.darrays[d+1].data, this.darrays[d].data, this.commonOffset);
+                pointset = this.darrays[d];
+                triangles = this.darrays[d+1];
+            }
+            if(triangles && pointset){
+                let id = null;
+                if(this.darrays[d].metadata && this.darrays[d].metadata[this.nameKey]) {
+                    id = this.darrays[d].metadata[this.nameKey];
+                } else if(this.darrays[d+1].metadata && this.darrays[d+1].metadata[this.nameKey]) {
+                    id = this.darrays[d+1].metadata[this.nameKey];
+                } else if(this.darrays.length/2 === 1) {
+                    id = this.id;
+                } else {
+                    id = this.id + "(" + (d+1) + "/" + this.darrays.length/2 + ")";
+                }
+                const mesh = new WBMeshObject(id, pointset.data, triangles.data, this.commonOffset);
                 this.meshes.push(mesh);
                 d += 1;
             }
