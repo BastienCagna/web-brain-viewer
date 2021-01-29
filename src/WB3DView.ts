@@ -27,11 +27,23 @@ export default class WB3DView extends WBView {
     /** Show/Hide information when clicking in the scene. **/
     clickInfosSection = false;
 
+    /**
+     * Init a 3D view.
+     * Create a toolbar containing a 3DViewWidget and a 3DObjectWidget to manage the rendering of objects.
+     * Then, create the ThreeJS scene with lights, camera, control, helper and renderer
+     * @param parentId
+     * @param id
+     * @param title
+     * @param width
+     * @param height
+     */
     constructor(parentId: string, id: string = null, title = null, width:number = null,
                 height:number = null) {
         super(parentId, id, width, height);
-        this.viewWidget = new WBV3DViewWidget(this);
-        this.objectWidget = new WBV3DObjectWidget(this);
+
+        // Toolbar
+        this.objectWidget = new WBV3DObjectWidget();
+        this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
         this.toolbar.widgets.push(this.viewWidget);
         this.toolbar.widgets.push(this.objectWidget);
 
@@ -87,6 +99,11 @@ export default class WB3DView extends WBView {
         this.renderer.domElement.addEventListener(`click`, (evt) => this.onClick(evt));
     }
 
+    /**
+     * Add an object to the scene or update it if already existing in the scene.
+     * Update the view and object widgets.
+     * @param obj - Object to add to the scene
+     */
     addObject(obj: WBObject): void {
         let obj3d = obj.toObject3D();
         obj3d = (!Array.isArray(obj3d)) ? [obj3d] : obj3d;
@@ -109,6 +126,10 @@ export default class WB3DView extends WBView {
         this.objectWidget.update();
     }
 
+    /**
+     * Manage click in the 3D scene.
+     * @param event
+     */
     onClick( event ): void {
         event.preventDefault();
 
@@ -138,26 +159,4 @@ export default class WB3DView extends WBView {
             this.clickInfosSection = false;
         }
     }
-
-    /*
-    // dom
-    container2 = document.getElementById('inset');
-
-    // renderer
-    renderer2 = new THREE.WebGLRenderer();
-    renderer2.setClearColor( 0xf0f0f0, 1 );
-    renderer2.setSize( CANVAS_WIDTH, CANVAS_HEIGHT );
-    container2.appendChild( renderer2.domElement );
-
-    // scene
-    scene2 = new THREE.Scene();
-
-    // camera
-    camera2 = new THREE.PerspectiveCamera( 50, CANVAS_WIDTH / CANVAS_HEIGHT, 1, 1000 );
-    camera2.up = camera.up; // important!
-
-    // axes
-    axes2 = new THREE.AxisHelper( 100 );
-    scene2.add( axes2 );
-     */
 }

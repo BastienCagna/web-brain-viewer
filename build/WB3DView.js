@@ -9,8 +9,8 @@ export default class WB3DView extends WBView {
         super(parentId, id, width, height);
         this.mouse = new THREE.Vector2();
         this.clickInfosSection = false;
-        this.viewWidget = new WBV3DViewWidget(this);
-        this.objectWidget = new WBV3DObjectWidget(this);
+        this.objectWidget = new WBV3DObjectWidget();
+        this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
         this.toolbar.widgets.push(this.viewWidget);
         this.toolbar.widgets.push(this.objectWidget);
         this.type = "3D";

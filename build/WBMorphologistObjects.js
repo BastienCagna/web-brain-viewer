@@ -172,12 +172,18 @@ class WBMorphLabellingObject extends WBObject {
     }
     toObject3D() {
         const meshes = [this.brainMesh.asThreeMesh(undefined, undefined, undefined, -1)];
+        let foldMeshesGroup = new THREE.Group();
         for (const fold of this.folds) {
+            let mesh;
             if (!fold.label)
-                meshes.push(fold.mesh.asThreeMesh(0x333333, fold.metadata, true, -1));
+                mesh = fold.mesh.asThreeMesh(0x333333, fold.metadata, true, -1);
             else
-                meshes.push(fold.mesh.asThreeMesh(fold.label.color, fold.metadata, true, -1));
+                mesh = fold.mesh.asThreeMesh(fold.label.color, fold.metadata, true, -1);
+            mesh.name = fold.label ? fold.label.name : fold.id;
+            foldMeshesGroup.add(mesh);
         }
+        foldMeshesGroup.name = this.id;
+        meshes.push(foldMeshesGroup);
         return meshes;
     }
 }
