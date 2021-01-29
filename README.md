@@ -16,8 +16,8 @@ Feel free to contribute by creating new issues, create your own fork...etc
 You can use typedoc to generate the documentation by following those steps:
 ```shell
 # Install typedoc using npm
-npm install typedoc --save-dev --name "Web Brain Viewer" --readme ./README.md
+npm install typedoc
 
 # Then compile the documentation to docs/ (add --watch while modifying the source code)
-typedoc src/*.ts
+typedoc src/*.ts --save-dev --name "Web Brain Viewer" --readme ./README.md
 ```
