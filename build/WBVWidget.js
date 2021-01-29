@@ -2,8 +2,6 @@ import { MathUtils } from "../dependencies/three.js/build/three.module.js";
 var generateUUID = MathUtils.generateUUID;
 export class WBVWidget {
     constructor(parentId = null, id = null) {
-        this.id = null;
-        this.parentId = null;
         this.id = (!id) ? generateUUID() : id;
         this.parentId = parentId;
     }

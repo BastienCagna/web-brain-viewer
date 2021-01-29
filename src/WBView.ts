@@ -9,6 +9,9 @@ import {WBVWidget} from './WBVWidget.js';
 import {WBObject} from "./WBObject.js";
 import WBVViewWidget from "./WBVViewWidget.js";
 
+/**
+ * 3D cross. Can also be used for 2D cross display.
+ */
 class WB3DCross extends THREE.Vector3 {
     vector = null;
     visible = false;
@@ -26,18 +29,33 @@ class WB3DCross extends THREE.Vector3 {
 }
 
 
+/**
+ * Abstract viewer.
+ */
 export abstract class WBView extends WBVWidget {
+    /** Viewer name **/
     title: string;
+    /** Viewer type (ex: 2D or 3D) **/
     type: string;
+    /** Toolbar dedicated to this viewer. **/
     toolbar = null;
+    /** List of all object included in the view **/
     objects = [];
     mouse: THREE.Vector2;
     cursor: WB3DCross;
     origin: WB3DCross;
     height:number = null;
     width: number = null;
-    widget: WBVViewWidget = null;
+    viewWidget: WBVViewWidget = null;
 
+    /**
+     * Init the viewer: create the toolbar and if needed set default value to height and width.
+     * @param parentId - Id of the parent HTML element
+     * @param id - Id of the viewer
+     * @param width - Width of the viewer in pixels. (Default: 98% of the window's width)
+     * @param height - Height of the viewer in pixels. (Default: window's height)
+     * @protected
+     */
     protected constructor(parentId: string = null, id: string = null, width:number = null,
                           height:number = null) {
         super(parentId, id);
@@ -68,13 +86,6 @@ export abstract class WBView extends WBVWidget {
 
     update() {
         super.update();
-
-        if(!this.widget) {
-            console.log("hlo");
-            this.widget = new WBVViewWidget(this);
-            this.toolbar.widgets.push(this.widget);
-        }
-
-        this.widget.update();
+        this.viewWidget.update();
     }
 }

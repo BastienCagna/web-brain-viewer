@@ -3,13 +3,16 @@ import { BasicShadowMap } from "../dependencies/three.js/build/three.module.js";
 import { TrackballControls } from '../dependencies/three.js/examples/jsm/controls/TrackballControls.js';
 import { WBView } from './WBView.js';
 import WBV3DViewWidget from "./WBV3DViewWidget.js";
+import WBV3DObjectWidget from "./WB3DObjectWidget.js";
 export default class WB3DView extends WBView {
     constructor(parentId, id = null, title = null, width = null, height = null) {
         super(parentId, id, width, height);
         this.mouse = new THREE.Vector2();
         this.clickInfosSection = false;
-        this.widget = new WBV3DViewWidget(this);
-        this.toolbar.widgets.push(this.widget);
+        this.viewWidget = new WBV3DViewWidget(this);
+        this.objectWidget = new WBV3DObjectWidget(this);
+        this.toolbar.widgets.push(this.viewWidget);
+        this.toolbar.widgets.push(this.objectWidget);
         this.type = "3D";
         this.title = title;
         super.update();
@@ -36,6 +39,8 @@ export default class WB3DView extends WBView {
         this.scene.add(sun);
         this.scene.add(moon);
         const axesHelper = new THREE.AxesHelper(1000);
+        axesHelper.name = "Origin";
+        this.objects.push(axesHelper);
         this.scene.add(axesHelper);
         const animate = () => {
             requestAnimationFrame(animate);
@@ -63,7 +68,8 @@ export default class WB3DView extends WBView {
                 this.scene.add(o);
             }
         }
-        this.widget.update();
+        this.viewWidget.update();
+        this.objectWidget.update();
     }
     onClick(event) {
         event.preventDefault();

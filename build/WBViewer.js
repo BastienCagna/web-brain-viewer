@@ -7,8 +7,6 @@ import WBVCreditWidget from "./WBVCreditWidget.js";
 export class WBViewer extends WBVWidget {
     constructor(parentId) {
         super(parentId);
-        this.viewerToolbar = null;
-        this.viewToolbar = null;
         this.name = null;
         this.name = 'Web Brain Viewer';
         this.viewerToolbar = new WBVToolBar("wb_viewer_tb", "Viewer toolbar");

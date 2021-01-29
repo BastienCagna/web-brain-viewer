@@ -17,6 +17,9 @@ h1 {
   width: 90%;
   min-width: 600px; }
 
+a[role=button]:hover {
+  text-decoration: none; }
+
 .wb-viewer {
   padding: 0px;
   float: left;

@@ -1,7 +1,6 @@
 import * as THREE from "../dependencies/three.js/build/three.module.js";
 import WBVToolBar from './WBVToolBar.js';
 import { WBVWidget } from './WBVWidget.js';
-import WBVViewWidget from "./WBVViewWidget.js";
 class WB3DCross extends THREE.Vector3 {
     constructor(x = 0, y = 0, z = 0) {
         super(x, y, z);
@@ -21,7 +20,7 @@ export class WBView extends WBVWidget {
         this.objects = [];
         this.height = null;
         this.width = null;
-        this.widget = null;
+        this.viewWidget = null;
         this.toolbar = new WBVToolBar();
         if (this.parentId) {
             const parent = document.getElementById(this.parentId);
@@ -42,12 +41,7 @@ export class WBView extends WBVWidget {
     }
     update() {
         super.update();
-        if (!this.widget) {
-            console.log("hlo");
-            this.widget = new WBVViewWidget(this);
-            this.toolbar.widgets.push(this.widget);
-        }
-        this.widget.update();
+        this.viewWidget.update();
     }
 }
 //# sourceMappingURL=WBView.js.map

@@ -4,18 +4,23 @@ import {WBVObjectListWidget} from './WBVObjectListWidget.js';
 import {WBVViewListWidget} from './WBVViewListWidget.js';
 import WB3DView from "./WB3DView.js";
 import {WBView} from "./WBView.js";
-import WBVViewWidget from "./WBVViewWidget.js";
 import WBVCreditWidget from "./WBVCreditWidget.js";
 
-
+/**
+ * Viewer object that will contain view and toolbars.
+ */
 export class WBViewer extends WBVWidget {
-    viewerToolbar: WBVToolBar = null;
-    viewToolbar: WBVToolBar = null;
+    viewerToolbar: WBVToolBar;
+    viewToolbar: WBVToolBar;
     name: string = null;
     activeView: WBView;
     objectList: WBVObjectListWidget;
     viewList: WBVViewListWidget;
 
+    /**
+     * Create the viewer: create toolbars, set the default view and render the HTML element.
+     * @param parentId - ID of the parent HTML element
+     */
     constructor(parentId) {
         super(parentId);
 
@@ -46,6 +51,10 @@ export class WBViewer extends WBVWidget {
         });
     }
 
+    /**
+     * Switch current view to an other
+     * @param id - View Id
+     */
     changeView(id: string) {
         this.activeView = this.viewList.getView(id);
         /*for(const w of this.viewToolbar.widgets) {
@@ -58,6 +67,9 @@ export class WBViewer extends WBVWidget {
         this.viewToolbar.update();
     }
 
+    /**
+     * Generate two sidebars and the central division that view contain the current view.
+     */
     html(): string {
         let html = '<div class="wb-viewer" id="' + this.id + '">';
 
@@ -75,6 +87,9 @@ export class WBViewer extends WBVWidget {
         return html;
     }
 
+    /**
+     * Update the viewer and view toolbars and set the default view if not view is currently set.
+     */
     update(): void {
         super.update();
         this.viewerToolbar.update();
@@ -85,13 +100,15 @@ export class WBViewer extends WBVWidget {
                 this.changeView(this.viewList.views[0].id);
             }
             else {
-                this.viewList.addView(new WB3DView( this.id, this.id + '_view', "Example view", null, 600));
+                this.viewList.addView(
+                    new WB3DView( this.id, this.id + '_view', "Example view", null, 600));
                 this.changeView(this.viewList.views[0].id);
             }
         }
     }
 }
 
+// Display/Hide toolbar on header click
 $(document).on('click', '.wb-sidebar header', function() {
     $('#' + $(this).attr('target-data')).toggle('fast');
 });

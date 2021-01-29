@@ -5,28 +5,35 @@ import {TrackballControls} from '../dependencies/three.js/examples/jsm/controls/
 import { WBView } from './WBView.js';
 import {WBObject} from "./WBObject.js";
 import WBV3DViewWidget from "./WBV3DViewWidget.js";
-import WBVViewWidget from "./WBVViewWidget";
+import WBVViewWidget from "./WBVViewWidget.js";
+import WBV3DObjectWidget from "./WB3DObjectWidget.js";
 
 /**
  * WB3DView
  */
 export default class WB3DView extends WBView {
+    /** Displayed scene **/
     scene: THREE.Scene;
+    /** 3D Camera **/
     camera: THREE.PerspectiveCamera;
     renderer: THREE.WebGLRenderer;
     controls: TrackballControls|OrbitControls;
     raycaster: THREE.Raycaster;
     mouse = new THREE.Vector2();
-    widget: WBV3DViewWidget;
+    viewWidget: WBV3DViewWidget;
+    objectWidget;
     animate;
 
+    /** Show/Hide information when clicking in the scene. **/
     clickInfosSection = false;
 
     constructor(parentId: string, id: string = null, title = null, width:number = null,
                 height:number = null) {
         super(parentId, id, width, height);
-        this.widget = new WBV3DViewWidget(this);
-        this.toolbar.widgets.push(this.widget);
+        this.viewWidget = new WBV3DViewWidget(this);
+        this.objectWidget = new WBV3DObjectWidget(this);
+        this.toolbar.widgets.push(this.viewWidget);
+        this.toolbar.widgets.push(this.objectWidget);
 
         this.type = "3D";
         this.title = title;
@@ -64,6 +71,8 @@ export default class WB3DView extends WBView {
         this.scene.add(moon);
 
         const axesHelper = new THREE.AxesHelper(1000);
+        axesHelper.name = "Origin"
+        this.objects.push(axesHelper);
         this.scene.add(axesHelper);
 
         const animate = (): void => {
@@ -96,7 +105,8 @@ export default class WB3DView extends WBView {
                 this.scene.add(o);
             }
         }
-        this.widget.update();
+        this.viewWidget.update();
+        this.objectWidget.update();
     }
 
     onClick( event ): void {

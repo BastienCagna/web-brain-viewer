@@ -18,10 +18,13 @@ export default class WBV3DViewWidget extends WBVViewWidget {
             let html = '<h4>' + this.view.title + '</h4>';
             html += '<table><tbody>';
             for (const obj of this.view.objects) {
-                html += '<tr><td><input type="checkbox" class="wb-show-obj" target-data="' + obj.name + '"';
+                html += '<tr><td>';
+                html += '<input type="checkbox" id="' + obj.id + '_visible" class="wb-show-obj" target-data="' + obj.name + '"';
                 if (this.view.scene.getObjectById(obj.id))
                     html += 'checked="checked"';
-                html += '></td><td>' + obj.name + '</td>';
+                html += '></td><td><label for="' + obj.id + '_visible">' + obj.name + '</label></td>';
+                html += '<td><a role="button" class="fas fa-wrench" target-data="' + obj.id + '"></a></td>';
+                html += '</tr>';
             }
             html += '</tbody></table>';
             return html;
