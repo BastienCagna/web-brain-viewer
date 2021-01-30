@@ -8,6 +8,7 @@ import WBV3DViewWidget from "./WBV3DViewWidget.js";
 import WBVViewWidget from "./WBVViewWidget.js";
 import WBV3DObjectWidget from "./WB3DObjectWidget.js";
 import WBVMetaDataWidget from "./WBVMetaDataWidget.js";
+import WBV3DCameraWidget from "./WBV3DCameraWidget.js";
 
 /**
  * WB3DView
@@ -24,6 +25,7 @@ export default class WB3DView extends WBView {
     viewWidget: WBV3DViewWidget;
     objectWidget: WBV3DObjectWidget;
     dataWidget: WBVMetaDataWidget;
+    cameraWidget: WBV3DCameraWidget;
     animate;
 
     /**
@@ -44,9 +46,11 @@ export default class WB3DView extends WBView {
         this.objectWidget = new WBV3DObjectWidget();
         this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
         this.dataWidget = new WBVMetaDataWidget();
+        this.cameraWidget = new WBV3DCameraWidget(this);
         this.toolbar.widgets.push(this.viewWidget);
         this.toolbar.widgets.push(this.objectWidget);
         this.toolbar.widgets.push(this.dataWidget);
+        this.toolbar.widgets.push(this.cameraWidget);
 
         this.type = "3D";
         this.title = title;
@@ -63,7 +67,7 @@ export default class WB3DView extends WBView {
         this.renderer.physicallyCorrectLights = true;
         this.viewElement().appendChild(this.renderer.domElement);
 
-        this.camera.position.z = 0;
+        this.camera.position.z = 200;
         this.camera.position.x = 200;
         this.camera.position.y = 200;
         this.camera.lookAt(0, 0, 0);
@@ -93,7 +97,6 @@ export default class WB3DView extends WBView {
             requestAnimationFrame(animate);
             this.controls.update();
             this.renderer.render(this.scene, this.camera);
-            // this.renderMessage = '<p>Camera: x:' + this.camera.position.x + ' y:' + this.camera.position[0] + ' z:' + this.camera.position[2] + '</p>';
         };
         animate();
         this.animate = animate;
@@ -164,5 +167,11 @@ export default class WB3DView extends WBView {
         } else {
             this.dataWidget.data = null;
         }
+    }
+
+    onWindowResize(){
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
     }
 }

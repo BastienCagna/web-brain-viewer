@@ -12,11 +12,6 @@ h1 {
   left: -1000;
   visibility: collapse; }
 
-#page {
-  margin: auto;
-  width: 90%;
-  min-width: 600px; }
-
 .wb-viewer {
   padding: 0px;
   float: left;
@@ -24,6 +19,7 @@ h1 {
   color: #cacaca;
   font-family: Ubuntu, sans-serif;
   width: 100%;
+  min-width: 600px;
   position: relative; }
   .wb-viewer h1 {
     font-size: 16pt; }
@@ -71,6 +67,7 @@ h1 {
   position: absolute;
   top: 0;
   height: 100%;
+  max-width: 25%;
   display: flex;
   flex-direction: row;
   background: #393939; }

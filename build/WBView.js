@@ -25,12 +25,15 @@ export class WBView extends WBVWidget {
         if (this.parentId) {
             const parent = document.getElementById(this.parentId);
             this.height = (!height) ? parent.clientHeight : height;
-            this.width = (!width) ? parent.clientWidth * .98 : width;
+            this.width = (!width) ? parent.clientWidth : width;
         }
         else {
             this.height = (!height) ? window.innerHeight : height;
             this.width = (!width) ? window.innerWidth : width;
         }
+        this.height = (this.height < 400) ? 400 : this.height;
+        this.width = (this.width < 600) ? 600 : this.width;
+        window.addEventListener('resize', this.onWindowResize, false);
     }
     html() {
         let html = '<div class="wb-view" id="' + this.id + '"></div>';

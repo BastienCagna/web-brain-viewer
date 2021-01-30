@@ -5,6 +5,7 @@ import { WBView } from './WBView.js';
 import WBV3DViewWidget from "./WBV3DViewWidget.js";
 import WBV3DObjectWidget from "./WB3DObjectWidget.js";
 import WBVMetaDataWidget from "./WBVMetaDataWidget.js";
+import WBV3DCameraWidget from "./WBV3DCameraWidget.js";
 export default class WB3DView extends WBView {
     constructor(parentId, id = null, title = null, width = null, height = null) {
         super(parentId, id, width, height);
@@ -12,9 +13,11 @@ export default class WB3DView extends WBView {
         this.objectWidget = new WBV3DObjectWidget();
         this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
         this.dataWidget = new WBVMetaDataWidget();
+        this.cameraWidget = new WBV3DCameraWidget(this);
         this.toolbar.widgets.push(this.viewWidget);
         this.toolbar.widgets.push(this.objectWidget);
         this.toolbar.widgets.push(this.dataWidget);
+        this.toolbar.widgets.push(this.cameraWidget);
         this.type = "3D";
         this.title = title;
         super.update();
@@ -27,7 +30,7 @@ export default class WB3DView extends WBView {
         this.renderer.shadowMap.type = BasicShadowMap;
         this.renderer.physicallyCorrectLights = true;
         this.viewElement().appendChild(this.renderer.domElement);
-        this.camera.position.z = 0;
+        this.camera.position.z = 200;
         this.camera.position.x = 200;
         this.camera.position.y = 200;
         this.camera.lookAt(0, 0, 0);
@@ -104,6 +107,11 @@ export default class WB3DView extends WBView {
         else {
             this.dataWidget.data = null;
         }
+    }
+    onWindowResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 }
 //# sourceMappingURL=WB3DView.js.map

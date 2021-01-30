@@ -5,7 +5,10 @@ export default class WBVCreditWidget extends WBVSectionWidget {
         this.title = "About";
     }
     bodyHtml() {
-        let html = '<p>Author: Bastien Cagna - <a href="">Github repo</a> - <a href="">Documentation</a></p>';
+        let html = '<h4>Resources</h4>' +
+            '<p><a href="https://github.com/BastienCagna/web-brain-viewer" target="_blank">Github repo</a> ' +
+            '- <a href="www.bablab.fr/web-brain-viewer/docs" target="_blank">Documentation</a></p>' +
+            '<h4>Credit</h4><p>Author: <a href="https://www.bablab.fr" target="_blank">Bastien Cagna</a></p>';
         return html;
     }
 }

@@ -44,7 +44,7 @@ export abstract class WBView extends WBVWidget {
     mouse: THREE.Vector2;
     cursor: WB3DCross;
     origin: WB3DCross;
-    height:number = null;
+    height: number = null;
     width: number = null;
     viewWidget: WBVViewWidget = null;
 
@@ -52,25 +52,28 @@ export abstract class WBView extends WBVWidget {
      * Init the viewer: create the toolbar and if needed set default value to height and width.
      * @param parentId - Id of the parent HTML element
      * @param id - Id of the viewer
-     * @param width - Width of the viewer in pixels. (Default: 98% of the window's width)
+     * @param width - Width of the viewer in pixels. (Default: window's width)
      * @param height - Height of the viewer in pixels. (Default: window's height)
      * @protected
      */
-    protected constructor(parentId: string = null, id: string = null, width:number = null,
-                          height:number = null) {
+    protected constructor(parentId: string = null, id: string = null, width: number = null,
+                          height: number = null) {
         super(parentId, id);
         this.toolbar = new WBVToolBar();
 
-        if(this.parentId) {
+        if (this.parentId) {
             const parent = document.getElementById(this.parentId);
-            this.height = (!height) ? parent.clientHeight: height;
-            // FIXME: need of correction otherwise the canvas' width is a bit to large
-            this.width = (!width) ? parent.clientWidth  * .98: width;
-        }
-        else {
+            this.height = (!height) ? parent.clientHeight : height;
+            this.width = (!width) ? parent.clientWidth : width;
+        } else {
             this.height = (!height) ? window.innerHeight : height;
             this.width = (!width) ? window.innerWidth : width;
         }
+
+        this.height = (this.height < 400) ? 400 : this.height;
+        this.width = (this.width < 600) ? 600 : this.width;
+
+        window.addEventListener('resize', this.onWindowResize, false);
     }
 
     html(): string {
@@ -84,8 +87,13 @@ export abstract class WBView extends WBVWidget {
 
     abstract addObject(obj: WBObject): void;
 
+    abstract removeObjectByName(name: string): void;
+
+    abstract onWindowResize(): void;
+
     update() {
         super.update();
         this.viewWidget.update();
     }
 }
+
