@@ -17,8 +17,6 @@ h1
   width: 90%
   min-width: 600px
 
-a[role=button]:hover
-  text-decoration: none
 
 .wb-viewer
   padding: 0px
@@ -42,8 +40,37 @@ a[role=button]:hover
     font-size: 10pt
     font-weight: bold
 
-  p, input, td, th
+  p, input, td, th, li, a
     font-size: 10pt
+
+  a[role=button]:hover
+    text-decoration: none
+
+  .link-button
+    color: inherit
+
+  .link-button:hover
+    background-color: #259595
+    cursor: pointer
+    color: inherit
+
+  .link-button[selected]
+    background: #1b6e6e
+
+  .control-button
+    color: inherit
+  .control-button[selected]
+    color: #1b1bfa
+
+  .blink
+    animation: blink 1s linear infinite
+  @keyframes blink
+    0%
+      opacity: 0
+    50%
+      opacity: 1
+    100%
+      opacity: 0
 
 .wb-view
   margin: 0
@@ -107,16 +134,37 @@ a[role=button]:hover
     th
       text-align: center
 
-.wbv-object-item:hover
-  cursor: pointer
-  background: #259595
-
-.wbv-object-item[selected]
-  background: #1b6e6e
-
 .wb-badge-sm
   display: block
   width: 10px
   height: 10px
   margin: 1px auto
   border-radius: 2px
+
+
+ul.dddview-object-list
+  margin: 0px
+  padding: 0px
+
+ul.dddview-object-list li
+  margin: 0px
+  padding: 0px
+  list-style-type: none
+  min-width: 100px
+
+ul.dddview-object-list li input[type=checkbox]
+  display: inline-block
+  margin: auto
+  width: 10%
+
+ul.dddview-object-list li a.control-button
+  display: inline-block
+  margin: auto
+  width: 12%
+
+ul.dddview-object-list li a.link-button
+  display: inline-block
+  margin: auto
+  width: 64%
+
+

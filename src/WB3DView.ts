@@ -7,6 +7,7 @@ import {WBObject} from "./WBObject.js";
 import WBV3DViewWidget from "./WBV3DViewWidget.js";
 import WBVViewWidget from "./WBVViewWidget.js";
 import WBV3DObjectWidget from "./WB3DObjectWidget.js";
+import WBVMetaDataWidget from "./WBVMetaDataWidget.js";
 
 /**
  * WB3DView
@@ -21,11 +22,9 @@ export default class WB3DView extends WBView {
     raycaster: THREE.Raycaster;
     mouse = new THREE.Vector2();
     viewWidget: WBV3DViewWidget;
-    objectWidget;
+    objectWidget: WBV3DObjectWidget;
+    dataWidget: WBVMetaDataWidget;
     animate;
-
-    /** Show/Hide information when clicking in the scene. **/
-    clickInfosSection = false;
 
     /**
      * Init a 3D view.
@@ -44,8 +43,10 @@ export default class WB3DView extends WBView {
         // Toolbar
         this.objectWidget = new WBV3DObjectWidget();
         this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
+        this.dataWidget = new WBVMetaDataWidget();
         this.toolbar.widgets.push(this.viewWidget);
         this.toolbar.widgets.push(this.objectWidget);
+        this.toolbar.widgets.push(this.dataWidget);
 
         this.type = "3D";
         this.title = title;
@@ -126,6 +127,20 @@ export default class WB3DView extends WBView {
         this.objectWidget.update();
     }
 
+    removeObjectByName(name: string): void {
+        for(let i = 0; i < this.objects.length; i++) {
+            if(this.objects[i].name.localeCompare(name) === 0) {
+                this.objects.splice(i, 1);
+                break;
+            }
+        }
+        this.scene.remove(this.scene.getObjectByName(name));
+        this.animate();
+        this.viewWidget.update();
+        this.objectWidget.update();
+    }
+
+
     /**
      * Manage click in the 3D scene.
      * @param event
@@ -139,24 +154,15 @@ export default class WB3DView extends WBView {
         this.raycaster.setFromCamera(this.mouse, this.camera);
         const intersects = this.raycaster.intersectObjects(this.scene.children);
         if (intersects.length > 0) {
-
             const object = intersects[0].object;
-
+            this.objectWidget.setObject(object);
             if (object instanceof THREE.Mesh && Object.keys(object.userData).length > 0) {
-                console.log(object.name);
-                let txt = '<h3>' + object.name + '</h3>';
-                txt += '<table class="table"><tr><th>Key</th><th>Value</th></tr>';
-                for (const key of Object.keys(object.userData)) {
-                    txt += '<tr><td>' + key + '</td><td>' + object.userData[key] + '</td>';
-                }
-                txt += '</table>';
-                //this.infos = txt;
-                this.clickInfosSection = true;
+                this.dataWidget.data = object.userData;
             } else {
-                this.clickInfosSection = false;
+                this.dataWidget.data = null;
             }
         } else {
-            this.clickInfosSection = false;
+            this.dataWidget.data = null;
         }
     }
 }

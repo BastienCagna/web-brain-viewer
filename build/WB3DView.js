@@ -4,15 +4,17 @@ import { TrackballControls } from '../dependencies/three.js/examples/jsm/control
 import { WBView } from './WBView.js';
 import WBV3DViewWidget from "./WBV3DViewWidget.js";
 import WBV3DObjectWidget from "./WB3DObjectWidget.js";
+import WBVMetaDataWidget from "./WBVMetaDataWidget.js";
 export default class WB3DView extends WBView {
     constructor(parentId, id = null, title = null, width = null, height = null) {
         super(parentId, id, width, height);
         this.mouse = new THREE.Vector2();
-        this.clickInfosSection = false;
         this.objectWidget = new WBV3DObjectWidget();
         this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
+        this.dataWidget = new WBVMetaDataWidget();
         this.toolbar.widgets.push(this.viewWidget);
         this.toolbar.widgets.push(this.objectWidget);
+        this.toolbar.widgets.push(this.dataWidget);
         this.type = "3D";
         this.title = title;
         super.update();
@@ -71,6 +73,18 @@ export default class WB3DView extends WBView {
         this.viewWidget.update();
         this.objectWidget.update();
     }
+    removeObjectByName(name) {
+        for (let i = 0; i < this.objects.length; i++) {
+            if (this.objects[i].name.localeCompare(name) === 0) {
+                this.objects.splice(i, 1);
+                break;
+            }
+        }
+        this.scene.remove(this.scene.getObjectByName(name));
+        this.animate();
+        this.viewWidget.update();
+        this.objectWidget.update();
+    }
     onClick(event) {
         event.preventDefault();
         this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -79,22 +93,16 @@ export default class WB3DView extends WBView {
         const intersects = this.raycaster.intersectObjects(this.scene.children);
         if (intersects.length > 0) {
             const object = intersects[0].object;
+            this.objectWidget.setObject(object);
             if (object instanceof THREE.Mesh && Object.keys(object.userData).length > 0) {
-                console.log(object.name);
-                let txt = '<h3>' + object.name + '</h3>';
-                txt += '<table class="table"><tr><th>Key</th><th>Value</th></tr>';
-                for (const key of Object.keys(object.userData)) {
-                    txt += '<tr><td>' + key + '</td><td>' + object.userData[key] + '</td>';
-                }
-                txt += '</table>';
-                this.clickInfosSection = true;
+                this.dataWidget.data = object.userData;
             }
             else {
-                this.clickInfosSection = false;
+                this.dataWidget.data = null;
             }
         }
         else {
-            this.clickInfosSection = false;
+            this.dataWidget.data = null;
         }
     }
 }

@@ -17,9 +17,6 @@ h1 {
   width: 90%;
   min-width: 600px; }
 
-a[role=button]:hover {
-  text-decoration: none; }
-
 .wb-viewer {
   padding: 0px;
   float: left;
@@ -37,9 +34,31 @@ a[role=button]:hover {
   .wb-viewer h4 {
     font-size: 10pt;
     font-weight: bold; }
-  .wb-viewer p, .wb-viewer input, .wb-viewer td, .wb-viewer th {
+  .wb-viewer p, .wb-viewer input, .wb-viewer td, .wb-viewer th, .wb-viewer li, .wb-viewer a {
     font-size: 10pt; }
-
+  .wb-viewer a[role=button]:hover {
+    text-decoration: none; }
+  .wb-viewer .link-button {
+    color: inherit; }
+  .wb-viewer .link-button:hover {
+    background-color: #259595;
+    cursor: pointer;
+    color: inherit; }
+  .wb-viewer .link-button[selected] {
+    background: #1b6e6e; }
+  .wb-viewer .control-button {
+    color: inherit; }
+  .wb-viewer .control-button[selected] {
+    color: #1b1bfa; }
+  .wb-viewer .blink {
+    animation: blink 1s linear infinite; }
+@keyframes blink {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
 .wb-view {
   margin: 0;
   padding: 0;
@@ -91,18 +110,36 @@ a[role=button]:hover {
     .wbv-tb table th {
       text-align: center; }
 
-.wbv-object-item:hover {
-  cursor: pointer;
-  background: #259595; }
-
-.wbv-object-item[selected] {
-  background: #1b6e6e; }
-
 .wb-badge-sm {
   display: block;
   width: 10px;
   height: 10px;
   margin: 1px auto;
   border-radius: 2px; }
+
+ul.dddview-object-list {
+  margin: 0px;
+  padding: 0px; }
+
+ul.dddview-object-list li {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+  min-width: 100px; }
+
+ul.dddview-object-list li input[type=checkbox] {
+  display: inline-block;
+  margin: auto;
+  width: 10%; }
+
+ul.dddview-object-list li a.control-button {
+  display: inline-block;
+  margin: auto;
+  width: 12%; }
+
+ul.dddview-object-list li a.link-button {
+  display: inline-block;
+  margin: auto;
+  width: 64%; }
 
 /*# sourceMappingURL=webbrainviewer.css.map */

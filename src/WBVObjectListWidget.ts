@@ -37,8 +37,8 @@ class WBVObjectWidget extends WBVWidget {
         }
 
         switch (this.type) {
-            case WBVOType.WBVOTr: return '<tr class="wbv-object-item" id="' + this.id + '"><td>' + stateHtml + "</td><td>" + this.object.id + "</td><td>" + this.object.type + "</td></tr>";
-            case WBVOType.WBVOLi: return '<li class="wbv-object-item" id="' + this.id + '"><p>' + this.object.id + ', ' + this.object.state + '(' + this.object.type + ')</p></li>';
+            case WBVOType.WBVOTr: return '<tr class="wbv-object-item link-button" id="' + this.id + '"><td>' + stateHtml + "</td><td>" + this.object.id + "</td><td>" + this.object.type + "</td></tr>";
+            case WBVOType.WBVOLi: return '<li class="wbv-object-item link-button" id="' + this.id + '"><p>' + this.object.id + ', ' + this.object.state + '(' + this.object.type + ')</p></li>';
             case WBVOType.WBVODefault:
             default: return this.object.id + ", " + this.object.state + "(" + this.object.type + ")";
         }
