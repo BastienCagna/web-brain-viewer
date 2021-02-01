@@ -81,7 +81,7 @@ class WBMeshObject extends WBObject {
             flatShading: false,
             vertexColors: true,
             color: color,
-            side: THREE.BackSide
+            side: THREE.DoubleSide
         });
 
         const mesh = new THREE.Mesh( geometry, material);

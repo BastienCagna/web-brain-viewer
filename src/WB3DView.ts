@@ -43,7 +43,7 @@ export default class WB3DView extends WBView {
         super(parentId, id, width, height);
 
         // Toolbar
-        this.objectWidget = new WBV3DObjectWidget();
+        this.objectWidget = new WBV3DObjectWidget(this);
         this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
         this.dataWidget = new WBVMetaDataWidget();
         this.cameraWidget = new WBV3DCameraWidget(this);
@@ -60,16 +60,17 @@ export default class WB3DView extends WBView {
         this.camera = new THREE.PerspectiveCamera( 75, this.width / this.height, 0.1, 1000 );
         this.raycaster = new THREE.Raycaster();
 
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize( this.width, this.height);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = BasicShadowMap;
         this.renderer.physicallyCorrectLights = true;
+        this.renderer.localClippingEnabled = true;
         this.viewElement().appendChild(this.renderer.domElement);
 
-        this.camera.position.z = 200;
-        this.camera.position.x = 200;
-        this.camera.position.y = 200;
+        this.camera.position.z = 100;
+        this.camera.position.x = 100;
+        this.camera.position.y = 100;
         this.camera.lookAt(0, 0, 0);
 
         /*this.controls = new OrbitControls( this.camera, this.renderer.domElement );
@@ -78,6 +79,7 @@ export default class WB3DView extends WBView {
 
         this.controls = new TrackballControls(this.camera, this.renderer.domElement);
         this.controls.rotateSpeed = 2.0;
+        this.controls.addEventListener('change', this.cameraWidget.onCameraChange);
 
         this.scene.add( new THREE.AmbientLight( 0xffffff, 0.7 ));
         const sun = new THREE.DirectionalLight( 0xffffff, 0.5 );
@@ -143,7 +145,6 @@ export default class WB3DView extends WBView {
         this.objectWidget.update();
     }
 
-
     /**
      * Manage click in the 3D scene.
      * @param event
@@ -155,18 +156,23 @@ export default class WB3DView extends WBView {
         this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
         this.raycaster.setFromCamera(this.mouse, this.camera);
-        const intersects = this.raycaster.intersectObjects(this.scene.children);
+        let intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
         if (intersects.length > 0) {
-            const object = intersects[0].object;
-            this.objectWidget.setObject(object);
-            if (object instanceof THREE.Mesh && Object.keys(object.userData).length > 0) {
-                this.dataWidget.data = object.userData;
-            } else {
-                this.dataWidget.data = null;
+            for (let i = 0; i < intersects.length; i++) {
+                if (intersects[i].object.visible) {
+                    const object = intersects[i].object;
+                    this.objectWidget.setObject(object);
+                    console.log(object);
+                    if (object instanceof THREE.Mesh && Object.keys(object.userData).length > 0)
+                        this.dataWidget.data = object.userData;
+                    else
+                        this.dataWidget.data = null;
+                    return;
+                }
             }
-        } else {
-            this.dataWidget.data = null;
         }
+        this.dataWidget.data = null;
     }
 
     onWindowResize(){
