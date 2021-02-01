@@ -24,15 +24,17 @@ export class WBView extends WBVWidget {
         this.toolbar = new WBVToolBar();
         if (this.parentId) {
             const parent = document.getElementById(this.parentId);
-            this.height = (!height) ? parent.clientHeight : height;
-            this.width = (!width) ? parent.clientWidth : width;
+            this.height = (!height) ? ((parent.clientHeight > 0) ? parent.clientHeight : window.innerHeight) : height;
+            this.width = (!width) ? ((parent.clientWidth > 0) ? parent.clientWidth : window.innerWidth) : width;
         }
         else {
             this.height = (!height) ? window.innerHeight : height;
             this.width = (!width) ? window.innerWidth : width;
         }
+        console.log(this.height, this.width);
         this.height = (this.height < 400) ? 400 : this.height;
         this.width = (this.width < 600) ? 600 : this.width;
+        console.log(this.height, this.width);
         window.addEventListener('resize', this.onWindowResize, false);
     }
     html() {

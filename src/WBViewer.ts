@@ -101,7 +101,7 @@ export class WBViewer extends WBVWidget {
             }
             else {
                 this.viewList.addView(
-                    new WB3DView( this.id, this.id + '_view', "Example view", null, 600));
+                    new WB3DView( this.id, this.id + '_view', "Example view", null, null));
                 this.changeView(this.viewList.views[0].id);
             }
         }
