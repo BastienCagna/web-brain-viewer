@@ -30,4 +30,9 @@ export default class WBVMetaDataWidget extends WBVSectionWidget {
         html += '</tbody></table>';
         return html;
     }
+
+    setData(data = {}): void {
+        this.data = data;
+        this.update();
+    }
 }

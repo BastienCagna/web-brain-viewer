@@ -88,7 +88,7 @@ class WBMeshObject extends WBObject {
         mesh.name = this.id;
         mesh.castShadow = true;
         mesh.receiveShadow = true;
-        if(metadataMerge) Object.assign(metadata, this.metadata);
+        if(metadataMerge) metadata = Object.assign({}, metadata, this.metadata);
         mesh.userData = (!metadata) ? this.metadata : metadata;
         return mesh;
     }

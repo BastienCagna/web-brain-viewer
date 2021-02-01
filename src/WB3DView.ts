@@ -165,14 +165,14 @@ export default class WB3DView extends WBView {
                     this.objectWidget.setObject(object);
                     console.log(object);
                     if (object instanceof THREE.Mesh && Object.keys(object.userData).length > 0)
-                        this.dataWidget.data = object.userData;
+                        this.dataWidget.setData(object.userData);
                     else
-                        this.dataWidget.data = null;
+                        this.dataWidget.setData();
                     return;
                 }
             }
         }
-        this.dataWidget.data = null;
+        this.dataWidget.setData();
     }
 
     onWindowResize(){

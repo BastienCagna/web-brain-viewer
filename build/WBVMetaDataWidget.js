@@ -15,5 +15,9 @@ export default class WBVMetaDataWidget extends WBVSectionWidget {
         html += '</tbody></table>';
         return html;
     }
+    setData(data = {}) {
+        this.data = data;
+        this.update();
+    }
 }
 //# sourceMappingURL=WBVMetaDataWidget.js.map
