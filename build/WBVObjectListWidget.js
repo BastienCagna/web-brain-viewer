@@ -4,6 +4,7 @@ import WBVSectionWidget from "./WBVSectionWidget.js";
 import { WBVWidget } from "./WBVWidget.js";
 import { WBGiftiImage } from "./WBGifti.js";
 import { WBTexturedMeshRecipe } from "./WBSurfacesObjects.js";
+import { WBServerModal } from "./WBVServerModal.js";
 var WBVOType;
 (function (WBVOType) {
     WBVOType[WBVOType["WBVODefault"] = 0] = "WBVODefault";
@@ -82,6 +83,7 @@ class WBVObjectListWidget extends WBVSectionWidget {
         this.mergeRecipes = [
             new WBTexturedMeshRecipe(), new WBMorphLabellingRecipe()
         ];
+        const that = this;
         $(document).on('change', '#wbv_add_file', function (event) {
             for (const file of event.target.files) {
                 const newItem = new WBVTextReadableObjectWidget(this.id + "_list", null, file, this.checkName(file.name), WBVOType.WBVOTr);
@@ -89,7 +91,10 @@ class WBVObjectListWidget extends WBVSectionWidget {
                     this.items.push(newItem);
             }
         }.bind(this));
-        const that = this;
+        this.serverModal = new WBServerModal(this);
+        $(document).on('click', "#wbv_add_from_server", function () {
+            that.serverModal.show();
+        });
         $(document).on('click', '.wbv-object-item', function () {
             if ($(this).attr('selected')) {
                 $(this).removeAttr('selected');
@@ -168,7 +173,8 @@ class WBVObjectListWidget extends WBVSectionWidget {
         let html = '<table><thead><tr><th></th></th><th>Name</th><th>Type</th></tr></thead><tbody id="' + this.id + '_list">';
         html += '</tbody></table>';
         html += '<input type="file" class="phantom" id="wbv_add_file" name="wbv_add_file" multiple="multiple"/>';
-        html += '<input type="button" class="button" value="Open files" onclick="document.getElementById(\'wbv_add_file\').click();">';
+        html += '<input type="button" class="button" value="Open files..." onclick="document.getElementById(\'wbv_add_file\').click();">';
+        html += '<input type="button" class="button" value="Load from server..." id="wbv_add_from_server">';
         html += '<input type="button" class="button" id="wbv_add_to_view" value="Add to the current view" disabled="disabled">';
         html += '<select id="wbv_merge_objects" disabled="disabled"></select>';
         return html;
@@ -180,5 +186,5 @@ class WBVObjectListWidget extends WBVSectionWidget {
         }
     }
 }
-export { WBVObjectListWidget };
+export { WBVObjectListWidget, WBVObjectWidget, WBVOType };
 //# sourceMappingURL=WBVObjectListWidget.js.map

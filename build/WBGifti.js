@@ -162,5 +162,5 @@ class WBGiftiImage extends WBTextReadableObject {
         return meshes;
     }
 }
-export { WBGiftiImage };
+export { WBGiftiImage, WBGiftiDataArray };
 //# sourceMappingURL=WBGifti.js.map

@@ -200,4 +200,4 @@ class WBGiftiImage extends WBTextReadableObject {
     }
 }
 
-export { WBGiftiImage };
+export { WBGiftiImage, WBGiftiDataArray };
