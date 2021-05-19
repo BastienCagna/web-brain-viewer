@@ -1,4 +1,6 @@
-import * as THREE from "../dependencies/three.js/build/three.module.js";
+//import * as THREE from "../dependencies/three.js/build/three.module.js";
+// @ts-ignore
+import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
 import {WBNiftiDataType, WBNiftiIntent} from "./WBNifti.js";
 import {b64ToFloat32Array, b64ToInt32Array} from "./convert.js";
 import {WBTextReadableObject} from "./WBObject.js";

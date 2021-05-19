@@ -1,4 +1,5 @@
-import * as THREE from "../dependencies/three.js/build/three.module.js";
+// @ts-ignore
+import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
 import {WBObject, WBOState, WBTextReadableObject} from "./WBObject.js";
 import {WBMeshesObject, WBMeshObject} from "./WBSurfacesObjects.js";
 import {WBMergeRecipe} from "./WBMergeRecipe.js";

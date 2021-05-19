@@ -1,4 +1,5 @@
-import {MathUtils} from "../dependencies/three.js/build/three.module.js";
+// @ts-ignore
+import {MathUtils} from "https://unpkg.com/three@0.126.1/build/three.module.js";
 import generateUUID = MathUtils.generateUUID;
 import {WBObject} from "./WBObject.js";
 

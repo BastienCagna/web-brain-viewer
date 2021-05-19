@@ -1,7 +1,9 @@
-import * as THREE from "../dependencies/three.js/build/three.module.js";
-import {BasicShadowMap} from "../dependencies/three.js/build/three.module.js";
-import {OrbitControls} from '../dependencies/three.js/examples/jsm/controls/OrbitControls.js';
-import {TrackballControls} from '../dependencies/three.js/examples/jsm/controls/TrackballControls.js';
+// @ts-ignore
+import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
+// @ts-ignore
+import {TrackballControls} from "https://unpkg.com/three@0.126.1/examples/jsm/controls/TrackballControls.js";
+// @ts-ignore
+import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
 import { WBView } from './WBView.js';
 import {WBObject} from "./WBObject.js";
 import WBV3DViewWidget from "./WBV3DViewWidget.js";
@@ -63,7 +65,7 @@ export default class WB3DView extends WBView {
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize( this.width, this.height);
         this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = BasicShadowMap;
+        this.renderer.shadowMap.type = THREE.BasicShadowMap;
         this.renderer.physicallyCorrectLights = true;
         this.renderer.localClippingEnabled = true;
         this.viewElement().appendChild(this.renderer.domElement);

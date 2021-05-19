@@ -1,4 +1,6 @@
-import * as THREE from "../dependencies/three.js/build/three.module.js";
+//import * as THREE from "../dependencies/three.js/build/three.module.js";
+// @ts-ignore
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
 import {WBObject, WBOState} from "./WBObject.js";
 import {WBMergeRecipe} from "./WBMergeRecipe.js";
 

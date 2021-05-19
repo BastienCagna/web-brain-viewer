@@ -1,4 +1,5 @@
-import * as THREE from "../dependencies/three.js/build/three.module.js";
+//import * as THREE from "../dependencies/three.js/build/three.module.js";
+import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
 import WBVSectionWidget from "./WBVSectionWidget";
 
 export default class WBVThreeMeshWidget extends WBVSectionWidget {
