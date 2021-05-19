@@ -101,6 +101,7 @@ export class WBServerModal extends WBVModal {
         // TODO: should be done by the server:
         const fname = dbname + '/' + subname + ' ' + e.attr('query');
         const mesh = new WBMeshObject(fname, data.vertices, data.triangles);
+        //f.onStateChange = (function () { this.update(); }).bind(this);
         mesh.state = WBOState.Ready;
 
         const objW = new WBVObjectWidget(this.objectsWidget.id + "_list", null, mesh, WBVOType.WBVOTr);
