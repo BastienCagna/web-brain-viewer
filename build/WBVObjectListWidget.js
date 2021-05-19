@@ -76,14 +76,20 @@ class WBVTextReadableObjectWidget extends WBVObjectWidget {
     }
 }
 class WBVObjectListWidget extends WBVSectionWidget {
-    constructor(parentId = null) {
+    constructor(parentId = null, targetView = null) {
         super(parentId, 'Objects');
         this.items = [];
         this.counts = {};
+        this.targetView = targetView;
         this.mergeRecipes = [
             new WBTexturedMeshRecipe(), new WBMorphLabellingRecipe()
         ];
         const that = this;
+        $(document).on('click', '#wbv_add_to_view', function () {
+            for (const obj of that.selectedObjects()) {
+                that.targetView.addObject(obj);
+            }
+        });
         $(document).on('change', '#wbv_add_file', function (event) {
             for (const file of event.target.files) {
                 const newItem = new WBVTextReadableObjectWidget(this.id + "_list", null, file, this.checkName(file.name), WBVOType.WBVOTr);

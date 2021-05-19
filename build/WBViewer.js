@@ -18,15 +18,10 @@ export class WBViewer extends WBVWidget {
         this.viewToolbar = new WBVToolBar("wb_view_tb", "View toolbar");
         this.activeView = null;
         this.update();
-        const that = this;
-        $(document).on('click', '#wbv_add_to_view', function () {
-            for (const obj of that.objectList.selectedObjects()) {
-                that.activeView.addObject(obj);
-            }
-        });
     }
     changeView(id) {
         this.activeView = this.viewList.getView(id);
+        this.objectList.targetView = this.activeView;
         this.viewToolbar.widgets = this.activeView.toolbar.widgets;
         for (const w of this.viewToolbar.widgets) {
             w.parentId = this.viewToolbar.id;

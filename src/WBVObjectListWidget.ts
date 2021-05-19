@@ -6,6 +6,7 @@ import {WBGiftiImage} from "./WBGifti.js";
 import {WBMergeRecipe} from "./WBMergeRecipe.js";
 import {WBTexturedMeshRecipe} from "./WBSurfacesObjects.js";
 import {WBServerModal} from "./WBVServerModal.js";
+import {WBView} from "./WBView";
 
 
 enum WBVOType {
@@ -79,11 +80,13 @@ class WBVObjectListWidget extends WBVSectionWidget {
     counts: {};
     mergeRecipes: WBMergeRecipe[];
     serverModal: WBServerModal;
+    targetView: WBView;
 
-    constructor(parentId: string = null) {
+    constructor(parentId: string = null, targetView: WBView = null) {
         super(parentId, 'Objects');
         this.items = [];
         this.counts = {};
+        this.targetView = targetView;
 
         this.mergeRecipes = [
             new WBTexturedMeshRecipe(), new WBMorphLabellingRecipe()
@@ -91,6 +94,12 @@ class WBVObjectListWidget extends WBVSectionWidget {
 
         const that = this;
 
+        $(document).on('click', '#wbv_add_to_view', function() {
+            for(const obj of that.selectedObjects()) {
+                that.targetView.addObject(obj);
+            }
+        });
+        /***************************** COMPUTER LOADING ***************************************************************/
         $(document).on('change', '#wbv_add_file', function(event) {
             for(const file of event.target.files) {
                 const newItem = new WBVTextReadableObjectWidget(
