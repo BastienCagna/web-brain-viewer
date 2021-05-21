@@ -1,11 +1,11 @@
-//import * as THREE from "../dependencies/three.js/build/three.module.js";
 // @ts-ignore
 import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
 import {WBNiftiDataType, WBNiftiIntent} from "./WBNifti.js";
-import {b64ToFloat32Array, b64ToInt32Array} from "./convert.js";
+import {b64ToFloat32Array, b64ToInt32Array} from "../convert.js";
 import {WBTextReadableObject} from "./WBObject.js";
 import {WBMeshesObject, WBMeshObject, WBTextureObject} from "./WBSurfacesObjects.js";
 
+// TODO: use gifti parser
 
 enum WBArrayIndenxingOrder {
     RowMajorOrder,
@@ -92,7 +92,7 @@ class WBGiftiImage extends WBTextReadableObject {
     commonOffset: THREE.Vector3;
     nameKey: string = "name";
 
-    constructor(id:string = null, file: File = null, commonOffset: THREE.Vector3 = null) {
+    constructor(id:string = null, file: File|Blob = null, commonOffset: THREE.Vector3 = null) {
         super(id);
         this.commonOffset = commonOffset;
         if(file) {
@@ -100,7 +100,7 @@ class WBGiftiImage extends WBTextReadableObject {
         }
     }
 
-    loadFile(file: File): void {
+    loadFile(file: File|Blob): void {
          this.fr.readAsText(file);
      }
 
@@ -115,7 +115,6 @@ class WBGiftiImage extends WBTextReadableObject {
      }
 
     parseDom(element): void {
-         //console.log(element);
          this.version = element.attributes.Version.value;
          this.numberOfDataArrays = parseInt(element.attributes.NumberOfDataArrays.value, 10);
          if(this.numberOfDataArrays !== element.children.length-2) {

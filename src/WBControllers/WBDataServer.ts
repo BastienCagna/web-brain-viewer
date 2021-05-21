@@ -17,7 +17,12 @@ export default class WBDataServer {
     }
 
     public async loadFile(database: string, query: string) {
-        return await fetch("http://" + this.url + "/bv/" + database + "?" + query).then(
+        return await fetch("http://" + this.url + "/bv/" + database + "?" + query + '&as=file').then(
+            function(response) { return response.blob(); });
+    }
+
+    public async loadFileInfos(database: string, query: string) {
+        return await fetch("http://" + this.url + "/bv/" + database + "?" + query + '&as=infos&limit=1').then(
             function(response) { return response.json(); });
     }
 }

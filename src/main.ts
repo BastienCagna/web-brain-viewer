@@ -1,4 +1,4 @@
-import { WBViewer} from "./WBViewer.js";
+import { WBViewer} from "./WBViewer/WBViewer.js";
 
 // Global events
 $(document).on('change', 'input[display-target]', function() {
@@ -10,4 +10,5 @@ $(document).on('change', 'input[display-target]', function() {
 
 
 // Start the viewer
-new WBViewer("wb-viewer");
+const elements = document.getElementsByClassName("wb-viewer");
+for(const el of elements) new WBViewer(el);

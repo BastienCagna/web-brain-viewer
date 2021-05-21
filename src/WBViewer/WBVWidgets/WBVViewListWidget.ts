@@ -1,12 +1,13 @@
-import { WBView } from "./WBView.js";
+import { WBView } from "../WBView.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
+import {WBVWidget} from "./WBVWidget.js";
 
 
 class WBVViewListWidget extends WBVSectionWidget {
     views: WBView[];
 
-    constructor(parentId: string = null) {
-        super(parentId, 'Views');
+    constructor(parent: WBVWidget = null) {
+        super(parent, 'Views');
         this.views = [];
     }
 

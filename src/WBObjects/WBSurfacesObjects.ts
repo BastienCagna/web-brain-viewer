@@ -1,6 +1,5 @@
-//import * as THREE from "../dependencies/three.js/build/three.module.js";
 // @ts-ignore
-import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
 import {WBObject, WBOState} from "./WBObject.js";
 import {WBMergeRecipe} from "./WBMergeRecipe.js";
 
@@ -48,42 +47,32 @@ class WBMeshObject extends WBObject {
         this.offset = new THREE.Vector3(offset[0], offset[1], offset[2]);
     }
 
-    asThreeMesh(color:number|THREE.Color = 0xaaaaaa, metadata:{} = null, metadataMerge = false, scale:number = 1): THREE.Mesh {
+    asThreeMesh(color:number|THREE.Color = 0xaaaaaa, metadata:{} = null, metadataMerge = false,
+                scale:number = 1): THREE.Mesh {
         if(!this.offset) { this.estimateOffset(); }
 
-        let vertices = [], faces = [];
+        const vertices = []
         for (let i = 0; i < this.vertices.length; i += 3){
-            vertices.push(new THREE.Vector3(
-                scale * (this.vertices[i] - this.offset.x),
-                scale * (this.vertices[i + 1] - this.offset.y),
-                scale * (this.vertices[i + 2] - this.offset.z)
-            ));
-        }
-        for (let i = 0; i < this.triangles.length; i += 3) {
-            faces.push(new THREE.Face3(
-                this.triangles[i], this.triangles[i + 1], this.triangles[i + 2]));
+            vertices.push(scale * (this.vertices[i] - this.offset.x));
+            vertices.push(scale * (this.vertices[i + 1] - this.offset.y));
+            vertices.push(scale * (this.vertices[i + 2] - this.offset.z));
         }
 
-        // TODO: convert to buffergeometry
-        const geometry = new THREE.Geometry();
-        geometry.vertices = vertices;
-        geometry.faces = faces;
+        const geometry = new THREE.BufferGeometry();
+        geometry.setIndex(Array.from(this.triangles));
+        geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
         geometry.computeVertexNormals();
-        geometry.computeMorphNormals();
+        // geometry.computeMorphNormals();
         geometry.computeFaceNormals();
-        //geometry.rotateX(Math.PI / 2);
-        //geometry.rotateZ(Math.PI / 2);
-        //geometry.rotateX(Math.PI);
-        //geometry.rotateY(-Math.PI / 2);
+        geometry.computeBoundingSphere();
 
         const material = new THREE.MeshLambertMaterial({
-            //opacity: 0.95,
-            //transparent: true,
-            morphTargets: true,
-            flatShading: false,
-            vertexColors: true,
+            opacity: 0.95,
+            transparent: true,
             color: color,
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
+            blending: THREE.NormalBlending,
         });
 
         const mesh = new THREE.Mesh( geometry, material);

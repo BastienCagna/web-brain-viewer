@@ -1,7 +1,8 @@
 // @ts-ignore
 import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-import WB3DView from "./WB3DView.js";
+import WB3DView from "../WB3DView.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
+import {WBVWidget} from "./WBVWidget";
 
 
 function positionInput(id: string, position: THREE.Vector3 = null ): string {
@@ -17,11 +18,12 @@ export default class WBV3DObjectWidget extends WBVSectionWidget {
     view: WB3DView;
     object: THREE.Object3D;
 
-    constructor(view: WB3DView) {
-        super(null, 'Object Details');
+    constructor(parent: WBVWidget|HTMLElement = null, view: WB3DView = null, classnames : string[]|string = []) {
+        super(parent, 'Object Details', classnames);
         this.view = view;
         this.object = null;
 
+        // TODO: move work to methods
         var that = this;
         $(document).on('change', '#' + this.id + 'opa', function () {
             that.object.material.transparent = true;

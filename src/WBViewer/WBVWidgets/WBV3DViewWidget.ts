@@ -1,7 +1,8 @@
-import { WBView } from "./WBView.js";
+import { WBView } from "../WBView.js";
 import WBVViewWidget from "./WBVViewWidget.js";
-import WB3DView from "./WB3DView.js";
+import WB3DView from "../WB3DView.js";
 import WBV3DObjectWidget from "./WB3DObjectWidget.js";
+import {WBVWidget} from "./WBVWidget";
 
 
 /**
@@ -15,8 +16,8 @@ export default class WBV3DViewWidget extends WBVViewWidget {
      *
      * @param view - Parent 3D view to which this widget is attached.
      */
-    constructor(view: WB3DView, objectWidget: WBV3DObjectWidget = null) {
-        super(view, '3D View Infos');
+    constructor(view: WB3DView, objectWidget: WBV3DObjectWidget = null, classnames : string[]|string = []) {
+        super(view, '3D View Infos', classnames);
         this.view = view;
         this.objectWidget = objectWidget;
 

@@ -1,12 +1,13 @@
-import { WBView } from "./WBView.js";
+import { WBView } from "../WBView.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
+import {WBVWidget} from "./WBVWidget";
 
 
 export default class WBVViewWidget extends WBVSectionWidget {
     view: WBView;
 
-    constructor(view: WBView, title:string = 'View Infos') {
-        super(view.toolbar.id, title);
+    constructor(view: WBView, title:string = 'View Infos', classnames : string[]|string = []) {
+        super(view.toolbar, title, classnames);
         this.view = view;
     }
 

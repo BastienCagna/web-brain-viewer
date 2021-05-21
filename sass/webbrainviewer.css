@@ -1,18 +1,22 @@
 body {
-  background: lightgrey; }
+  background: lightgrey;
+}
 
 h1, h2, h3, h4, h5, h6, p, td, th, li {
-  font-family: Ubuntu, sans-serif; }
+  font-family: Ubuntu, sans-serif;
+}
 
 h1 {
-  text-decoration: underline; }
+  text-decoration: underline;
+}
 
 .phantom {
   position: absolute;
   left: -1000;
-  visibility: collapse; }
+  visibility: collapse;
+}
 
-.wb-viewer {
+.wb-viewer-instance {
   padding: 0px;
   float: left;
   background: black;
@@ -20,55 +24,76 @@ h1 {
   font-family: Ubuntu, sans-serif;
   width: 100%;
   min-width: 600px;
-  position: relative; }
-  .wb-viewer h1 {
-    font-size: 16pt; }
-  .wb-viewer h2 {
-    font-size: 14pt; }
-  .wb-viewer h3 {
-    font-size: 12pt; }
-  .wb-viewer h4 {
-    font-size: 10pt;
-    font-weight: bold; }
-  .wb-viewer p, .wb-viewer input, .wb-viewer td, .wb-viewer th, .wb-viewer li, .wb-viewer a {
-    font-size: 10pt; }
-  .wb-viewer a[role=button]:hover {
-    text-decoration: none; }
-  .wb-viewer .link-button {
-    color: inherit; }
-  .wb-viewer .link-button:hover {
-    background-color: #259595;
-    cursor: pointer;
-    color: inherit; }
-  .wb-viewer .link-button[selected] {
-    background: #1b6e6e; }
-  .wb-viewer .control-button {
-    color: inherit; }
-  .wb-viewer .control-button[selected] {
-    color: #1b1bfa; }
-  .wb-viewer .blink {
-    animation: blink 1s linear infinite; }
+  position: relative;
+}
+.wb-viewer-instance h1 {
+  font-size: 16pt;
+}
+.wb-viewer-instance h2 {
+  font-size: 14pt;
+}
+.wb-viewer-instance h3 {
+  font-size: 12pt;
+}
+.wb-viewer-instance h4 {
+  font-size: 10pt;
+  font-weight: bold;
+}
+.wb-viewer-instance p, .wb-viewer-instance input, .wb-viewer-instance td, .wb-viewer-instance th, .wb-viewer-instance li, .wb-viewer-instance a {
+  font-size: 10pt;
+}
+.wb-viewer-instance a[role=button]:hover {
+  text-decoration: none;
+}
+.wb-viewer-instance .link-button {
+  color: inherit;
+}
+.wb-viewer-instance .link-button:hover {
+  background-color: #259595;
+  cursor: pointer;
+  color: inherit;
+}
+.wb-viewer-instance .link-button[selected] {
+  background: #1b6e6e;
+}
+.wb-viewer-instance .control-button {
+  color: inherit;
+}
+.wb-viewer-instance .control-button[selected] {
+  color: #1b1bfa;
+}
+.wb-viewer-instance .blink {
+  animation: blink 1s linear infinite;
+}
 @keyframes blink {
   0% {
-    opacity: 0; }
+    opacity: 0;
+  }
   50% {
-    opacity: 1; }
+    opacity: 1;
+  }
   100% {
-    opacity: 0; } }
+    opacity: 0;
+  }
+}
+
 .vector-form-control {
   display: block;
-  font-size: 9pt; }
-  .vector-form-control input {
-    font-size: 9pt;
-    width: 20px;
-    border: 1px solid green; }
+  font-size: 9pt;
+}
+.vector-form-control input {
+  font-size: 9pt;
+  width: 20px;
+  border: 1px solid green;
+}
 
 .wb-view {
   margin: 0;
   padding: 0;
   width: 100%;
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+}
 
 .wb-sidebar {
   padding: 4px;
@@ -78,73 +103,89 @@ h1 {
   max-width: 25%;
   display: flex;
   flex-direction: row;
-  background: #393939; }
-  .wb-sidebar header {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    writing-mode: vertical-lr;
-    text-align: center;
-    vertical-align: center; }
-    .wb-sidebar header h2 {
-      margin: 0;
-      padding: 0; }
-  .wb-sidebar header:hover {
-    cursor: pointer; }
+  background: #393939;
+}
+.wb-sidebar header {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  writing-mode: vertical-lr;
+  text-align: center;
+  vertical-align: center;
+}
+.wb-sidebar header h2 {
+  margin: 0;
+  padding: 0;
+}
+.wb-sidebar header:hover {
+  cursor: pointer;
+}
 
 .wbv-tb {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: -moz-scrollbars-vertical; }
-  .wbv-tb h2 {
-    margin: 0;
-    padding: 0; }
-  .wbv-tb section {
-    margin: 2px 0;
-    padding: 3px;
-    background-color: #545454;
-    border-radius: 4px;
-    overflow: hidden; }
-  .wbv-tb h3 {
-    text-align: center;
-    font-size: 11pt;
-    font-weight: bold; }
-  .wbv-tb table {
-    width: 100%; }
-    .wbv-tb table th {
-      text-align: center; }
+  overflow: -moz-scrollbars-vertical;
+}
+.wbv-tb h2 {
+  margin: 0;
+  padding: 0;
+}
+.wbv-tb section {
+  margin: 2px 0;
+  padding: 3px;
+  background-color: #545454;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.wbv-tb h3 {
+  text-align: center;
+  font-size: 11pt;
+  font-weight: bold;
+}
+.wbv-tb table {
+  width: 100%;
+}
+.wbv-tb table th {
+  text-align: center;
+}
 
 .wb-badge-sm {
   display: block;
   width: 10px;
   height: 10px;
   margin: 1px auto;
-  border-radius: 2px; }
+  border-radius: 2px;
+}
 
 ul.dddview-object-list {
   margin: 0px;
-  padding: 0px; }
+  padding: 0px;
+}
 
 ul.dddview-object-list li {
   margin: 0px;
   padding: 0px;
   list-style-type: none;
-  min-width: 100px; }
+  min-width: 100px;
+}
 
 ul.dddview-object-list li input[type=checkbox] {
   display: inline-block;
   margin: auto;
-  width: 10%; }
+  width: 10%;
+}
 
 ul.dddview-object-list li a.control-button {
   display: inline-block;
   margin: auto;
-  width: 12%; }
+  width: 12%;
+}
 
 ul.dddview-object-list li a.link-button {
   display: inline-block;
   margin: auto;
-  width: 64%; }
+  width: 64%;
+}
 
 /*# sourceMappingURL=webbrainviewer.css.map */

@@ -1,6 +1,6 @@
-import { WBView } from "./WBView.js";
+import { WBView } from "../WBView.js";
 import WBVViewWidget from "./WBVViewWidget.js";
-import WB3DView from "./WB3DView.js";
+import WB3DView from "../WB3DView.js";
 import WBVSectionWidget from "./WBVSectionWidget.js";
 
 
@@ -14,8 +14,8 @@ export default class WBV3DCameraWidget extends WBVSectionWidget {
      *
      * @param view - Parent 3D view to which this widget is attached.
      */
-    constructor(view: WB3DView) {
-        super(view.toolbar.id, 'Camera');
+    constructor(view: WB3DView, classnames: string[]|string = []) {
+        super(view, 'Camera', classnames);
         this.view = view;
     }
 

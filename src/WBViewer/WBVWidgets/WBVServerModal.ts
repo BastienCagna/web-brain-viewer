@@ -1,8 +1,10 @@
 import {WBVModal} from "./WBVModal.js";
-import WBDataServer from "./WBDataServer.js";
-import {WBVObjectListWidget, WBVObjectWidget, WBVOType} from "./WBVObjectListWidget.js";
-import {WBMeshObject} from "./WBSurfacesObjects.js";
-import {WBOState} from "./WBObject.js";
+import WBDataServer from "../../WBControllers/WBDataServer.js";
+import {WBVObjectListWidget} from "./WBVObjectListWidget.js";
+import {WBVObjectWidget, WBVOType} from "./WBVObjectWidget.js";
+import {WBMeshObject} from "../../WBObjects/WBSurfacesObjects.js";
+import {WBOState} from "../../WBObjects/WBObject.js";
+import {WBGiftiImage} from "../../WBObjects/WBGifti.js";
 
 
 export class WBServerModal extends WBVModal {
@@ -10,7 +12,7 @@ export class WBServerModal extends WBVModal {
     objectsWidget: WBVObjectListWidget;
 
     public constructor(objectsWidget: WBVObjectListWidget) {
-        super();
+        super("Load Data from Server");
 
         this.objectsWidget = objectsWidget;
         this.server = new WBDataServer("127.0.0.1:8000");
@@ -26,10 +28,6 @@ export class WBServerModal extends WBVModal {
         $(document).on('click', '.wbv-srv-load', function () {
             that.loadFile($(this));
         });
-    }
-
-    public title(): string {
-        return "Load Online Data";
     }
 
     public content(): string {
@@ -53,6 +51,10 @@ export class WBServerModal extends WBVModal {
         html += '<tr><td>Hemisphere Mesh</td><td>' +
             '<input type="button" class="wbv-srv-load" value="Left" query="mesh=hemi&hemi=L">' +
             '<input type="button" class="wbv-srv-load" value="Right" query="mesh=hemi&hemi=R"></td>';
+
+        // html += '<tr><td>Folding Mesh</td><td>' +
+        //     '<input type="button" class="wbv-srv-load" value="Left" query="mesh=hemi&hemi=L">' +
+        //     '<input type="button" class="wbv-srv-load" value="Right" query="mesh=hemi&hemi=R"></td>';
 
         html += '</table>';
         return html;
@@ -90,23 +92,19 @@ export class WBServerModal extends WBVModal {
         const subname = $('#' + this.id + '_srv-subs').val().toString();
         let q = e.attr('query');
         q += '&sub=' + subname;
-        q += '&as=data';
-        const data = await this.server.loadFile(dbname, q);
 
-        /*let gii = new WBGiftiImage();
-        gii.darrays = [
-            new WBGiftiDataArray(mesh.vertices, WBNiftiIntent.NIFTI_INTENT_POINTSET),
-            new WBGiftiDataArray(mesh.triangles, WBNiftiIntent.NIFTI_INTENT_TRIANGLE)
-            ];*/
+        const file = await this.server.loadFile(dbname, q);
+        const infos = await this.server.loadFileInfos(dbname, q);
+
+        this.objectsWidget.addObject(file, infos.name);
+        //let gii = new WBGiftiImage(dbname + "/" + infos['name'], file);
         // TODO: should be done by the server:
-        const fname = dbname + '/' + subname + ' ' + e.attr('query');
-        const mesh = new WBMeshObject(fname, data.vertices, data.triangles);
-        //f.onStateChange = (function () { this.update(); }).bind(this);
-        mesh.state = WBOState.Ready;
+        //const mesh = new WBMeshObject(fname, data.vertices, data.triangles);
+        // mesh.state = WBOState.Ready;
 
-        const objW = new WBVObjectWidget(this.objectsWidget.id + "_list", null, mesh, WBVOType.WBVOTr);
+        // const objW = new WBVObjectWidget(this.objectsWidget.getObjectList(), mesh, WBVOType.WBVOTr);
+        /*const objW = new WBVObjectWidget(this.objectsWidget.getObjectList(), gii, WBVOType.WBVOTr);
         this.objectsWidget.items.push(objW);
-        this.objectsWidget.update();
-        this.hide();
+        objW.update();*/
     }
 }

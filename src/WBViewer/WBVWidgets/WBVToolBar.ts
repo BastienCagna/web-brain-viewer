@@ -13,17 +13,19 @@ export default class WBVToolBar extends WBVWidget {
      * @param parentId - Id of the parent HTML element.
      * @param name - Toolbar's name.
      */
-    constructor(parentId: string = null, name = '') {
-        super(parentId);
-        this.name = name;
+    constructor(parent : WBVWidget|HTMLElement = null, name : string = null, classnames: string[]|string = []) {
+        super(parent, classnames);
+        this.classnames.push("wbv-tb");
+        this.name = (name)? name : "Toolbar";
         this.widgets = [];
     }
 
     /**
      * Generate an empty div.
      */
-    html(): string {
-        let html = '<div id="' + this.id + '" class="wbv-tb"></div>';
+    innerHTML(): string {
+        let html = '';
+        //for(const w of this.widgets) { html += w.innerHTML(); }
         return html;
     }
 

@@ -1,4 +1,5 @@
 import WBVSectionWidget from "./WBVSectionWidget.js";
+import {WBVWidget} from "./WBVWidget";
 
 
 /**
@@ -11,8 +12,8 @@ export default class WBVMetaDataWidget extends WBVSectionWidget {
      *
      * @param data - Dictionary to display
      */
-    constructor(data = {}) {
-        super(null, 'Meta-data');
+    constructor(parent: WBVWidget|HTMLElement = null, data = {}, classnames : string[]|string = []) {
+        super(parent, 'Meta-data', classnames);
         this.data = data;
         this.hideWhenEmpty = true;
     }

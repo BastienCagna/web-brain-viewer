@@ -5,12 +5,14 @@ import {TrackballControls} from "https://unpkg.com/three@0.126.1/examples/jsm/co
 // @ts-ignore
 import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
 import { WBView } from './WBView.js';
-import {WBObject} from "./WBObject.js";
-import WBV3DViewWidget from "./WBV3DViewWidget.js";
-import WBVViewWidget from "./WBVViewWidget.js";
-import WBV3DObjectWidget from "./WB3DObjectWidget.js";
-import WBVMetaDataWidget from "./WBVMetaDataWidget.js";
-import WBV3DCameraWidget from "./WBV3DCameraWidget.js";
+import {WBObject} from "../WBObjects/WBObject.js";
+import WBV3DViewWidget from "./WBVWidgets/WBV3DViewWidget.js";
+import WBVViewWidget from "./WBVWidgets/WBVViewWidget.js";
+import WBV3DObjectWidget from "./WBVWidgets/WBV3DObjectWidget.js";
+import WBVMetaDataWidget from "./WBVWidgets/WBVMetaDataWidget.js";
+import WBV3DCameraWidget from "./WBVWidgets/WBV3DCameraWidget.js";
+import {WBVWidget} from "./WBVWidgets/WBVWidget.js";
+import WBVToolBar from "./WBVWidgets/WBVToolBar.js";
 
 /**
  * WB3DView
@@ -40,15 +42,16 @@ export default class WB3DView extends WBView {
      * @param width
      * @param height
      */
-    constructor(parentId: string, id: string = null, title = null, width:number = null,
+    constructor(parent: WBVWidget|HTMLElement, title = null, width:number = null,
                 height:number = null) {
-        super(parentId, id, width, height);
+        super(parent, width, height);
 
-        // Toolbar
-        this.objectWidget = new WBV3DObjectWidget(this);
+        // Toolbars
+        this.objectWidget = new WBV3DObjectWidget(null);
         this.viewWidget = new WBV3DViewWidget(this, this.objectWidget);
-        this.dataWidget = new WBVMetaDataWidget();
+        this.dataWidget = new WBVMetaDataWidget(null);
         this.cameraWidget = new WBV3DCameraWidget(this);
+        this.toolbar = new WBVToolBar(null);
         this.toolbar.widgets.push(this.viewWidget);
         this.toolbar.widgets.push(this.objectWidget);
         this.toolbar.widgets.push(this.dataWidget);
@@ -56,8 +59,8 @@ export default class WB3DView extends WBView {
 
         this.type = "3D";
         this.title = title;
-        super.update();
 
+        // ThreeJS Scene
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera( 75, this.width / this.height, 0.1, 1000 );
         this.raycaster = new THREE.Raycaster();
@@ -68,7 +71,12 @@ export default class WB3DView extends WBView {
         this.renderer.shadowMap.type = THREE.BasicShadowMap;
         this.renderer.physicallyCorrectLights = true;
         this.renderer.localClippingEnabled = true;
+
+        // Generate HTML elements
+        if (this.parent instanceof  WBVWidget) this.parent.update();
+        this.update();
         this.viewElement().appendChild(this.renderer.domElement);
+        //document.getElementById('tmpr').appendChild(this.renderer.domElement);
 
         this.camera.position.z = 100;
         this.camera.position.x = 100;
@@ -165,7 +173,6 @@ export default class WB3DView extends WBView {
                 if (intersects[i].object.visible) {
                     const object = intersects[i].object;
                     this.objectWidget.setObject(object);
-                    console.log(object);
                     if (object instanceof THREE.Mesh && Object.keys(object.userData).length > 0)
                         this.dataWidget.setData(object.userData);
                     else
@@ -181,5 +188,9 @@ export default class WB3DView extends WBView {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );
+    }
+
+    update() {
+        super.update();
     }
 }
