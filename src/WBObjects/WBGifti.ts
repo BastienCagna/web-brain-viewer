@@ -65,7 +65,7 @@ class WBGiftiDataArray {
         }
 
         // Parse data
-        const binData = atob(element.children[1].innerHTML);
+        const binData = atob(element.children[element.children.length-1].innerHTML);
         switch(this.dtype) {
             case WBNiftiDataType.NIFTI_TYPE_FLOAT32:
                 this.data = b64ToFloat32Array(binData);
@@ -89,12 +89,10 @@ class WBGiftiImage extends WBTextReadableObject {
     labeltable = [];
     meshes: WBMeshObject[] = [];
     textures: WBTextureObject[] = [];
-    commonOffset: THREE.Vector3;
     nameKey: string = "name";
 
-    constructor(id:string = null, file: File|Blob = null, commonOffset: THREE.Vector3 = null) {
+    constructor(id:string = null, file: File|Blob = null) {
         super(id);
-        this.commonOffset = commonOffset;
         if(file) {
             this.loadFile(file);
         }
@@ -170,7 +168,7 @@ class WBGiftiImage extends WBTextReadableObject {
                 } else {
                     id = this.id + "(" + (d+1) + "/" + this.darrays.length/2 + ")";
                 }
-                const mesh = new WBMeshObject(id, pointset.data, triangles.data, this.commonOffset);
+                const mesh = new WBMeshObject(id, pointset.data, triangles.data);
                 this.meshes.push(mesh);
                 d += 1;
             }
@@ -178,16 +176,9 @@ class WBGiftiImage extends WBTextReadableObject {
         // TODO: remove darrays that have been duplicated to create meshes
     }
 
-    setCommonOffset(commonOffset: THREE.Vector3): void {
-        this.commonOffset = commonOffset;
-        for(const mesh of this.meshes) {
-            mesh.offset = commonOffset;
-        }
-    }
-
     toWBMorphMeshesObject(): WBMeshesObject {
-        const newObj = new WBMeshesObject(null, this.commonOffset);
-        newObj.meshes = this.meshes;
+        const newObj = new WBMeshesObject(null);
+        newObj.setMeshes(this.meshes);
         newObj.state = this.state;
         return newObj;
     }

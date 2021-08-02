@@ -1,8 +1,6 @@
-import { WBView } from "../WBView.js";
 import WBVViewWidget from "./WBVViewWidget.js";
 import WB3DView from "../WB3DView.js";
-import WBV3DObjectWidget from "./WB3DObjectWidget.js";
-import {WBVWidget} from "./WBVWidget";
+import WBV3DObjectWidget from "./WBV3DObjectWidget.js";
 
 
 /**
@@ -54,11 +52,7 @@ export default class WBV3DViewWidget extends WBVViewWidget {
             if(!$(this).hasClass("blink")) {
                 const oid = $(this).parent().attr('target-data');
                 if(!oid) return;
-
-                for(let obj of that.view.objects) {
-                    obj.visible = obj.name === oid
-                }
-
+                that.view.solo(oid);
                 // Select this one and deselect others
                 $('ul.dddview-object-list li a.blink').each(function(){
                     $(this).removeClass("blink");

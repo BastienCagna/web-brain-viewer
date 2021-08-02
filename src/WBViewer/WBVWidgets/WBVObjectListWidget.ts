@@ -47,7 +47,7 @@ class WBVObjectListWidget extends WBVSectionWidget {
             else $(this).attr('selected', 'selected');
             that.checkMergingAvailability();
         })
-        $(document).on('change', '#wbv_merge_objects', function() { that.mergeSelected(); });
+        $(document).on('change', '#wbv_merge_objects', function() { that.mergeSelected($(this).val()); });
     }
 
     getObjectList(): HTMLElement {
@@ -94,18 +94,18 @@ class WBVObjectListWidget extends WBVSectionWidget {
             $("#wbv_add_to_view").attr("disabled");
     }
 
-    mergeSelected(): void {
-        if($(this).val() !== -1) {
+    mergeSelected(value): void {
+        if(value !== -1) {
             for(const recipe of this.mergeRecipes) {
-                if(recipe.id === $(this).val()) {
+                if(recipe.id === value) {
                     const name = this.checkName("Fusion");
                     const newObj = recipe.merge(name, this.selectedObjects());
                     if(!newObj) {
                         throw new Error("Merging failed");
                     }
-                    const widget = new WBVObjectWidget(this, newObj, WBVOType.WBVOTr);
+                    const widget = new WBVObjectWidget(this.getObjectList(), newObj, WBVOType.WBVOTr);
                     this.items.push(widget);
-                    this.update();
+                    widget.update();
                     break;
                 }
             }
@@ -156,8 +156,6 @@ class WBVObjectListWidget extends WBVSectionWidget {
             item.update();
         }
     }
-
-
 }
 
 export {WBVObjectListWidget};

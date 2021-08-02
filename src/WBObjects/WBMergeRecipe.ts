@@ -8,11 +8,18 @@ abstract class WBMergeRecipe {
     id: string;
     name: string;
     ingredients: {};
+    optional: {};
 
     protected constructor(name: string, ingredients: {}) {
         this.id = generateUUID();
         this.name = name;
-        this.ingredients = ingredients;
+        this.optional = {};
+        this.ingredients = {};
+        const types = Object.keys(ingredients);
+        for(const type of types) {
+            this.optional[type] = ingredients[type] < 0;
+            this.ingredients[type] = Math.abs(ingredients[type]);
+        }
     }
 
     findIngredients(objects: WBObject[]): {} {
@@ -24,7 +31,7 @@ abstract class WBMergeRecipe {
 
             ingredients[type] = [];
             for(const obj of objects) {
-                // FIXME: checking also the type is a beat tricky to load ingredients when merging. It mights be better.
+                // FIXME: checking also the type is a beat tricky to load ingredients when merging. It could be better.
                 if(obj.constructor.name.localeCompare(type)===0 || obj.type.localeCompare(type)===0) {
                     if(spec == 1) {
                         ingredients[type] = obj;
@@ -41,7 +48,11 @@ abstract class WBMergeRecipe {
                 }
             }
             if(ingredients[type].length < spec) {
-                return null;
+                if(this.optional[type]) {
+                    ingredients[type] = null;
+                } else {
+                    return null;
+                }
             }
         }
 

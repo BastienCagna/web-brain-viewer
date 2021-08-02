@@ -8,13 +8,14 @@ class WBMeshObject extends WBObject {
     vertices: [];
     triangles: [];
     offset: THREE.Vector3;
+    offsetType: string;
     metadata: {};
 
-    constructor(id:string = null, vertices: [], triangles: [], offset: THREE.Vector3 = null) {
+    constructor(id:string = null, vertices: [], triangles: [], offset:THREE.Vector3|string='mean') {
         super(id);
-        this.offset = offset;
         this.vertices = vertices;
         this.triangles = triangles;
+        this.setOffset(offset);
         this.metadata = {};
     }
 
@@ -25,7 +26,20 @@ class WBMeshObject extends WBObject {
             this.updateState(WBOState.Ready);
     }
 
+    setOffset(offset:THREE.Vector3|string='mean'): void {
+        this.offset = offset;
+        this.offsetType = (offset instanceof THREE.Vector3) ? 'fixed' : (!offset) ? 'zero' : String(offset);
+    }
+
     estimateOffset(): void {
+        switch (this.offsetType) {
+            case 'mean': break; // computation is done after the switch
+            case 'zero': this.offset = new THREE.Vector3(0, 0, 0); return;
+            case 'fixed': return;
+            default: return;
+        }
+
+        // Mean computation
         const minPos = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
         const maxPos = [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         for (let i = 0; i < this.vertices.length; i += 3) {
@@ -49,7 +63,7 @@ class WBMeshObject extends WBObject {
 
     asThreeMesh(color:number|THREE.Color = 0xaaaaaa, metadata:{} = null, metadataMerge = false,
                 scale:number = 1): THREE.Mesh {
-        if(!this.offset) { this.estimateOffset(); }
+        if(!this.offset || this.offset instanceof String){ this.estimateOffset(); }
 
         const vertices = []
         for (let i = 0; i < this.vertices.length; i += 3){
@@ -68,11 +82,12 @@ class WBMeshObject extends WBObject {
         geometry.computeBoundingSphere();
 
         const material = new THREE.MeshLambertMaterial({
-            opacity: 0.95,
+            opacity: 1,
             transparent: true,
             color: color,
             side: THREE.DoubleSide,
             blending: THREE.NormalBlending,
+            shadowSide: THREE.DoubleSide
         });
 
         const mesh = new THREE.Mesh( geometry, material);
@@ -93,25 +108,56 @@ class WBMeshObject extends WBObject {
 class WBMeshesObject extends WBObject {
     meshes: WBMeshObject[];
     offset: THREE.Vector3;
+    offsetType: string;
 
-    constructor(id: string = null, offset: THREE.Vector3 = null) {
+    constructor(id: string = null, offset: THREE.Vector3|string = 'mean') {
         super(id);
-        this.offset = offset;
+        this.meshes = [];
+        this.setOffset(offset);
     }
 
     addMesh(mesh: WBMeshObject): void {
         if(mesh.state === WBOState.Error) {
             throw new Error("Can not add under error mesh.");
         }
-        if(this.offset) mesh.offset = this.offset;
         this.meshes.push(mesh);
+        this.updateOffsets();
         this.updateState(WBOState.Ready);
     }
 
-    setOffset(offset: THREE.Vector3): void {
+    setMeshes(meshes: WBMeshObject[]): void {
+        this.meshes = meshes;
+        this.updateOffsets();
+    }
+
+    setOffset(offset: THREE.Vector3|string = 'mean'): void {
         this.offset = offset;
-        for(const mesh of this.meshes)
-            mesh.offset = offset;
+        this.offsetType = (offset instanceof THREE.Vector3) ? 'fixed' : (!offset) ? 'zero' : String(offset);
+        this.updateOffsets();
+    }
+
+    updateOffsets(): void {
+        let offset;
+        switch(this.offsetType) {
+            case 'mean':
+                const n = this.meshes.length;
+                let sumX = 0, sumY = 0, sumZ = 0;
+                for(const m of this.meshes) {
+                    m.setOffset('mean');
+                    m.estimateOffset();
+                    sumX += m.offset.x;
+                    sumY += m.offset.y;
+                    sumZ += m.offset.z;
+                }
+                offset = new THREE.Vector3(sumX/n, sumY/n, sumZ/n);
+                break;
+            case 'fixed': offset = this.offset; break;
+            case 'zero': offset = 'zero'; break;
+            default: offset = 'zero'; break;
+        }
+        for(const mesh of this.meshes) {
+            mesh.setOffset(offset);
+        }
     }
 }
 

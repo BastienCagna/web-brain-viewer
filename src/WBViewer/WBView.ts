@@ -44,7 +44,7 @@ export abstract class WBView extends WBVWidget {
     objects = [];
     mouse: THREE.Vector2;
     cursor: WB3DCross;
-    origin: WB3DCross;
+    // origin: WB3DCross;
     height: number = null;
     width: number = null;
     viewWidget: WBVViewWidget = null;

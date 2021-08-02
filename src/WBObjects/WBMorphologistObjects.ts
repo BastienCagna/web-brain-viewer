@@ -3,7 +3,9 @@ import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
 import {WBObject, WBOState, WBTextReadableObject} from "./WBObject.js";
 import {WBMeshesObject, WBMeshObject} from "./WBSurfacesObjects.js";
 import {WBMergeRecipe} from "./WBMergeRecipe.js";
-
+import { WBColorMap, WBBasicColorMap} from "./WBColorMap.js";
+import {min, max} from "../utils.js";
+import {Vector3} from "three";
 
 class WBMorphFoldObject extends WBObject {
     label: WBMorphFoldLabelObject;
@@ -19,7 +21,7 @@ class WBMorphFoldObject extends WBObject {
 
 class WBMorphFoldLabelObject extends WBObject {
     name: string;
-    label: string;
+    label: number;
     color: THREE.Color;
 
     constructor(id:string = null) {
@@ -76,9 +78,9 @@ class WBMorphNomenclatureObject extends WBTextReadableObject {
         return null;
     }
 
-    getLabelByLabel(label: string): WBMorphFoldLabelObject {
+    getLabelByLabel(label: number): WBMorphFoldLabelObject {
         for(const foldLabel of this.folds) {
-            if(!foldLabel.label.localeCompare(label)) {
+            if(foldLabel.label && foldLabel.label === label) {
                 return foldLabel;
             }
         }
@@ -148,76 +150,136 @@ class WBMorphFoldsInfosObject extends WBTextReadableObject {
 class WBMorphLabellingObject extends WBObject {
     foldsInfos: WBMorphFoldsInfosObject;
     folds: WBMorphFoldObject[];
-    nameKey: string;
+    labellingKey: string;
     labelKey: string;
     nomenclature: WBMorphNomenclatureObject = null;
     meshes: WBMeshesObject = null;
     brainMesh: WBMeshObject;
 
-    constructor(id:string = null, nomenclature: WBMorphNomenclatureObject = null, brainMesh: WBMeshObject = null,
-                foldsInfos: WBMorphFoldsInfosObject = null, meshes: WBMeshesObject = null, nameKey:string = "name",
+    constructor(id:string = null, meshes: WBMeshesObject = null, foldsInfos: WBMorphFoldsInfosObject = null,
+                brainMesh: WBMeshObject = null, nomenclature: WBMorphNomenclatureObject = null,
                 labelKey:string = "Tmtktri_label") {
         super(id);
         this.type = "Sulci Graph Labelling";
-        this.nameKey = nameKey;
         this.labelKey = labelKey;
+        this.labellingKey = undefined;
 
-        this.nomenclature = nomenclature;
-        this.brainMesh = brainMesh;
+        if(!meshes) { throw "At least the set of folds meshes is needed."; }
         this.meshes = meshes;
-        this.brainMesh.estimateOffset();
-        this.meshes.setOffset(this.brainMesh.offset);
+        this.brainMesh = brainMesh;
+        this.nomenclature = nomenclature;
+        if(this.brainMesh) {
+            this.brainMesh.estimateOffset();
+            this.meshes.setOffset(this.brainMesh.offset);
+        } else {
+            let xVect, yVect, zVect
+            this.meshes.setOffset('mean');
+        }
         this.foldsInfos = foldsInfos;
         this.checkState();
+    }
 
-        if(this.state == WBOState.Loading) {
-            this.folds = [];
-            const nFolds = this.meshes.meshes.length;
-            let fold: WBMorphFoldObject, label: WBMorphFoldLabelObject, item: {};
-            for (let f = 0; f < nFolds; f++) {
-                fold = new WBMorphFoldObject();
-                fold.mesh = this.meshes.meshes[f];
+    checkState() {
+        // FIXME: this method is either useless either not really implemented
+        this.updateState(WBOState.Ready);
+        /*if(this.folds && this.folds.length > 0)
+            this.updateState(WBOState.Ready);
+        else if(this.foldsInfos.state === WBOState.Ready && this.meshes.state === WBOState.Ready)
+            this.updateState(WBOState.Loading);
+        else
+            this.updateState(WBOState.Error);*/
+    }
+
+    setFolds(labellingKey: string = "label") {
+        if(['label', 'name'].indexOf(labellingKey) < 0)
+            throw "Wrong labelling key. Should be 'name' or 'label'";
+        this.folds = [];
+        const nFolds = this.meshes.meshes.length;
+        let fold: WBMorphFoldObject, label: WBMorphFoldLabelObject, item: {};
+        // For each fold mesh
+        for (let f = 0; f < nFolds; f++) {
+            fold = new WBMorphFoldObject();
+            fold.mesh = this.meshes.meshes[f];
+            if(this.foldsInfos) {
+                // Search for corresponding fold infos
                 for (let i = 0; i < this.foldsInfos.metadataArray.length; i++) {
                     item = this.foldsInfos.metadataArray[i];
                     if ((parseInt(item[this.labelKey], 10) - 1) === f ) {
-                        label = (this.nameKey==="name") ? this.nomenclature.getLabelByName(item["name"]): this.nomenclature.getLabelByLabel(item["label"]);
 
                         fold.metadata = item;
                         fold.metadata['meshFoldId'] = f;
                         fold.metadata['labelFoldId'] = i;
-                        fold.metadata['color'] = [label.color.r, label.color.g, label.color.b];
-                        fold.label = label;
-                        if(!label) console.log("no label for ", fold);
+                        if(this.nomenclature) {
+                            label = this.nomenclature.getLabelByName(item[labellingKey]);
+                            if (!label) console.log("no label for ", fold);
+                            fold.metadata['color'] = [label.color.r, label.color.g, label.color.b];
+                            fold.label = label;
+                        }
                         break;
                     }
                 }
-                this.folds.push(fold);
             }
-            this.checkState();
+
+            this.folds.push(fold);
         }
+        this.labellingKey = labellingKey;
     }
 
-    checkState() {
-        if(this.folds && this.folds.length > 0)
-            this.updateState(WBOState.Ready);
-        else if(this.foldsInfos.state === WBOState.Ready && this.nomenclature.state === WBOState.Ready &&
-                this.meshes.state === WBOState.Ready)
-            this.updateState(WBOState.Loading);
-        else
-            this.updateState(WBOState.Error);
-    }
+    /**
+     * Convert to ThreeJS 3D objects
+     * @param nameKey: string
+     *      If nameKey if 'label' or 'name': folds are colorized by either their labels or their names.
+     * @param colorValue: string
+     *      If colorValue is 'label', the color is fixed by the nomenclature and the value of the nameKey.
+     *      If colorValue starts by 'meta_', metric embedded in the .arg file is used.
+     *      If colorValue starts by 'data', additional data are used.
+     * @param data: dict
+     *      Must be defined if colorValue is "data".
+     * @param cmap: WBColorMap
+     *      Color map used if colorValue is not 'label'.
+     */
+    toObject3D(nameKey: string = "label", colorValue: string="label", data: {} = {},
+               cmap: WBColorMap = new WBBasicColorMap()): THREE.Mesh[] {
+        if(!this.labellingKey || this.labellingKey.localeCompare(nameKey) !== 0) {
+            this.setFolds(nameKey);
+        }
+        const meshes = [];
+        if(this.brainMesh) meshes.push(this.brainMesh.asThreeMesh(undefined, undefined, undefined, -1));
+        const splitted = colorValue.split('_');
+        const colorType = splitted[0];
 
-    toObject3D(): THREE.Mesh[] {
-        const meshes = [this.brainMesh.asThreeMesh(undefined, undefined, undefined, -1)];
-        let foldMeshesGroup = new THREE.Group();
+        let vkey = undefined;
+        if(colorType.localeCompare('meta') === 0) {
+            vkey = splitted.slice(1).join('_');
+        }
+
+        let values: number[] = [];
+        let colors: number|THREE.Color[] = [];
         for(const fold of this.folds) {
-            let mesh;
-            if(!fold.label)
-                mesh = fold.mesh.asThreeMesh(0x333333, fold.metadata, true, -1);
-            else
-                mesh = fold.mesh.asThreeMesh(fold.label.color, fold.metadata, true, -1);
+            switch (colorType) {
+                case "label":
+                    colors.push(!fold.label ? 0x777777: fold.label.color); break;
+                case "data":
+                    values.push(data[fold.metadata['index']]);
+                    break;
+                case "meta":
+                    values.push(Math.log(parseFloat(fold.metadata[vkey])));
+                    break;
+                default:
+                    throw 'Unrecognized colorValue "' + colorType + '".';
+            }
+        }
+        if(colors.length === 0) {
+            // @ts-ignore
+            colors = cmap.colors(values);
+        }
+
+        let foldMeshesGroup = new THREE.Group();
+        let fold, mesh;
+        for(let f = 0; f < this.folds.length; f++) {
+            fold = this.folds[f];
+            mesh = fold.mesh.asThreeMesh(colors[f], fold.metadata, true, -1);
             mesh.name = fold.label ? fold.label.name : fold.id;
-            //meshes.push(mesh);
             foldMeshesGroup.add(mesh);
         }
         foldMeshesGroup.name = this.id;
@@ -231,7 +293,7 @@ class WBMorphLabellingObject extends WBObject {
 class WBMorphLabellingRecipe extends WBMergeRecipe {
     constructor() {
         super("Sulci Graph Labelling",
-            {'WBMorphNomenclatureObject': 1, 'Meshes': 1, 'Mesh': 1, 'WBMorphFoldsInfosObject': 1});
+            {'Meshes': 1, 'WBMorphFoldsInfosObject': 1, 'Mesh': -1 , 'WBMorphNomenclatureObject': -1});
     }
 
     merge(id:string = null, objects: WBObject[]): WBMorphLabellingObject {
@@ -240,13 +302,12 @@ class WBMorphLabellingRecipe extends WBMergeRecipe {
         if(ingredients['Meshes'].constructor.name.localeCompare("WBGiftiImage")===0) {
             ingredients['Meshes'] = ingredients['Meshes'].toWBMorphMeshesObject();
         }
-        if(ingredients['Mesh'].constructor.name.localeCompare("WBGiftiImage")===0) {
+        if(ingredients['Mesh'] && ingredients['Mesh'].constructor.name.localeCompare("WBGiftiImage")===0) {
             ingredients['Mesh'] = ingredients['Mesh'].meshes[0];
         }
-
         return new WBMorphLabellingObject(
-            id, ingredients['WBMorphNomenclatureObject'], ingredients['Mesh'],
-            ingredients['WBMorphFoldsInfosObject'], ingredients['Meshes']);
+            id, ingredients['Meshes'], ingredients['WBMorphFoldsInfosObject'], ingredients['Mesh'],
+            ingredients['WBMorphNomenclatureObject']);
     }
 }
 

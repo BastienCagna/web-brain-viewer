@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta http-equiv="Content-Type" content="text/html">-->
+    <title>Automatic Sulci Labelling Outputs - Web Brain Viewer</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../sass/webbrainviewer.css"/>
+    <style>
+        h1 {
+            text-align: center;
+            font-family: Ubuntu;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 1.5em;
+        }
+        h4 {
+            font-size: 1em;
+        }
+        section {
+            margin: 10px;
+            height: 90vh;
+        }
+        .centered-content {
+            max-width: 60%;
+            margin: auto;
+        }
+        .drop-area {
+            margin: 10px;
+            padding: 6px;
+            min-height: 200px;
+            background: #e7e7e7;
+            border: 2px solid #474747;
+            border-radius: 4px;
+        }
+        .score-label {
+            display: inline-block;
+            width: 8em;
+            font-size: small;
+        }
+        div.score {
+            padding: 0px;
+            display: inline-block;
+            background: #6c757d;
+            width: 120px;
+            height: 16px;
+            margin-left: 5px;
+        }
+        .score-bar {
+            margin: 0px;
+            padding: 0px;
+            display: inline-block;
+            height: inherit;
+            background: #1b1bfa;
+        }
+        span.score {
+            font-size: small;
+        }
+
+        .viewer-canvas {
+            position: relative;
+        }
+        .colorbar {
+            padding: 0px;
+            margin: 0px;
+            position: absolute;
+            top: 4px;
+            left: 20px;
+            width: 85px;
+            height: 100px;
+            z-index: 2;
+        }
+        #sulci_infos {
+            padding: 10px;
+        }
+        #obj-name {
+            padding: 4px;
+            text-align: center;
+        }
+    </style>
+    <script type="module">
+        import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
+        import WB3DView from "../build/WBViewer/WB3DView.js";
+        import {WBVOType, WBVTextReadableObjectWidget} from "../build/WBViewer/WBVWidgets/WBVObjectWidget.js";
+        import {WBMorphLabellingRecipe} from "../build/WBObjects/WBMorphologistObjects.js";
+        import {WBBasicColorMap, WBColorBar} from "../build/WBObjects/WBColorMap.js";
+        import { max, argsort } from "../build/utils.js";
+
+        const viewerEl = document.getElementById("myviewer");
+        const w = window.innerWidth * 8 / 12;
+        const viewer = new WB3DView(viewerEl, "Graph labelling", w, 500);
+        const pCmap = new WBBasicColorMap();
+        const colorBar = new WBColorBar(document.getElementById('colorbar'), pCmap);
+
+        const items = [];
+        let scores = {};
+
+        viewer.onClickCallBack = (obj) => {
+            // Do not execute if user clicked on the cortex mesh
+            if(obj.name.length === 0 || obj.name.localeCompare("Brain") === 0) return;
+            document.getElementById('obj-name').innerText = obj.name;
+
+            // List labels probabilities and names
+            const items = scores.vdata[obj.userData['index']]['labels_probas'];
+            let html = '';
+            let scoreVect = [], nameVect = [];
+            for(let i = 0; i < items.length; i++ ) {
+                scoreVect.push(Math.round(scores.vdata[obj.userData['index']]['labels_probas'][i] * 100));
+                nameVect.push(scores.labels[i]);
+            }
+
+            // Order by descending probabilities
+            const sortedIdx = argsort(scoreVect, false);
+            scoreVect = sortedIdx.map(idx => scoreVect[idx]);
+            nameVect = sortedIdx.map(idx => nameVect[idx]);
+
+            // Plot the 10 first in a table
+            for(let i = 0; i < 6; i++) {
+                html += '<tr>'
+                    + '<td class="score-label">' + nameVect[i] + '</td>'
+                    + '<td>'
+                    + '<div class="score"><div class="score-bar" style="width: ' + scoreVect[i] + '%"></div></div>'
+                    + '<span class="score">' + scoreVect[i] + '%</span>'
+                    + '</td></tr>';
+            }
+            document.getElementById('scores').innerHTML = html;
+
+            const color = obj.material.color;
+            let luma = 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
+            document.getElementById('obj-name').style.color = (luma < .4) ? 'white' : 'black';
+            document.getElementById('obj-name').style.backgroundColor = '#' + color.getHexString();
+            document.getElementById('sulci_infos').style.display = "block";
+        }
+
+        function showLabelling(nameKey, valKey) {
+            viewer.removeObjectByName('Sulci Labelling');
+            viewer.removeObjectByName('Brain');
+
+            const recipe = new WBMorphLabellingRecipe();
+            const wbObj = recipe.merge("Sulci Labelling", items);
+            let newObj;
+            if(valKey.localeCompare('proba')===0) {
+                const data = {};
+                for(const index of Object.keys(scores['vdata'])) {
+                    data[index] = max(scores['vdata'][index].labels_probas);
+                }
+                pCmap.resetBoundaries(0, 1);
+                newObj = wbObj.toObject3D(nameKey, 'data', data, pCmap);
+                colorBar.draw('Probability (%)');
+            } else if(valKey.localeCompare('selectedProba')===0) {
+                const data = {};
+                const ilabel = document.getElementById('select_label').value;
+                if(ilabel < 0) return;
+                for(const index of Object.keys(scores['vdata'])) {
+                    data[index] = scores['vdata'][index].labels_probas[ilabel];
+                }
+                pCmap.resetBoundaries(0, 1);
+                newObj = wbObj.toObject3D(nameKey, 'data', data, pCmap);
+                colorBar.draw('Probability (%)');
+            } else {
+                pCmap.resetBoundaries();
+                newObj = wbObj.toObject3D(nameKey, valKey, undefined, pCmap);
+                if(valKey.slice(0, 5).localeCompare('meta_') === 0) {
+                    let unit = undefined;
+                    if(valKey.slice(-6).localeCompare('volume') === 0) {
+                        unit = 'Volume (mm3)';
+                    } else if(valKey.slice(5, 10).localeCompare('thick') === 0) {
+                        unit = 'Length (mm)';
+                    }
+                    colorBar.draw(unit);
+                } else {
+                    colorBar.clear();
+                }
+            }
+            if(wbObj.brainMesh) {
+                newObj[0].name = "Brain";
+            }
+
+            // Need a rotation on the outputs of Morphologist
+            viewer.addObject(newObj);
+            let obj = viewer.scene.getObjectByName("Sulci Labelling");
+            obj.applyMatrix4( new THREE.Matrix4().makeRotationX(-Math.PI / 2) );
+            if(wbObj.brainMesh) {
+                obj = viewer.scene.children[5];
+                obj.rotateX(-Math.PI / 2);
+            }
+        }
+
+        const loadFiles = async (files) => {
+            for(const f of files) {
+                if(f.name.slice(-5).localeCompare(".json") === 0) {
+                    let reader = new FileReader();
+                    reader.addEventListener('load', function(e) {
+                        scores = JSON.parse(e.target.result);
+                    });
+                    reader.readAsText(f);
+                } else {
+                    const item = new WBVTextReadableObjectWidget(null, f, f.name, WBVOType.WBVOTr);
+                    if(!item.object)
+                        return;
+                    items.push(item.object);
+                }
+            }
+
+            // Plot the fusion
+            await new Promise(r => setTimeout(r, 1000)).then(function() {
+                // After 1s (to be "sure" that object are loaded) Merge objects
+                if(scores.labels) {
+                    const select = document.getElementById('select_label');
+                    const arr = scores.labels.sort();
+                    for(let i = 0; i < arr.length; i++) {
+                        select.innerHTML += '<option value=' + i + '>' + arr[i] + '</option>';
+                    }
+                }
+
+                showLabelling('label', 'label');
+                //viewer.rotate(true);
+
+                const pos = document.getElementById('viewer').getBoundingClientRect();
+                window.scrollBy({top: pos.top, left: pos.left, behavior: 'smooth'});
+                viewer.viewElement().focus();
+            });
+        }
+
+        let soloIsActive = false;
+        window.solo = () => {
+            const name = soloIsActive ? undefined : document.getElementById('obj-name').innerText;
+            soloIsActive = !soloIsActive;
+            viewer.solo(name);
+            // FIXME: The brain mesh masks sulci meshes (not really transparent)
+            //const brain = viewer.getObjectsByName("Brain", 1)[0];
+            //brain.visible = true;
+            //brain.material.opacity = soloIsActive ? .1 : 1;
+        }
+        let wfSulci = false;
+        window.wireframeSucli = () => {
+            wfSulci = !wfSulci;
+            let obj = viewer.scene.getObjectByName("Sulci Labelling");
+            for(const child of obj.children) {
+                child.material.wireframe = wfSulci;
+            }
+            document.getElementById("wireframeBtn").innerText = wfSulci ? "Surfaced mesh" : "Wireframe mesh";
+        }
+        window.showGraphValue = showLabelling;
+        window.loadfile = loadFiles;
+    </script>
+    <script type="text/javascript">
+        function dragoverHandler(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            // Explicitly show this is a copy.
+            evt.dataTransfer.dropEffect = 'copy';
+        }
+
+        function dropHandler(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            // FileList object.
+            const files = evt.dataTransfer.files;
+            if(files.length >= 2 && files.length <= 5) {
+                window.loadfile(files);
+            }
+        }
+
+        function scrollUp() {
+            window.scrollBy(0, -window.innerHeight);
+        }
+    </script>
+</head>
+<body onload="scrollUp()">
+
+<section>
+    <div class="container-fluid centered-content" style="margin-top: 25vh;">
+        <h1>Deep Sulci Labelling Output</h1>
+        <p>This page shows the outputs of the automated sulci graph labelling based on the
+            UNet3D deep neural network.</p>
+        <ul id="files-list" class="drop-area" ondragover="dragoverHandler(event)" ondrop="dropHandler(event)"
+            data-toggle="tooltip" data-placement="top"
+            title="To see results, drag and drop the white mesh (.gii), the nomenclature(.hier),
+            the graph file (.arg) and the graph's meshes (.gii) and click on Load."></ul>
+    </div>
+</section>
+
+<section id="viewer">
+    <div class="row">
+        <div class="col-md-8">
+            <canvas class="colorbar" id="colorbar"></canvas>
+            <div class="viewer-canvas" id="myviewer"></div>
+            <div id="controls">
+                <button role="button" onclick="window.showGraphValue('name', 'label')">Name</button>
+                <button role="button" onclick="window.showGraphValue('label', 'label')">Label</button>
+                <button role="button" onclick="window.showGraphValue('label', 'proba')">Label probability</button>
+                <button role="button" onclick="window.showGraphValue('name', 'meta_thickness_mean')">Mean thinkness</button>
+                <button role="button" onclick="window.showGraphValue('name', 'meta_thickness_std')">Std thinkness</button>
+                <button role="button" onclick="window.showGraphValue('name', 'meta_GM_volume')">GM volume</button>
+                <button role="button" onclick="window.showGraphValue('name', 'meta_LCR_volume')">LCR volume</button>
+                <select id="select_label" onchange="window.showGraphValue('name', 'selectedProba')">
+                    <option value=-1>Labels Probabilities</option>
+                </select>
+
+                <button role="button" id="wireframeBtn" onclick="window.wireframeSucli()">Wireframe mesh</button>
+            </div>
+            <div id="help">
+                <p>Push "r" on your keyboard to stop/start the rotation.</p>
+                <p>Click on a sulci to get more information about it.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div id="sulci_infos" style="display: none;">
+                <h3 id="obj-name"></h3>
+                <button role="button" class="btn btn-success" onclick="window.solo();">Solo this label</button>
+                <h4>Labels probabilities</h4>
+                <table class="table" id="scores">
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Credit: Bastien Cagna, CEA Neurospin</p>
+</footer>
+</body>
+</html>
