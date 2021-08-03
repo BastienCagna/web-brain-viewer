@@ -1,4 +1,4 @@
-import WBVSectionWidget from "./WBVSectionWidget.js";
+import WBVSectionWidget from "./WBVSectionWidget";
 import {WBVWidget} from "./WBVWidget";
 
 

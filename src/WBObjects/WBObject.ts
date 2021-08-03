@@ -1,5 +1,4 @@
-// @ts-ignore
-import {MathUtils} from "https://unpkg.com/three@0.126.1/build/three.module.js";
+import {MathUtils} from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
 import generateUUID = MathUtils.generateUUID;
 
 enum WBOState {

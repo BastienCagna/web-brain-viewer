@@ -1,4 +1,4 @@
-import {WBVWidget} from "./WBVWidget.js";
+import {WBVWidget} from "./WBVWidget";
 
 export default abstract class WBVSectionWidget extends WBVWidget {
     title: string;

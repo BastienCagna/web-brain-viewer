@@ -1,7 +1,5 @@
-import { WBView } from "../WBView.js";
-import WBVViewWidget from "./WBVViewWidget.js";
-import WB3DView from "../WB3DView.js";
-import WBVSectionWidget from "./WBVSectionWidget.js";
+import WB3DView from "../WB3DView";
+import WBVSectionWidget from "./WBVSectionWidget";
 
 
 /**

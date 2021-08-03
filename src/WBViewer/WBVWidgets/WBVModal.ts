@@ -1,4 +1,4 @@
-import {WBVWidget} from "./WBVWidget.js";
+import {WBVWidget} from "./WBVWidget";
 
 
 export abstract class WBVModal extends WBVWidget {

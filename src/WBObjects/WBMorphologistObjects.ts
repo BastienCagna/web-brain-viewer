@@ -1,11 +1,8 @@
-// @ts-ignore
-import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-import {WBObject, WBOState, WBTextReadableObject} from "./WBObject.js";
-import {WBMeshesObject, WBMeshObject} from "./WBSurfacesObjects.js";
-import {WBMergeRecipe} from "./WBMergeRecipe.js";
-import { WBColorMap, WBBasicColorMap} from "./WBColorMap.js";
-import {min, max} from "../utils.js";
-import {Vector3} from "three";
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import {WBObject, WBOState, WBTextReadableObject} from "./WBObject";
+import {WBMeshesObject, WBMeshObject} from "./WBSurfacesObjects";
+import {WBMergeRecipe} from "./WBMergeRecipe";
+import { WBColorMap, WBBasicColorMap} from "./WBColorMap";
 
 class WBMorphFoldObject extends WBObject {
     label: WBMorphFoldLabelObject;
@@ -29,7 +26,7 @@ class WBMorphFoldLabelObject extends WBObject {
         this.type = "Fold Label";
         this.name = null;
         this.label = null;
-        this.color = 0x777777;
+        this.color = new THREE.Color(0x777777);
     }
 }
 
@@ -258,7 +255,7 @@ class WBMorphLabellingObject extends WBObject {
         for(const fold of this.folds) {
             switch (colorType) {
                 case "label":
-                    colors.push(!fold.label ? 0x777777: fold.label.color); break;
+                    colors.push(!fold.label ? new THREE.Color(0x777777) : fold.label.color); break;
                 case "data":
                     values.push(data[fold.metadata['index']]);
                     break;

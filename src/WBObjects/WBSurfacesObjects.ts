@@ -1,7 +1,6 @@
-// @ts-ignore
-import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-import {WBObject, WBOState} from "./WBObject.js";
-import {WBMergeRecipe} from "./WBMergeRecipe.js";
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import {WBObject, WBOState} from "./WBObject";
+import {WBMergeRecipe} from "./WBMergeRecipe";
 
 
 class WBMeshObject extends WBObject {
@@ -27,7 +26,7 @@ class WBMeshObject extends WBObject {
     }
 
     setOffset(offset:THREE.Vector3|string='mean'): void {
-        this.offset = offset;
+        this.offset = (offset instanceof THREE.Vector3) ? offset : null;
         this.offsetType = (offset instanceof THREE.Vector3) ? 'fixed' : (!offset) ? 'zero' : String(offset);
     }
 
@@ -78,7 +77,7 @@ class WBMeshObject extends WBObject {
 
         geometry.computeVertexNormals();
         // geometry.computeMorphNormals();
-        geometry.computeFaceNormals();
+        // geometry.computeFaceNormals();
         geometry.computeBoundingSphere();
 
         const material = new THREE.MeshLambertMaterial({
@@ -131,7 +130,7 @@ class WBMeshesObject extends WBObject {
     }
 
     setOffset(offset: THREE.Vector3|string = 'mean'): void {
-        this.offset = offset;
+        this.offset = (offset instanceof THREE.Vector3) ? offset : null;
         this.offsetType = (offset instanceof THREE.Vector3) ? 'fixed' : (!offset) ? 'zero' : String(offset);
         this.updateOffsets();
     }

@@ -1,10 +1,6 @@
-import {WBVModal} from "./WBVModal.js";
-import WBDataServer from "../../WBControllers/WBDataServer.js";
-import {WBVObjectListWidget} from "./WBVObjectListWidget.js";
-import {WBVObjectWidget, WBVOType} from "./WBVObjectWidget.js";
-import {WBMeshObject} from "../../WBObjects/WBSurfacesObjects.js";
-import {WBOState} from "../../WBObjects/WBObject.js";
-import {WBGiftiImage} from "../../WBObjects/WBGifti.js";
+import {WBVModal} from "./WBVModal";
+import WBDataServer from "../../WBControllers/WBDataServer";
+import {WBVObjectListWidget} from "./WBVObjectListWidget";
 
 
 export class WBServerModal extends WBVModal {

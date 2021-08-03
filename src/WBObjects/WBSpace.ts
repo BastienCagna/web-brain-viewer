@@ -1,4 +1,4 @@
-
+/*
 class WBSpace {
   name = null;
 
@@ -18,3 +18,4 @@ class WBTransformation {
     this.nonLinearTransformation = nonLinearTransformation;
   }
 }
+*/
