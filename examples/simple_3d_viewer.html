@@ -22,17 +22,10 @@
 </html>
 
 <script type="module">
-    /*import WB3DView from "../build/WBViewer/WB3DView.js";
-    import WBDataServer from "../build/WBControllers/WBDataServer.js";
-    import {WBGiftiImage} from "../build/WBObjects/WBGifti.js";*/
-    import WB3DView from "../dist/wbv.js";
-    import WBDataServer from "../dist/wbv.js";
-    import WBGiftiImage from "../dist/wbv.js";
+    import {WB3DView, WBDataServer, WBGiftiImage} from "../dist/wbv.js";
 
     const viewerEl = document.getElementById("viewer");
     const viewer = new WB3DView(viewerEl, "Simple Viewer", 300, 300);
-    // viewer.removeObjectByName("Origin");
-    // viewer.removeObjectByName("Grid");
 
     const asyncFn = async () => {
         // Get a mesh from a server

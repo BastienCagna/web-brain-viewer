@@ -25,4 +25,8 @@ export default abstract class WBVSectionWidget extends WBVWidget {
         const el = document.getElementById(this.id);
         if(el) el.hidden = this.hideWhenEmpty && !this.bodyHtml();
     }
+
+    HTMLElement(): HTMLElement {
+        return document.getElementById(this.id);
+    }
 }

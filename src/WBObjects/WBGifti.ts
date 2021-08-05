@@ -60,7 +60,7 @@ class WBGiftiDataArray {
             console.log("/!\\ Unhandled external files");
         }
         if(this.encoding.localeCompare("Base64Binary")) {
-            throw new Error("Unhandled encoding");
+            throw new Error("Unhandled encoding " + this.encoding);
         }
 
         // Parse data

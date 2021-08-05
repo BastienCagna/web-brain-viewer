@@ -84,18 +84,14 @@
         }
     </style>
     <script type="module">
-        import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-        import WB3DView from "../build/WBViewer/WB3DView.js";
-        import {WBVOType, WBVTextReadableObjectWidget} from "../build/WBViewer/WBVWidgets/WBVObjectWidget.js";
-        import {WBMorphLabellingRecipe} from "../build/WBObjects/WBMorphologistObjects.js";
-        import {WBBasicColorMap, WBColorBar} from "../build/WBObjects/WBColorMap.js";
-        import { max, argsort } from "../build/utils.js";
+        //import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
+        import * as WBV from '../dist/wbv.js';
 
         const viewerEl = document.getElementById("myviewer");
         const w = window.innerWidth * 8 / 12;
-        const viewer = new WB3DView(viewerEl, "Graph labelling", w, 500);
-        const pCmap = new WBBasicColorMap();
-        const colorBar = new WBColorBar(document.getElementById('colorbar'), pCmap);
+        const viewer = new WBV.WB3DView(viewerEl, "Graph labelling", w, 500);
+        const pCmap = new WBV.WBBasicColorMap();
+        const colorBar = new WBV.WBColorBar(document.getElementById('colorbar'), pCmap);
 
         const items = [];
         let scores = {};
@@ -141,7 +137,7 @@
             viewer.removeObjectByName('Sulci Labelling');
             viewer.removeObjectByName('Brain');
 
-            const recipe = new WBMorphLabellingRecipe();
+            const recipe = new WBV.WBMorphLabellingRecipe();
             const wbObj = recipe.merge("Sulci Labelling", items);
             let newObj;
             if(valKey.localeCompare('proba')===0) {
@@ -200,7 +196,7 @@
                     });
                     reader.readAsText(f);
                 } else {
-                    const item = new WBVTextReadableObjectWidget(null, f, f.name, WBVOType.WBVOTr);
+                    const item = new WBV.WBVTextReadableObjectWidget(null, f, f.name, WBV.WBVOType.WBVOTr);
                     if(!item.object)
                         return;
                     items.push(item.object);

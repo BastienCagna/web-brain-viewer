@@ -70,7 +70,6 @@ class WBMeshObject extends WBObject {
             vertices.push(scale * (this.vertices[i + 1] - this.offset.y));
             vertices.push(scale * (this.vertices[i + 2] - this.offset.z));
         }
-
         const geometry = new THREE.BufferGeometry();
         geometry.setIndex(Array.from(this.triangles));
         geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );

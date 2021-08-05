@@ -21,12 +21,13 @@ class WBMorphFoldLabelObject extends WBObject {
     label: number;
     color: THREE.Color;
 
-    constructor(id:string = null) {
+    constructor(id:string = null, name:string = null, label:number = null,
+                color: THREE.Color = new THREE.Color(0x777777)) {
         super(id);
         this.type = "Fold Label";
-        this.name = null;
-        this.label = null;
-        this.color = new THREE.Color(0x777777);
+        this.name = name;
+        this.label = label;
+        this.color = color;
     }
 }
 
@@ -64,6 +65,8 @@ class WBMorphNomenclatureObject extends WBTextReadableObject {
                 currentFold.label = parseInt(line.substring(5).trim(), 10);
             }
         }
+
+        console.log('hie:', this);
     }
 
     getLabelByName(name: string): WBMorphFoldLabelObject {
@@ -208,7 +211,10 @@ class WBMorphLabellingObject extends WBObject {
                         fold.metadata['labelFoldId'] = i;
                         if(this.nomenclature) {
                             label = this.nomenclature.getLabelByName(item[labellingKey]);
-                            if (!label) console.log("no label for ", fold);
+                            if (!label) {
+                                console.log("no label for ", fold['name'], " in hierarchy file.");
+                                label = new WBMorphFoldLabelObject(null, fold['name']);
+                            }
                             fold.metadata['color'] = [label.color.r, label.color.g, label.color.b];
                             fold.label = label;
                         }
