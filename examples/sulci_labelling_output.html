@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="../sass/webbrainviewer.css"/>
+    <link rel="stylesheet" href="../sass/web-brain-viewer.css"/>
     <style>
         h1 {
             text-align: center;
@@ -85,11 +85,12 @@
     </style>
     <script type="module">
         import * as THREE from "https://unpkg.com/three@0.131.0/build/three.module.js";
-        import * as WBV from '../dist/wbv.js';
+        import * as WBV from '../dist/web-brain-viewer.js';
 
         const viewerEl = document.getElementById("myviewer");
         const w = window.innerWidth * 8 / 12;
-        const viewer = new WBV.WB3DView(viewerEl, "Graph labelling", w, 500);
+        const h = window.innerHeight * .8;
+        const viewer = new WBV.WB3DView(viewerEl, "Graph labelling", w, h);
         const pCmap = new WBV.WBBasicColorMap();
         const colorBar = new WBV.WBColorBar(document.getElementById('colorbar'), pCmap);
 
@@ -102,7 +103,6 @@
 
             const color = obj.material.color;
             let luma = 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
-            console.log(obj);
             document.getElementById('obj-name').innerText = (obj.name == undefined) ? 'node ' + obj.index : obj.name;
             document.getElementById('obj-name').style.color = (luma < .4) ? 'white' : 'black';
             document.getElementById('obj-name').style.backgroundColor = '#' + color.getHexString();
@@ -112,7 +112,6 @@
             if(scores.vdata && scores.vdata[obj.userData['index']]) {
                 const items = scores.vdata[obj.userData['index']]['scores'];
                 let scoreVect = [], nameVect = [];
-                console.log(scores);
                 for (let i = 0; i < items.length; i++) {
                     scoreVect.push(Math.round(scores.vdata[obj.userData['index']]['scores'][i] * 100));
                     // TODO: correct the labels key name!
