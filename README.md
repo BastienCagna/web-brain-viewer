@@ -11,22 +11,19 @@ Feel free to contribute by creating new issues, create your own fork...etc
 
 ## Install
 ```shell
+sudo apt install npm
 npm install 
 ```
 
 ## Build
-### Compile typescript to javascript
 ```shell
-sudo apt install node-typescript
-sudo apt install npm
+rollup --config
+# Or if you are editing the package:
+rollup --config --watch
 ```
 
 ### Generate documentation
 You can use typedoc to generate the documentation by following those steps:
 ```shell
-# Install typedoc using npm
-npm install typedoc --save-dev
-
-# Then compile the documentation to docs/ (add --watch while modifying the source code)
-typedoc src/*.ts --name "Web Brain Viewer" --readme ./README.md
+npm run doc
 ```
