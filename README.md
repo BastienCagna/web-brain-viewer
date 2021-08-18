@@ -9,6 +9,11 @@ javascript release and add it to your page.
 ## Development
 Feel free to contribute by creating new issues, create your own fork...etc
 
+## Install
+```shell
+npm install 
+```
+
 ## Build
 ### Compile typescript to javascript
 
