@@ -1,10 +1,10 @@
-import {WBVWidget} from "./WBVWidgets/WBVWidget.js";
-import WBVToolBar from "./WBVWidgets/WBVToolBar.js";
-import {WBVObjectListWidget} from './WBVWidgets/WBVObjectListWidget.js';
-import {WBVViewListWidget} from './WBVWidgets/WBVViewListWidget.js';
-import WB3DView from "./WB3DView.js";
-import {WBView} from "./WBView.js";
-import WBVCreditWidget from "./WBVWidgets/WBVCreditWidget.js";
+import {WBVWidget} from "./WBVWidgets/WBVWidget";
+import WBVToolBar from "./WBVWidgets/WBVToolBar";
+import {WBVObjectListWidget} from './WBVWidgets/WBVObjectListWidget';
+import {WBVViewListWidget} from './WBVWidgets/WBVViewListWidget';
+import WB3DView from "./WB3DView";
+import {WBView} from "./WBView";
+import WBVCreditWidget from "./WBVWidgets/WBVCreditWidget";
 
 /**
  * Viewer object that will contain view and toolbars.

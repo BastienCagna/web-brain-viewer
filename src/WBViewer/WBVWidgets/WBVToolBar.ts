@@ -1,4 +1,4 @@
-import { WBVWidget } from "./WBVWidget.js";
+import { WBVWidget } from "./WBVWidget";
 
 /**
  * WBWidget that have a name and group a set of WBWidget.

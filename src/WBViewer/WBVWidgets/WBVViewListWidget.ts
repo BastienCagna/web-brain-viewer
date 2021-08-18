@@ -1,6 +1,6 @@
-import { WBView } from "../WBView.js";
-import WBVSectionWidget from "./WBVSectionWidget.js";
-import {WBVWidget} from "./WBVWidget.js";
+import { WBView } from "../WBView";
+import WBVSectionWidget from "./WBVSectionWidget";
+import {WBVWidget} from "./WBVWidget";
 
 
 class WBVViewListWidget extends WBVSectionWidget {

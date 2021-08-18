@@ -3,12 +3,11 @@
  *
  * Abstract class for 2D and 3D viewers
  * **/
-// @ts-ignore
-import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-import WBVToolBar from './WBVWidgets/WBVToolBar.js';
-import {WBVWidget} from './WBVWidgets/WBVWidget.js';
-import {WBObject} from "../WBObjects/WBObject.js";
-import WBVViewWidget from "./WBVWidgets/WBVViewWidget.js";
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import WBVToolBar from './WBVWidgets/WBVToolBar';
+import {WBVWidget} from './WBVWidgets/WBVWidget';
+import {WBObject} from "../WBObjects/WBObject";
+import WBVViewWidget from "./WBVWidgets/WBVViewWidget";
 
 /**
  * 3D cross. Can also be used for 2D cross display.

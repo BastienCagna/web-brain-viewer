@@ -1,7 +1,7 @@
-import {WBVWidget} from "./WBVWidget.js";
-import {WBObject, WBOState, WBTextReadableObject} from "../../WBObjects/WBObject.js";
-import {WBMorphFoldsInfosObject, WBMorphNomenclatureObject} from "../../WBObjects/WBMorphologistObjects.js";
-import {WBGiftiImage} from '../../WBObjects/WBGifti.js'
+import {WBVWidget} from "./WBVWidget";
+import {WBObject, WBOState, WBTextReadableObject} from "../../WBObjects/WBObject";
+import {WBMorphFoldsInfosObject, WBMorphNomenclatureObject} from "../../WBObjects/WBMorphologistObjects";
+import {WBGiftiImage} from '../../WBObjects/WBGifti'
 
 
 enum WBVOType {

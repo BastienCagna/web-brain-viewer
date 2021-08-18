@@ -1,32 +1,24 @@
-// @ts-ignore
-import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-// @ts-ignore
-import {TrackballControls} from "https://unpkg.com/three@0.126.1/examples/jsm/controls/TrackballControls.js";
-// @ts-ignore
-import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
-// @ts-ignore
-import {EffectComposer} from "https://unpkg.com/three@0.126.1/examples/jsm/postprocessing/EffectComposer.js";
-// @ts-ignore
-import { RenderPass } from 'https://unpkg.com/three@0.126.1/examples/jsm/postprocessing/RenderPass.js';
-// @ts-ignore
-import { OutlinePass } from 'https://unpkg.com/three@0.126.1/examples/jsm/postprocessing/OutlinePass.js';
-// @ts-ignore
-import { ShaderPass } from 'https://unpkg.com/three@0.126.1/examples/jsm/postprocessing/ShaderPass.js';
-// @ts-ignore
-import { FXAAShader } from 'https://unpkg.com/three@0.126.1/examples/jsm/shaders/FXAAShader.js';
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import {TrackballControls} from 'three/examples/jsm/controls/TrackballControls.js'; //"https://unpkg.com/three@0.126.1/examples/jsm/controls/TrackballControls";
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 
-import { WBView } from './WBView.js';
-import {WBObject} from "../WBObjects/WBObject.js";
-import WBV3DViewWidget from "./WBVWidgets/WBV3DViewWidget.js";
-import WBVViewWidget from "./WBVWidgets/WBVViewWidget.js";
-import WBV3DObjectWidget from "./WBVWidgets/WBV3DObjectWidget.js";
-import WBVMetaDataWidget from "./WBVWidgets/WBVMetaDataWidget.js";
-import WBV3DCameraWidget from "./WBVWidgets/WBV3DCameraWidget.js";
-import {WBVWidget} from "./WBVWidgets/WBVWidget.js";
-import WBVToolBar from "./WBVWidgets/WBVToolBar.js";
+import { WBView } from './WBView';
+import {WBObject} from "../WBObjects/WBObject";
+import WBV3DViewWidget from "./WBVWidgets/WBV3DViewWidget";
+import WBVViewWidget from "./WBVWidgets/WBVViewWidget";
+import WBV3DObjectWidget from "./WBVWidgets/WBV3DObjectWidget";
+import WBVMetaDataWidget from "./WBVWidgets/WBVMetaDataWidget";
+import WBV3DCameraWidget from "./WBVWidgets/WBV3DCameraWidget";
+import {WBVWidget} from "./WBVWidgets/WBVWidget";
+import WBVToolBar from "./WBVWidgets/WBVToolBar";
 import {AxesHelper, PolarGridHelper} from "three";
 import {WBColorMap} from "../WBObjects/WBColorMap";
-import {minmaxRange} from "../utils.js";
+import {minmaxRange} from "../utils";
 
 /**
  * WB3DView
@@ -201,8 +193,8 @@ export default class WB3DView extends WBView {
      * Update the view and object widgets.
      * @param obj - Object to add to the scene
      */
-    addObject(obj: WBObject|THREE.Mesh|THREE.Mesh[]|THREE.Group|THREE.Group[]): void {
-        if(obj instanceof WBObject)  obj = obj.toObject3D();
+    addObject(obj: WBObject|THREE.Object3D|THREE.Object3D[]|THREE.Group|THREE.Group[]): void {
+        if(obj instanceof WBObject) obj = obj.toObject3D();
         obj = (!Array.isArray(obj)) ? [obj] : obj;
 
         for(const o of obj) {
@@ -236,7 +228,7 @@ export default class WB3DView extends WBView {
         this.objectWidget.update();
     }
 
-    getObjectsByName(name:string, limit:number=undefined): THREE.Mesh {
+    getObjectsByName(name:string, limit:number=undefined): THREE.Mesh[] {
         let arr = [];
         for(const obj of this.allObjects()) {
             if(obj.name.localeCompare(name)===0) {
@@ -307,7 +299,7 @@ export default class WB3DView extends WBView {
 
                     this.outlinePass.selectedObjects = [object];
 
-                    this.objectWidget.setObject(object);
+                    this.objectWidget.setObject(<THREE.Mesh>object);
                     if (object instanceof THREE.Mesh && Object.keys(object.userData).length > 0)
                         this.dataWidget.setData(object.userData);
                     else

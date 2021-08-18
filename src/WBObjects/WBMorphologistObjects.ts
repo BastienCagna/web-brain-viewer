@@ -1,11 +1,8 @@
-// @ts-ignore
-import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-import {WBObject, WBOState, WBTextReadableObject} from "./WBObject.js";
-import {WBMeshesObject, WBMeshObject} from "./WBSurfacesObjects.js";
-import {WBMergeRecipe} from "./WBMergeRecipe.js";
-import { WBColorMap, WBBasicColorMap} from "./WBColorMap.js";
-import {min, max} from "../utils.js";
-import {Vector3} from "three";
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import {WBObject, WBOState, WBTextReadableObject} from "./WBObject";
+import {WBMeshesObject, WBMeshObject} from "./WBSurfacesObjects";
+import {WBMergeRecipe} from "./WBMergeRecipe";
+import { WBColorMap, WBBasicColorMap} from "./WBColorMap";
 
 class WBMorphFoldObject extends WBObject {
     label: WBMorphFoldLabelObject;
@@ -24,12 +21,13 @@ class WBMorphFoldLabelObject extends WBObject {
     label: number;
     color: THREE.Color;
 
-    constructor(id:string = null) {
+    constructor(id:string = null, name:string = null, label:number = null,
+                color: THREE.Color = new THREE.Color(0x777777)) {
         super(id);
         this.type = "Fold Label";
-        this.name = null;
-        this.label = null;
-        this.color = 0x777777;
+        this.name = name;
+        this.label = label;
+        this.color = color;
     }
 }
 
@@ -67,6 +65,8 @@ class WBMorphNomenclatureObject extends WBTextReadableObject {
                 currentFold.label = parseInt(line.substring(5).trim(), 10);
             }
         }
+
+        console.log('hie:', this);
     }
 
     getLabelByName(name: string): WBMorphFoldLabelObject {
@@ -211,7 +211,10 @@ class WBMorphLabellingObject extends WBObject {
                         fold.metadata['labelFoldId'] = i;
                         if(this.nomenclature) {
                             label = this.nomenclature.getLabelByName(item[labellingKey]);
-                            if (!label) console.log("no label for ", fold);
+                            if (!label) {
+                                console.log("no label for ", fold['name'], " in hierarchy file.");
+                                label = new WBMorphFoldLabelObject(null, fold['name']);
+                            }
                             fold.metadata['color'] = [label.color.r, label.color.g, label.color.b];
                             fold.label = label;
                         }
@@ -258,7 +261,7 @@ class WBMorphLabellingObject extends WBObject {
         for(const fold of this.folds) {
             switch (colorType) {
                 case "label":
-                    colors.push(!fold.label ? 0x777777: fold.label.color); break;
+                    colors.push(!fold.label ? new THREE.Color(0x777777) : fold.label.color); break;
                 case "data":
                     values.push(data[fold.metadata['index']]);
                     break;

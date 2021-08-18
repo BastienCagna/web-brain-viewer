@@ -1,13 +1,12 @@
-import {WBObject, WBOState, WBTextReadableObject} from "../../WBObjects/WBObject.js";
-import {WBMorphFoldsInfosObject, WBMorphLabellingRecipe, WBMorphNomenclatureObject} from "../../WBObjects/WBMorphologistObjects.js";
-import WBVSectionWidget from "./WBVSectionWidget.js";
-import {WBVWidget} from "./WBVWidget.js";
-//import {WBGiftiImage} from "../../WBObjects/WBGifti.js";
-import {WBMergeRecipe} from "../../WBObjects/WBMergeRecipe.js";
-import {WBTexturedMeshRecipe} from "../../WBObjects/WBSurfacesObjects.js";
-import {WBServerModal} from "./WBVServerModal.js";
-import {WBView} from "../WBView.js";
-import {WBVObjectWidget, WBVTextReadableObjectWidget, WBVOType} from "./WBVObjectWidget.js";
+import {WBObject, WBOState, WBTextReadableObject} from "../../WBObjects/WBObject";
+import {WBMorphFoldsInfosObject, WBMorphLabellingRecipe, WBMorphNomenclatureObject} from "../../WBObjects/WBMorphologistObjects";
+import WBVSectionWidget from "./WBVSectionWidget";
+import {WBVWidget} from "./WBVWidget";
+import {WBMergeRecipe} from "../../WBObjects/WBMergeRecipe";
+import {WBTexturedMeshRecipe} from "../../WBObjects/WBSurfacesObjects";
+import {WBServerModal} from "./WBVServerModal";
+import {WBView} from "../WBView";
+import {WBVObjectWidget, WBVTextReadableObjectWidget, WBVOType} from "./WBVObjectWidget";
 import {CurveUtils} from "three";
 import interpolate = CurveUtils.interpolate;
 
@@ -32,6 +31,13 @@ class WBVObjectListWidget extends WBVSectionWidget {
         ];
 
         const that = this;
+
+
+        if(this.parent instanceof HTMLElement) {
+            // FIXME: do not seems to work (may be cause it can't be setup un dynamically added element)
+            this.HTMLElement().addEventListener('drop', this.dropHandler);
+            this.HTMLElement().addEventListener('drag', this.dragoverHandler);
+        }
 
         // Add selected object to the view
         $(document).on('click', '#wbv_add_to_view', function(){
@@ -128,7 +134,7 @@ class WBVObjectListWidget extends WBVSectionWidget {
 
     selectedObjects(): WBObject[] {
         let objects = [];
-        for(const el of $(".wbv-object-item[selected]")) {
+        for(const el of $(".wbv-object-item[selected]").toArray()) {
             for(const item of this.items) {
                 if(item.id === el.id) {
                     objects.push(item.object);
@@ -155,6 +161,21 @@ class WBVObjectListWidget extends WBVSectionWidget {
         for(const item of this.items) {
             item.update();
         }
+    }
+
+    dragoverHandler(evt) {
+        console.log('drag over');
+        evt.stopPropagation();
+        evt.preventDefault();
+        // Explicitly show this is a copy.
+        evt.dataTransfer.dropEffect = 'copy';
+    }
+
+    dropHandler(evt) {
+        console.log('drop');
+        evt.stopPropagation();
+        evt.preventDefault();
+        for(const f of evt.dataTransfer.files) this.addObject(f);
     }
 }
 

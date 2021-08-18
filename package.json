@@ -4,17 +4,23 @@
   "main": "buid/index.js",
   "types": "build/index.d.ts",
   "dependencies": {
-    "@types/three": "^0.128.0",
+    "@types/three": "^0.130.1",
     "gifti-reader-js": "^0.4.4",
-    "sass": "^1.29.0",
-    "three": "^0.128.0"
+    "three": "^0.131.2"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.4",
     "http-server": "^0.12.3",
-    "ts-loader": "^8.0.11",
+    "rollup": "^2.55.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "sass": "^1.29.0",
+    "ts-loader": "^8.3.0",
     "typedoc": "^0.20.19",
-    "typescript": "^4.1.2",
-    "rollup": "^2.56.2"
+    "typescript": "^4.1.2"
+  },
+  "scripts": {
+    "build": "npm run clean && rollup --config",
+    "clean": "rm -rf ./dist && mkdir dist"
   }
 }

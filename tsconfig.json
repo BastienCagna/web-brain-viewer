@@ -1,4 +1,5 @@
 {
+  /*
   "compilerOptions": {
     //"module": "es6",
     //"target": "es6",
@@ -9,9 +10,34 @@
     //"preserveConstEnums": true,
     //"sourceMap": true,
     "outDir": "./build"
-  },
-  /*"exclude": [
-    "node_modules"
-  ],
-  "include": ["src/*"]*/
+  },*/
+  /*
+  "compilerOptions": {
+    "outDir": "./dist/",
+    //"noImplicitAny": true,
+    "module": "es6",
+    //"module": "esnext",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+  }*/
+
+  // https://stackoverflow.com/questions/46520882/build-and-distribute-a-typescript-project
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ES6", // <--
+    "strict": false, //true,
+    "experimentalDecorators": true,
+    "noEmitOnError": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "declaration": true, // <--
+    "downlevelIteration": true,
+    "noUnusedLocals": false,//true,
+    "noUnusedParameters": false
+  }
 }

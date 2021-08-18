@@ -1,6 +1,7 @@
-import WBVViewWidget from "./WBVViewWidget.js";
-import WB3DView from "../WB3DView.js";
-import WBV3DObjectWidget from "./WBV3DObjectWidget.js";
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import WBVViewWidget from "./WBVViewWidget";
+import WB3DView from "../WB3DView";
+import WBV3DObjectWidget from "./WBV3DObjectWidget";
 
 
 /**
@@ -24,17 +25,19 @@ export default class WBV3DViewWidget extends WBVViewWidget {
         // Visibility
         $(document).on('click', '.wb-show-obj', function() {
             const oid = $(this).parent().attr('target-data');
-            const obj = that.view.scene.getObjectByName(oid);
+            const obj = <THREE.Mesh> that.view.scene.getObjectByName(oid);
             const visibility = $(this).is(':checked');
-            if(obj.material) obj.material.visible = visibility;
-            obj.children.forEach(function(o) { o.material.visible = visibility; });
+            if(obj.material instanceof THREE.Material) obj.material.visible = visibility;
+            for(const o of obj.children) {
+                if(o instanceof THREE.Mesh) o.material.visible = visibility;
+            }
             that.view.animate();
         });
         //
         $(document).on('click', 'ul.dddview-object-list li a.link-button', function() {
             if(!$(this).attr("selected")) {
                 const oid = $(this).parent().attr('target-data');
-                that.objectWidget.setObject(that.view.scene.getObjectByName(oid));
+                that.objectWidget.setObject(<THREE.Mesh> that.view.scene.getObjectByName(oid));
 
                 // Select this one and deselect others
                 $('ul.dddview-object-list li a.link-button').each(function(){

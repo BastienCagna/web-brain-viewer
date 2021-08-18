@@ -1,22 +1,21 @@
-// @ts-ignore
-import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-import WB3DView from "../WB3DView.js";
-import WBVSectionWidget from "./WBVSectionWidget.js";
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import WB3DView from "../WB3DView";
+import WBVSectionWidget from "./WBVSectionWidget";
 import {WBVWidget} from "./WBVWidget";
+import {Object3D} from "three";
 
 
 function positionInput(id: string, position: THREE.Vector3 = null ): string {
-    if(!position) position = {x: "", y: "", z: ""};
-    let html = '<fieldset class="vector-form-control">x: <input id="' + id + '_posx" type="number" size="1" value="' + position.x + '"/> ' +
-            'y: <input id="' + id + '_posy" type="number" size="1" value="' + position.y + '"/> ' +
-            'z: <input id="' + id + '_posz" type="number" size="1" value="' + position.z + '"/> ' +
-            '</td>'
-    return html;
+    if(!position) position = new THREE.Vector3();
+    return '<fieldset class="vector-form-control">x: <input id="' + id + '_posx" type="number" size="1" value="' + position.x + '"/> ' +
+        'y: <input id="' + id + '_posy" type="number" size="1" value="' + position.y + '"/> ' +
+        'z: <input id="' + id + '_posz" type="number" size="1" value="' + position.z + '"/> ' +
+        '</td>';
 }
 
 export default class WBV3DObjectWidget extends WBVSectionWidget {
     view: WB3DView;
-    object: THREE.Object3D;
+    object: THREE.Mesh;
 
     constructor(parent: WBVWidget|HTMLElement = null, view: WB3DView = null, classnames : string[]|string = []) {
         super(parent, 'Object Details', classnames);
@@ -25,22 +24,23 @@ export default class WBV3DObjectWidget extends WBVSectionWidget {
 
         // TODO: move work to methods
         var that = this;
+        const mat = this.object ? <THREE.MeshLambertMaterial> this.object.material : new THREE.MeshLambertMaterial();
         $(document).on('change', '#' + this.id + 'opa', function () {
-            that.object.material.transparent = true;
-            that.object.material.opacity = $(this).val();
+            mat.transparent = true;
+            mat.opacity = Number($(this).val());
         });
         $(document).on('change', '#' + this.id + 'color', function () {
-            that.object.material.color = new THREE.Color($(this).val());
+            mat.color = new THREE.Color(String($(this).val()));
         });
         $(document).on('click', '.new_plan', function() {
-            if(!that.object.material.clippingPlanes)
-                that.object.material.clippingPlanes = [];
-            that.object.material.clippingPlanes.push(
+            if(!mat.clippingPlanes)
+                mat.clippingPlanes = [];
+            mat.clippingPlanes.push(
                 new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 0 ));
             that.update();
         });
         $(document).on('change', '.control-plane-axis', function() {
-            const plane = that.object.material.clippingPlanes[$(this).parent().attr("target-data")];
+            const plane = mat.clippingPlanes[$(this).parent().attr("target-data")];
             let normal;
             switch ($(this).val()) {
                 case 'x': normal = new THREE.Vector3(-1, 0, 0); break;
@@ -51,19 +51,19 @@ export default class WBV3DObjectWidget extends WBVSectionWidget {
             plane.normal = normal;
         });
         $(document).on('change', '.control-plane-constant', function() {
-            const plane = that.object.material.clippingPlanes[$(this).parent().attr("target-data")];
+            const plane = mat.clippingPlanes[$(this).parent().attr("target-data")];
             plane.constant = $(this).val();
         });
         $(document).on('click', '.control-plane-reverse', function() {
-            const plane = that.object.material.clippingPlanes[$(this).parent().attr("target-data")];
+            const plane = mat.clippingPlanes[$(this).parent().attr("target-data")];
             plane.normal = plane.normal.multiplyScalar(-1);
         });
         $(document).on('click', '.control-plane-remove', function() {
-            delete that.object.material.clippingPlanes[$(this).parent().attr("target-data")];
+            delete mat.clippingPlanes[$(this).parent().attr("target-data")];
         });
     }
 
-    setObject(obj: THREE.Object3D): void {
+    setObject(obj: THREE.Mesh): void {
         this.object = obj;
         this.update();
     }
@@ -73,6 +73,7 @@ export default class WBV3DObjectWidget extends WBVSectionWidget {
             return '<p>No selected object.</p>';
         }
         else {
+            const mat = <THREE.MeshLambertMaterial> this.object.material;
             let html = '<table>';
             html += '<tr><th>Name</th><td>' + this.object.name + '</td></tr>';
 
@@ -80,20 +81,20 @@ export default class WBV3DObjectWidget extends WBVSectionWidget {
                 '<td>' + positionInput(this.id, this.object.position) + '</td></tr>';
 
             html += '<tr></tr><tr><th colspan=2>Material</th></tr>'
-            if(this.object.material && this.object.material.opacity)
+            if(this.object.material && mat.opacity)
                 html += '<tr><th>Opacity</th><td>' +
                     '<input type="range" class="form-control form-control-sm" id="' + this.id + 'opa" ' +
-                    'size=1 min=0 max=1 step=0.05 value="' + this.object.material.opacity + '"/>' +
+                    'size=1 min=0 max=1 step=0.05 value="' + mat.opacity + '"/>' +
                     '</td></tr>';
 
             html += '<tr><th>Color</th><td>' +
                 '<input type="color" class="form-control-sm" id="' + this.id + 'color" ' +
-                'value="#' + this.object.material.color.getHexString() + '"/></td></tr>';
+                'value="#' + mat.color.getHexString() + '"/></td></tr>';
 
             html += '<tr></tr><tr><th colspan=2>Clippings plans</th></tr>';
-            if(this.object.material.clippingPlanes) {
-                for(let p = 0; p < this.object.material.clippingPlanes.length; p++) {
-                    const plane = this.object.material.clippingPlanes[p];
+            if(mat.clippingPlanes) {
+                for(let p = 0; p < mat.clippingPlanes.length; p++) {
+                    const plane = mat.clippingPlanes[p];
                     html += '<tr><th>Plane ' + (p+1) + '</th><td target-data="' + p + '">' +
                         '<select size=1 id="' + this.id + '_axis" class="form-control control-plane-axis vector-form-control">';
                     for(const ax of ["x", "y", "z"]) {

@@ -1,4 +1,4 @@
-import {WBVWidget} from "./WBVWidget.js";
+import {WBVWidget} from "./WBVWidget";
 
 export default abstract class WBVSectionWidget extends WBVWidget {
     title: string;
@@ -24,5 +24,9 @@ export default abstract class WBVSectionWidget extends WBVWidget {
         super.update();
         const el = document.getElementById(this.id);
         if(el) el.hidden = this.hideWhenEmpty && !this.bodyHtml();
+    }
+
+    HTMLElement(): HTMLElement {
+        return document.getElementById(this.id);
     }
 }

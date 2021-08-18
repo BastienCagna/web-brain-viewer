@@ -16,6 +16,10 @@ npm install
 
 ## Build
 ### Compile typescript to javascript
+```shell
+sudo apt install node-typescript
+sudo apt install npm
+```
 
 ### Generate documentation
 You can use typedoc to generate the documentation by following those steps:

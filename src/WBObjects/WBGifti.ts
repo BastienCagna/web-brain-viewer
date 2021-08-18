@@ -1,9 +1,8 @@
-// @ts-ignore
-import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
-import {WBNiftiDataType, WBNiftiIntent} from "./WBNifti.js";
-import {b64ToFloat32Array, b64ToInt32Array} from "../convert.js";
-import {WBTextReadableObject} from "./WBObject.js";
-import {WBMeshesObject, WBMeshObject, WBTextureObject} from "./WBSurfacesObjects.js";
+import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+import {WBNiftiDataType, WBNiftiIntent} from "./WBNifti";
+import {b64ToFloat32Array, b64ToInt32Array} from "../convert";
+import {WBTextReadableObject} from "./WBObject";
+import {WBMeshesObject, WBMeshObject, WBTextureObject} from "./WBSurfacesObjects";
 
 // TODO: use gifti parser
 
@@ -61,7 +60,7 @@ class WBGiftiDataArray {
             console.log("/!\\ Unhandled external files");
         }
         if(this.encoding.localeCompare("Base64Binary")) {
-            throw new Error("Unhandled encoding");
+            throw new Error("Unhandled encoding " + this.encoding);
         }
 
         // Parse data
