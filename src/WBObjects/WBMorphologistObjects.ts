@@ -212,8 +212,8 @@ class WBMorphLabellingObject extends WBObject {
                         if(this.nomenclature) {
                             label = this.nomenclature.getLabelByName(item[labellingKey]);
                             if (!label) {
-                                console.log("no label for ", fold['name'], " in hierarchy file.");
-                                label = new WBMorphFoldLabelObject(null, fold['name']);
+                                console.log("no label for ", item['name'], " in hierarchy file.");
+                                label = new WBMorphFoldLabelObject(null, item['name']);
                             }
                             fold.metadata['color'] = [label.color.r, label.color.g, label.color.b];
                             fold.label = label;

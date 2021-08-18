@@ -5,8 +5,11 @@
   "types": "build/index.d.ts",
   "dependencies": {
     "@types/three": "^0.130.1",
+    "fflate": "^0.7.1",
     "gifti-reader-js": "^0.4.4",
-    "three": "^0.131.2"
+    "node-gzip": "^1.1.2",
+    "three": "^0.131.2",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.4",

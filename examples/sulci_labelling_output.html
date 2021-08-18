@@ -84,7 +84,7 @@
         }
     </style>
     <script type="module">
-        //import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
+        import * as THREE from "https://unpkg.com/three@0.131.0/build/three.module.js";
         import * as WBV from '../dist/wbv.js';
 
         const viewerEl = document.getElementById("myviewer");
@@ -98,38 +98,43 @@
 
         viewer.onClickCallBack = (obj) => {
             // Do not execute if user clicked on the cortex mesh
-            if(obj.name.length === 0 || obj.name.localeCompare("Brain") === 0) return;
-            document.getElementById('obj-name').innerText = obj.name;
-
-            // List labels probabilities and names
-            const items = scores.vdata[obj.userData['index']]['labels_probas'];
-            let html = '';
-            let scoreVect = [], nameVect = [];
-            for(let i = 0; i < items.length; i++ ) {
-                scoreVect.push(Math.round(scores.vdata[obj.userData['index']]['labels_probas'][i] * 100));
-                nameVect.push(scores.labels[i]);
-            }
-
-            // Order by descending probabilities
-            const sortedIdx = argsort(scoreVect, false);
-            scoreVect = sortedIdx.map(idx => scoreVect[idx]);
-            nameVect = sortedIdx.map(idx => nameVect[idx]);
-
-            // Plot the 10 first in a table
-            for(let i = 0; i < 6; i++) {
-                html += '<tr>'
-                    + '<td class="score-label">' + nameVect[i] + '</td>'
-                    + '<td>'
-                    + '<div class="score"><div class="score-bar" style="width: ' + scoreVect[i] + '%"></div></div>'
-                    + '<span class="score">' + scoreVect[i] + '%</span>'
-                    + '</td></tr>';
-            }
-            document.getElementById('scores').innerHTML = html;
+            if(obj['name'] && obj.name.localeCompare("Brain") === 0) return;
 
             const color = obj.material.color;
             let luma = 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
+            console.log(obj);
+            document.getElementById('obj-name').innerText = (obj.name == undefined) ? 'node ' + obj.index : obj.name;
             document.getElementById('obj-name').style.color = (luma < .4) ? 'white' : 'black';
             document.getElementById('obj-name').style.backgroundColor = '#' + color.getHexString();
+
+            // List labels probabilities and names
+            let html = '';
+            if(scores.vdata && scores.vdata[obj.userData['index']]) {
+                const items = scores.vdata[obj.userData['index']]['scores'];
+                let scoreVect = [], nameVect = [];
+                console.log(scores);
+                for (let i = 0; i < items.length; i++) {
+                    scoreVect.push(Math.round(scores.vdata[obj.userData['index']]['scores'][i] * 100));
+                    // TODO: correct the labels key name!
+                    nameVect.push(scores['meta']['labels:'][i]);
+                }
+
+                // Order by descending probabilities
+                const sortedIdx = WBV.argsort(scoreVect, false);
+                scoreVect = sortedIdx.map(idx => scoreVect[idx]);
+                nameVect = sortedIdx.map(idx => nameVect[idx]);
+
+                // Plot the 10 first in a table
+                for (let i = 0; i < 6; i++) {
+                    html += '<tr>'
+                        + '<td class="score-label">' + nameVect[i] + '</td>'
+                        + '<td>'
+                        + '<div class="score"><div class="score-bar" style="width: ' + scoreVect[i] + '%"></div></div>'
+                        + '<span class="score">' + scoreVect[i] + '%</span>'
+                        + '</td></tr>';
+                }
+            }
+            document.getElementById('scores').innerHTML = html;
             document.getElementById('sulci_infos').style.display = "block";
         }
 
@@ -143,7 +148,7 @@
             if(valKey.localeCompare('proba')===0) {
                 const data = {};
                 for(const index of Object.keys(scores['vdata'])) {
-                    data[index] = max(scores['vdata'][index].labels_probas);
+                    data[index] = WBV.max(scores['vdata'][index]['scores']);
                 }
                 pCmap.resetBoundaries(0, 1);
                 newObj = wbObj.toObject3D(nameKey, 'data', data, pCmap);
@@ -153,7 +158,7 @@
                 const ilabel = document.getElementById('select_label').value;
                 if(ilabel < 0) return;
                 for(const index of Object.keys(scores['vdata'])) {
-                    data[index] = scores['vdata'][index].labels_probas[ilabel];
+                    data[index] = scores['vdata'][index]['scores'][ilabel];
                 }
                 pCmap.resetBoundaries(0, 1);
                 newObj = wbObj.toObject3D(nameKey, 'data', data, pCmap);
@@ -182,7 +187,7 @@
             let obj = viewer.scene.getObjectByName("Sulci Labelling");
             obj.applyMatrix4( new THREE.Matrix4().makeRotationX(-Math.PI / 2) );
             if(wbObj.brainMesh) {
-                obj = viewer.scene.children[5];
+                obj =  viewer.scene.getObjectByName("Brain");
                 obj.rotateX(-Math.PI / 2);
             }
         }
@@ -206,9 +211,9 @@
             // Plot the fusion
             await new Promise(r => setTimeout(r, 1000)).then(function() {
                 // After 1s (to be "sure" that object are loaded) Merge objects
-                if(scores.labels) {
+                if(scores.meta['labels:']) {
                     const select = document.getElementById('select_label');
-                    const arr = scores.labels.sort();
+                    const arr = scores.meta['labels:'].sort();
                     for(let i = 0; i < arr.length; i++) {
                         select.innerHTML += '<option value=' + i + '>' + arr[i] + '</option>';
                     }
@@ -220,6 +225,9 @@
                 const pos = document.getElementById('viewer').getBoundingClientRect();
                 window.scrollBy({top: pos.top, left: pos.left, behavior: 'smooth'});
                 viewer.viewElement().focus();
+
+                document.getElementById('home').style.display = 'none';
+                document.getElementById('viewer').style.display = 'block';
             });
         }
 
@@ -264,14 +272,16 @@
             }
         }
 
-        function scrollUp() {
-            window.scrollBy(0, -window.innerHeight);
+        function reset() {
+            // window.scrollBy(0, -window.innerHeight);
+            document.getElementById('home').style.display = 'block';
+            document.getElementById('viewer').style.display = 'none';
         }
     </script>
 </head>
-<body onload="scrollUp()">
+<body onload="reset()">
 
-<section>
+<section id="home">
     <div class="container-fluid centered-content" style="margin-top: 25vh;">
         <h1>Deep Sulci Labelling Output</h1>
         <p>This page shows the outputs of the automated sulci graph labelling based on the
@@ -301,6 +311,7 @@
                 </select>
 
                 <button role="button" id="wireframeBtn" onclick="window.wireframeSucli()">Wireframe mesh</button>
+                <button role="button" onclick="">Hide unknown sulci</button>
             </div>
             <div id="help">
                 <p>Push "r" on your keyboard to stop/start the rotation.</p>
