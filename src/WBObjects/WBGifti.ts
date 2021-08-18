@@ -1,4 +1,7 @@
 import * as THREE from 'three'; //"https://unpkg.com/three@0.126.1/build/three.module";
+// import {Gunzip} from "fflate";
+//import { inflate }  from 'zlib';
+
 import {WBNiftiDataType, WBNiftiIntent} from "./WBNifti";
 import {b64ToFloat32Array, b64ToInt32Array} from "../convert";
 import {WBTextReadableObject} from "./WBObject";
@@ -59,12 +62,35 @@ class WBGiftiDataArray {
         if(this.extFileName) {
             console.log("/!\\ Unhandled external files");
         }
-        if(this.encoding.localeCompare("Base64Binary")) {
+
+        let gzip = false;
+        let binData = element.children[element.children.length-1].innerHTML;
+        if(this.encoding.localeCompare("GZipBase64Binary") === 0) {
+            gzip = true;
+        } else if(this.encoding.localeCompare("Base64Binary")) {
             throw new Error("Unhandled encoding " + this.encoding);
         }
 
         // Parse data
-        const binData = atob(element.children[element.children.length-1].innerHTML);
+        // TODO: update next line with Buffer.from
+        binData = atob(binData);
+
+        if(gzip) {
+            throw Error("Not implemented GZip decompression");
+            /*const d = inflate(binData, (binData) => {console.log(binData);});
+            //binData, (binData) => {console.log(binData);});
+            console.log(d);
+            const rawLength = dt.length;
+            let array = new Uint8Array(new ArrayBuffer(rawLength));
+            for(let i = 0; i < rawLength; i++) {
+                array[i] = dt.charCodeAt(i);
+            }
+            array = Uint8Array.from(array);
+            const g = new Gunzip((chunk) => {console.log(chunk)});
+            g.push(binData, true);
+            console.log(binData);*/
+        }
+
         switch(this.dtype) {
             case WBNiftiDataType.NIFTI_TYPE_FLOAT32:
                 this.data = b64ToFloat32Array(binData);

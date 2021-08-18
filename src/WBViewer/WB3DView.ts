@@ -10,15 +10,11 @@ import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 import { WBView } from './WBView';
 import {WBObject} from "../WBObjects/WBObject";
 import WBV3DViewWidget from "./WBVWidgets/WBV3DViewWidget";
-import WBVViewWidget from "./WBVWidgets/WBVViewWidget";
 import WBV3DObjectWidget from "./WBVWidgets/WBV3DObjectWidget";
 import WBVMetaDataWidget from "./WBVWidgets/WBVMetaDataWidget";
 import WBV3DCameraWidget from "./WBVWidgets/WBV3DCameraWidget";
 import {WBVWidget} from "./WBVWidgets/WBVWidget";
 import WBVToolBar from "./WBVWidgets/WBVToolBar";
-import {AxesHelper, PolarGridHelper} from "three";
-import {WBColorMap} from "../WBObjects/WBColorMap";
-import {minmaxRange} from "../utils";
 
 /**
  * WB3DView
@@ -38,8 +34,8 @@ export default class WB3DView extends WBView {
     cameraWidget: WBV3DCameraWidget;
 
     // Special objects
-    grid: PolarGridHelper;
-    origin: AxesHelper;
+    grid: THREE.PolarGridHelper;
+    origin: THREE.AxesHelper;
 
     // Animation
     lastStaticCamPosition: THREE.Vector3;
@@ -57,8 +53,7 @@ export default class WB3DView extends WBView {
      * Init a 3D view.
      * Create a toolbar containing a 3DViewWidget and a 3DObjectWidget to manage the rendering of objects.
      * Then, create the ThreeJS scene with lights, camera, control, helper and renderer
-     * @param parentId
-     * @param id
+     * @param parent
      * @param title
      * @param width
      * @param height
@@ -122,24 +117,11 @@ export default class WB3DView extends WBView {
         moon.position.set(0, -1000, 0);
         this.scene.add(moon);
 
-        const planeGeometry = new THREE.PlaneGeometry( 2000, 2000 );
-        planeGeometry.rotateX( - Math.PI / 2 );
-        const planeMaterial = new THREE.ShadowMaterial( { opacity: 0.8 } );
-        // FIXME: removing this useless plane cause bizarre rotation of meshes
-        const plane = new THREE.Mesh( planeGeometry, planeMaterial );
-        plane.position.y = - 100;
-        plane.receiveShadow = true;
-        this.scene.add( plane );
-
         this.origin = new THREE.AxesHelper(1000);
-        this.origin.name = "Origin"
-        //this.objects.push(this.origin);
-        //this.scene.add(this.origin);
+        this.origin.name = "Origin";
 
-        // this.grid = new THREE.GridHelper( 500, 50, 0x404040, 0x808080 );
         this.grid = new THREE.PolarGridHelper(200, 12, 8, 64, 0x808080 );
         this.grid.name = "Grid";
-        // this.grid.opacity = 0.25;
         this.grid.position.y = - 100;
         this.grid.position.x = - 0;
         this.objects.push(this.grid);
@@ -272,10 +254,6 @@ export default class WB3DView extends WBView {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( this.width, this.height );
         this.composer.setSize( this.width, this.height);
-        /*
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize( window.innerWidth, window.innerHeight );*/
     }
 
     /**
@@ -346,17 +324,8 @@ export default class WB3DView extends WBView {
         }
     }
 
-
     rotate(on: boolean, speed: number = .2) {
         speed = (speed > 1)? 1 : (speed < -1)? -1 : speed;
-
-        if(!on && this.camRotationSpeed != 0) {
-            this.camRotationSpeed = 0;
-        }
-        else {
-            //this.angle = 0; Math.asin(this.camera.position.z/this.lastStaticCamPosition.z);
-            //this.lastStaticCamPosition = {...this.camera.position};
-            this.camRotationSpeed = speed * .025;
-        }
+        this.camRotationSpeed = (!on && this.camRotationSpeed != 0) ? 0 : speed * .025;
     }
 }
