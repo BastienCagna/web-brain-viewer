@@ -1,0 +1,8 @@
+{
+  "name": "Web Brain Viewer",
+  "entryPoints": [
+    "src/main.ts"
+  ],
+  "readme": "./README.md",
+  "out": "docs"
+}

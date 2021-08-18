@@ -25,6 +25,6 @@
   "scripts": {
     "build": "npm run clean && rollup --config",
     "clean": "rm -rf ./dist && mkdir dist",
-    "doc": "typedoc src/*.ts --name \"Web Brain Viewer\" --readme ./README.md"
+    "doc": "typedoc"
   }
 }
