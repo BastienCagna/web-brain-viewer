@@ -2,7 +2,7 @@
 Welcome to the WBV project. This typescript base package provide a web viewer dedicated to brain mesh visualization 
 based on ThreeJS.
 
-## Quick start (release coming soon)
+## Quick start
 If your are interest in to adding a viewer to your webpage, you just new to download the last 
 javascript release and add it to your page.
 
