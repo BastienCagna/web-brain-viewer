@@ -3,4 +3,5 @@
 /local*
 /docs
 build
+package-lock.json
 
