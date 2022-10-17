@@ -1,0 +1,2577 @@
+# tree 1.0
+
+*BEGIN TREE hierarchy
+graph_syntax CorticalFoldArg
+
+*BEGIN TREE fold_name
+name  unknown
+color 255 180 180
+
+*END
+
+*BEGIN TREE fold_name
+name brain
+
+*BEGIN TREE fold_name
+name hemisph_left
+
+*BEGIN TREE fold_name
+name  cerebellum_left
+color 255 0 255
+label 20
+
+*END
+
+*BEGIN TREE fold_name
+name  ventricle_left
+color 0 0 0
+label 21
+
+*BEGIN TREE fold_name
+name  ventricle.sup_left
+color 0 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name  ventricle.inf_left
+color 100 100 100
+
+*END
+
+*BEGIN TREE fold_name
+name  ventricle.other_left
+color 200 200 200
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C._left
+color 255 0 0
+label 01
+
+*BEGIN TREE fold_name
+name  S.C.sup._left
+color 196 0 60
+label 1
+
+*BEGIN TREE fold_name
+name S.C.sup.r.GPoC._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.C.sup.r.GPeC._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C.inf._left
+color 255 60 0
+label 2
+
+*BEGIN TREE fold_name
+name S.C.inf.r.GPoC._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.C.inf.r.GPeC._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C.sylvian._left
+color 255 189 35
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L._left
+color 0 0 255
+label 02
+
+*BEGIN TREE fold_name
+name  F.C.L.a._left
+color 0 150 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.ant._left
+color 100 255 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.asc._left
+color 155 100 155
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.p._left
+color 0 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.diag._left
+color 150 150 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.sc.ant._left
+color 100 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.sc.post._left
+color 100 0 155
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.retroC.tr._left
+color 0 190 255
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t.ant._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t.int._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t.post._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.ter.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.ter.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C._left
+color 255 255 0
+label 03
+
+*BEGIN TREE fold_name
+name  S.Pe.C.median._left
+color 160 160 0
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.marginal._left
+color 255 255 0
+label 2
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.sup._left
+color 255 160 0
+label 3
+
+*BEGIN TREE fold_name
+name S.Pe.C.sup.r.GPeC._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.inter._left
+color 255 255 90
+label 4
+
+*BEGIN TREE fold_name
+name S.Pe.C.inter.r.GPeC._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.inf._left
+color 160 255 0
+label 5
+
+*BEGIN TREE fold_name
+name S.Pe.C.inf.r.GPeC._left
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  PREFRONTAL_left
+label 04
+
+*BEGIN TREE fold_name
+name  S.F.x._left
+color 0 0 0
+label 11
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.median._left
+color 200 0 200
+label 01
+
+*BEGIN TREE fold_name
+name S.F.median.1._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.median.2._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.median.3._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.median.4._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.sup._left
+color 0 255 0
+label 02
+
+*BEGIN TREE fold_name
+name  S.F.sup.ant._left
+color 0 170 0
+label 3
+
+*BEGIN TREE fold_name
+name S.F.sup.ant.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.sup.ant.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.sup.moy._left
+color 0 255 170
+label 2
+
+*BEGIN TREE fold_name
+name S.F.sup.moy.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.sup.moy.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.sup.post._left
+color 150 255 0
+label 1
+
+*BEGIN TREE fold_name
+name S.F.sup.post.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.sup.post.r.desc._left
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inter._left
+color 0 200 255
+label 03
+
+*BEGIN TREE fold_name
+name  S.F.inter.ant._left
+color 0 0 217
+label 3
+
+*BEGIN TREE fold_name
+name S.F.inter.ant.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inter.ant.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inter.moy._left
+color 150 154 255
+label 2
+
+*BEGIN TREE fold_name
+name S.F.inter.moy.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inter.moy.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inter.post._left
+color 0 100 255
+label 1
+
+*BEGIN TREE fold_name
+name S.F.inter.post.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inter.post.r.desc._left
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf._left
+color 255 0 255
+label 04
+
+*BEGIN TREE fold_name
+name  S.F.inf.ant._left
+color 140 0 255
+label 3
+
+*BEGIN TREE fold_name
+name S.F.inf.ant.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inf.ant.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf.moy._left
+color 255 130 255
+label 2
+
+*BEGIN TREE fold_name
+name S.F.inf.moy.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inf.moy.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf.post._left
+color 255 0 150
+label 1
+
+*BEGIN TREE fold_name
+name S.F.inf.post.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inf.post.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf.r.tr._left
+label 4
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr._left
+color 255 255 0
+label 05
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr.sup._left
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr.moy._left
+label 2
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr.inf._left
+label 3
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.marginal._left
+color 255 0 175
+label 06
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.orbitaire._left
+color 255 0 0
+label 07
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Olf._left
+color 255 255 0
+label 10
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Or._left
+color 100 255 100
+label 09
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Or.l._left
+color 50 255 180
+label 08
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  FACEINTERNE.F_left
+label 05
+
+*BEGIN TREE fold_name
+name S.p.Olf.ant._left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.int._left
+color 100 250 0
+
+*BEGIN TREE fold_name
+name  S.F.int.pol._left
+color 182 119 7
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.int.sup_left
+color 255 100 100
+label 00
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.int.AMS_left
+color 200 0 200
+label 00
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.R.sup._left
+color 200 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.R.inf._left
+color 255 112 0
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M._left
+color 0 255 255
+
+*BEGIN TREE fold_name
+name  F.C.M.ant._left
+color 0 0 255
+
+*BEGIN TREE fold_name
+name  F.C.M.inf._left
+color 0 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.asc._left
+color 0 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.sup._left
+color 0 0 255
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.sup.r.asc.ant._left
+color 0 255 100
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.r.AMS.ant._left
+color 180 100 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.post._left
+color 255 224 0
+
+*BEGIN TREE fold_name
+name F.C.M.AMS._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.M.para._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.M.r.asc._left
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.p.C._left
+color 255 154 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.intraCing._left
+color 200 100 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Call._left
+color 100 100 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C.LPC._left
+color 0 255 255
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  FACEINTERNE.PO_left
+label 06
+
+*BEGIN TREE fold_name
+name  S.s.P._left
+color 150 255 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.int._left
+color 255 0 255
+
+*BEGIN TREE fold_name
+name  S.Pa.int.ant._left
+color 155 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.int.post._left
+color 255 0 155
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.P.O._left
+color 0 0 255
+
+*BEGIN TREE fold_name
+name F.P.O.sup._left
+
+*END
+
+*BEGIN TREE fold_name
+name F.P.O.inf._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cu._left
+color 255 0 0
+
+*BEGIN TREE fold_name
+name  S.Cu.sag.inf._left
+color 255 80 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cu.sag.sup._left
+color 255 0 80
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cu.vert._left
+color 255 80 80
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Li._left
+color 255 80 190
+
+*BEGIN TREE fold_name
+name  S.Li.ant._left
+color 255 40 190
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Li.post._left
+color 255 140 190
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  PARIETAL_left
+label 07
+
+*BEGIN TREE fold_name
+name S.Par.x._left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.sup._left
+color 0 133 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.t._left
+color 100 255 255
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C._left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Po.C.sup._left
+color 120 0 120
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C.br.LPS_left
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C.br.LPI_left
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C.br.GPOC_left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.GSM._left
+color 255 186 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P._left
+color 0 255 0
+label 08
+
+*BEGIN TREE fold_name
+name  F.I.P.Po.C_left
+label 1
+
+*BEGIN TREE fold_name
+name  F.I.P.Po.C.sup._left
+color 50 255 0
+label 2
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.Po.C.inf._left
+color 200 255 0
+label 1
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.asc._left
+color 200 155 100
+label 3
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.trans._left
+color 200 85 0
+label 5
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.Horiz._left
+color 0 120 0
+label 4
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.ParO._left
+color 0 255 150
+label 6
+
+*BEGIN TREE fold_name
+name  F.I.P.ParO.sup._left
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.ParO.inf._left
+label 2
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.desc._left
+label 7
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.int.1_left
+color 200 0 100
+label 8
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.int.2_left
+color 200 100 0
+label 9
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  OCCIPITAL_left
+color 0 0 100
+label 09
+
+*BEGIN TREE fold_name
+name S.O.x._left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.t._left
+color 255 0 213
+
+*END
+
+*BEGIN TREE fold_name
+name S.Oc.Te.lat._left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.I.O._left
+color 255 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name S.O.L._left
+
+*BEGIN TREE fold_name
+name  S.O.L.ant._left
+color 164 252 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.L.post._left
+color 255 241 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Lu._left
+color 0 133 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.r.Lu._left
+color 255 91 128
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.i._left
+color 0 128 31
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.a._left
+color 255 128 0
+
+*END
+
+*BEGIN TREE fold_name
+name I.Pr.O._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  C.CALCARIN_left
+color 200 150 100
+label 10
+
+*BEGIN TREE fold_name
+name  F.Cal.ant.-Sc.Cal._left
+color 200 150 100
+
+*BEGIN TREE fold_name
+name F.Cal.ant._left
+
+*END
+
+*BEGIN TREE fold_name
+name Sc.Cal._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.r.Cal._left
+color 200 50 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cal.externe._left
+color 200 150 200
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.p._left
+color 140 255 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  TEMPORAL-EXT_left
+label 11
+
+*BEGIN TREE fold_name
+name S.T.x._left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.pol._left
+color 100 200 155
+
+*BEGIN TREE fold_name
+name S.T.pol.sup._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.pol.inf._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name S.ac._left
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s._left
+color 255 100 100
+label 1
+
+*BEGIN TREE fold_name
+name  S.T.s.ant._left
+label 1
+
+*BEGIN TREE fold_name
+name S.T.s.ant.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.s.ant.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.moy._left
+label 2
+
+*BEGIN TREE fold_name
+name S.T.s.moy.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.s.moy.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.post._left
+label 3
+
+*BEGIN TREE fold_name
+name S.T.s.post.r.asc._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.s.post.r.desc._left
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.ter.asc.ant._left
+color 170 255 130
+label 4
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.horiz._left
+label 5
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.ter.asc.post._left
+color 0 180 255
+label 6
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.post._left
+label 7
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i._left
+label 2
+
+*BEGIN TREE fold_name
+name  S.T.i.ant._left
+color 255 0 170
+label 1
+
+*BEGIN TREE fold_name
+name  S.T.i.ant.R.ant._left
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i.ant.R.moy._left
+label 2
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i.post._left
+color 100 0 255
+label 2
+
+*BEGIN TREE fold_name
+name  S.T.i.post.R.post._left
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i.post.R.desc._left
+label 2
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.marg._left
+label 3
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  TEMPORAL-BASAL_left
+label 12
+
+*BEGIN TREE fold_name
+name  S.O.T.lat._left
+color 100 255 100
+label 1
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.ant._left
+color 255 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.int._left
+color 255 255 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.med._left
+color 100 255 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.post._left
+color 255 155 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll._left
+color 0 180 230
+label 2
+
+*BEGIN TREE fold_name
+name  F.Coll.R.tr.ant._left
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll.R.PH._left
+label 2
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll.r.ter._left
+label 3
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll.r.IL._left
+label 4
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.U._left
+label 5
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Rh._left
+color 255 255 0
+label 6
+
+*END
+
+*BEGIN TREE fold_name
+name  S.h._left
+label 7
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  INSULA_left
+color 175 245 0
+label 13
+
+*BEGIN TREE fold_name
+name S.I.Cir._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.C._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Ct._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Ct.ant._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Ct.post._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Lg._left
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Falc._left
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name hemisph_right
+
+*BEGIN TREE fold_name
+name  cerebellum_right
+color 255 0 255
+label 20
+
+*END
+
+*BEGIN TREE fold_name
+name  ventricle_right
+color 0 0 0
+label 21
+
+*BEGIN TREE fold_name
+name  ventricle.sup_right
+color 0 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name  ventricle.inf_right
+color 100 100 100
+
+*END
+
+*BEGIN TREE fold_name
+name  ventricle.other_right
+color 200 200 200
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C._right
+color 255 0 0
+label 01
+
+*BEGIN TREE fold_name
+name  S.C.sup._right
+color 196 0 60
+label 1
+
+*BEGIN TREE fold_name
+name S.C.sup.r.GPoC._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.C.sup.r.GPeC._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C.inf._right
+color 255 60 0
+label 2
+
+*BEGIN TREE fold_name
+name S.C.inf.r.GPoC._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.C.inf.r.GPeC._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C.sylvian._right
+color 255 189 35
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L._right
+color 0 0 255
+label 02
+
+*BEGIN TREE fold_name
+name  F.C.L.a._right
+color 0 150 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.ant._right
+color 100 255 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.asc._right
+color 155 100 155
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.p._right
+color 0 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.diag._right
+color 150 150 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.sc.ant._right
+color 100 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.sc.post._right
+color 100 0 155
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.L.r.retroC.tr._right
+color 0 190 255
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t.ant._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t.int._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.temp.t.post._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.ter.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.L.r.ter.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C._right
+color 255 255 0
+label 03
+
+*BEGIN TREE fold_name
+name  S.Pe.C.median._right
+color 160 160 0
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.marginal._right
+color 255 255 0
+label 2
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.sup._right
+color 255 160 0
+label 3
+
+*BEGIN TREE fold_name
+name S.Pe.C.sup.r.GPeC._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.inter._right
+color 255 255 90
+label 4
+
+*BEGIN TREE fold_name
+name S.Pe.C.inter.r.GPeC._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pe.C.inf._right
+color 160 255 0
+label 5
+
+*BEGIN TREE fold_name
+name S.Pe.C.inf.r.GPeC._right
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  PREFRONTAL_right
+label 04
+
+*BEGIN TREE fold_name
+name  S.F.x._right
+color 50 50 50
+label 11
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.median._right
+color 200 0 200
+label 01
+
+*BEGIN TREE fold_name
+name S.F.median.1._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.median.2._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.median.3._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.median.4._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.sup._right
+color 0 255 0
+label 02
+
+*BEGIN TREE fold_name
+name  S.F.sup.ant._right
+color 0 170 0
+label 3
+
+*BEGIN TREE fold_name
+name S.F.sup.ant.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.sup.ant.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.sup.moy._right
+color 0 255 170
+label 2
+
+*BEGIN TREE fold_name
+name S.F.sup.moy.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.sup.moy.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.sup.post._right
+color 150 255 0
+label 1
+
+*BEGIN TREE fold_name
+name S.F.sup.post.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.sup.post.r.desc._right
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inter._right
+color 0 200 255
+label 03
+
+*BEGIN TREE fold_name
+name  S.F.inter.ant._right
+color 0 0 217
+label 3
+
+*BEGIN TREE fold_name
+name S.F.inter.ant.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inter.ant.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inter.moy._right
+color 150 154 255
+label 2
+
+*BEGIN TREE fold_name
+name S.F.inter.moy.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inter.moy.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inter.post._right
+color 0 140 255
+label 1
+
+*BEGIN TREE fold_name
+name S.F.inter.post.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inter.post.r.desc._right
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf._right
+color 255 0 255
+label 04
+
+*BEGIN TREE fold_name
+name  S.F.inf.ant._right
+color 140 0 255
+label 3
+
+*BEGIN TREE fold_name
+name S.F.inf.ant.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inf.ant.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf.moy._right
+color 255 130 255
+label 2
+
+*BEGIN TREE fold_name
+name S.F.inf.moy.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inf.moy.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf.post._right
+color 255 0 150
+label 1
+
+*BEGIN TREE fold_name
+name S.F.inf.post.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.F.inf.post.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.inf.r.tr._right
+label 4
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr._right
+color 255 255 0
+label 05
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr.sup._right
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr.moy._right
+label 2
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.polaire.tr.inf._right
+label 3
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.marginal._right
+color 255 0 175
+label 06
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.orbitaire._right
+color 255 0 0
+label 07
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Olf._right
+color 255 255 0
+label 10
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Or._right
+color 100 255 100
+label 09
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Or.l._right
+color 50 255 180
+label 08
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  FACEINTERNE.F_right
+label 05
+
+*BEGIN TREE fold_name
+name S.p.Olf.ant._right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.int._right
+color 100 250 0
+
+*BEGIN TREE fold_name
+name  S.F.int.pol._right
+color 182 119 7
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.int.sup_right
+color 255 100 100
+label 00
+
+*END
+
+*BEGIN TREE fold_name
+name  S.F.int.AMS_right
+color 200 0 200
+label 00
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.R.sup._right
+color 200 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.R.inf._right
+color 255 112 0
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M._right
+color 0 255 255
+
+*BEGIN TREE fold_name
+name  F.C.M.ant._right
+color 0 0 255
+
+*BEGIN TREE fold_name
+name  F.C.M.inf._right
+color 0 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.asc._right
+color 0 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.sup._right
+color 0 0 255
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.sup.r.asc.ant._right
+color 0 255 100
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.r.AMS.ant._right
+color 180 100 255
+
+*END
+
+*BEGIN TREE fold_name
+name  F.C.M.post._right
+color 255 224 0
+
+*BEGIN TREE fold_name
+name F.C.M.AMS._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.M.para._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.C.M.r.asc._right
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.p.C._right
+color 255 154 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.intraCing._right
+color 200 100 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Call._right
+color 100 100 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C.LPC._right
+color 0 255 255
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  FACEINTERNE.PO_right
+label 06
+
+*BEGIN TREE fold_name
+name  S.s.P._right
+color 150 255 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.int._right
+color 255 0 255
+
+*BEGIN TREE fold_name
+name  S.Pa.int.ant._right
+color 155 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.int.post._right
+color 255 0 155
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.P.O._right
+color 0 0 255
+
+*BEGIN TREE fold_name
+name F.P.O.sup._right
+
+*END
+
+*BEGIN TREE fold_name
+name F.P.O.inf._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cu._right
+color 255 0 0
+
+*BEGIN TREE fold_name
+name  S.Cu.sag.inf._right
+color 255 80 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cu.sag.sup._right
+color 255 0 80
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cu.vert._right
+color 255 80 80
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Li._right
+color 255 80 190
+
+*BEGIN TREE fold_name
+name  S.Li.ant._right
+color 255 40 190
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Li.post._right
+color 255 140 190
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  PARIETAL_right
+label 07
+
+*BEGIN TREE fold_name
+name S.Par.x._right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.sup._right
+color 0 133 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Pa.t._right
+color 100 255 255
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C._right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Po.C.sup._right
+color 120 0 120
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C.br.LPS_right
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C.br.LPI_right
+
+*END
+
+*BEGIN TREE fold_name
+name S.Po.C.br.GPOC_right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.GSM._right
+color 255 186 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P._right
+color 0 255 0
+label 08
+
+*BEGIN TREE fold_name
+name  F.I.P.Po.C_right
+label 1
+
+*BEGIN TREE fold_name
+name  F.I.P.Po.C.sup._right
+color 50 255 0
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.Po.C.inf._right
+color 200 255 0
+label 2
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.asc._right
+color 200 155 100
+label 3
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.trans._right
+color 200 85 0
+label 5
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.Horiz._right
+color 0 120 0
+label 4
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.ParO._right
+color 0 255 150
+label 6
+
+*BEGIN TREE fold_name
+name  F.I.P.ParO.sup._right
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.ParO.inf._right
+label 2
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.desc._right
+label 7
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.int.1_right
+color 200 0 100
+label 8
+
+*END
+
+*BEGIN TREE fold_name
+name  F.I.P.r.int.2_right
+color 200 100 0
+label 9
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  OCCIPITAL_right
+color 0 0 100
+label 09
+
+*BEGIN TREE fold_name
+name S.O.x._right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.t._right
+color 255 0 213
+
+*END
+
+*BEGIN TREE fold_name
+name S.Oc.Te.lat._right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.I.O._right
+color 255 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name S.O.L._right
+
+*BEGIN TREE fold_name
+name  S.O.L.ant._right
+color 164 252 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.L.post._right
+color 255 241 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Lu._right
+color 0 133 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.r.Lu._right
+color 255 91 128
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.i._right
+color 0 128 31
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.a._right
+color 255 128 0
+
+*END
+
+*BEGIN TREE fold_name
+name I.Pr.O._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  C.CALCARIN_right
+color 200 150 100
+label 10
+
+*BEGIN TREE fold_name
+name  F.Cal.ant.-Sc.Cal._right
+color 200 150 100
+
+*BEGIN TREE fold_name
+name F.Cal.ant._right
+
+*END
+
+*BEGIN TREE fold_name
+name Sc.Cal._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.r.Cal._right
+color 200 50 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Cal.externe._right
+color 200 150 200
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.p._right
+color 140 255 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  TEMPORAL-EXT_right
+label 11
+
+*BEGIN TREE fold_name
+name S.T.x._right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.pol._right
+color 100 200 155
+
+*BEGIN TREE fold_name
+name S.T.pol.sup._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.pol.inf._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name S.ac._right
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s._right
+color 255 100 100
+label 1
+
+*BEGIN TREE fold_name
+name  S.T.s.ant._right
+label 1
+
+*BEGIN TREE fold_name
+name S.T.s.ant.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.s.ant.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.moy._right
+label 2
+
+*BEGIN TREE fold_name
+name S.T.s.moy.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.s.moy.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.post._right
+label 3
+
+*BEGIN TREE fold_name
+name S.T.s.post.r.asc._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.T.s.post.r.desc._right
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.ter.asc.ant._right
+color 170 255 130
+label 4
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.horiz._right
+label 5
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.s.ter.asc.post._right
+color 0 180 255
+label 6
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.post._right
+label 7
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i._right
+label 2
+
+*BEGIN TREE fold_name
+name  S.T.i.ant._right
+color 255 0 170
+label 1
+
+*BEGIN TREE fold_name
+name  S.T.i.ant.R.ant._right
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i.ant.R.moy._right
+label 2
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i.post._right
+color 100 0 255
+label 2
+
+*BEGIN TREE fold_name
+name  S.T.i.post.R.post._right
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  S.T.i.post.R.desc._right
+label 2
+
+*END
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.marg._right
+label 3
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  TEMPORAL-BASAL_right
+label 12
+
+*BEGIN TREE fold_name
+name  S.O.T.lat._right
+color 100 255 100
+label 1
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.ant._right
+color 255 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.med._right
+color 100 255 100
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.int._right
+color 255 255 255
+
+*END
+
+*BEGIN TREE fold_name
+name  S.O.T.lat.post._right
+color 255 155 0
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll._right
+color 0 180 230
+label 2
+
+*BEGIN TREE fold_name
+name  F.Coll.R.tr.ant._right
+label 1
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll.R.PH._right
+label 2
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll.r.ter._right
+label 3
+
+*END
+
+*BEGIN TREE fold_name
+name  F.Coll.r.IL._right
+label 4
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  S.U._right
+label 5
+
+*END
+
+*BEGIN TREE fold_name
+name  S.Rh._right
+color 255 255 0
+label 6
+
+*END
+
+*BEGIN TREE fold_name
+name  S.h._right
+label 7
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  INSULA_right
+color 175 245 0
+label 13
+
+*BEGIN TREE fold_name
+name S.I.Cir._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.C._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Ct._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Ct.ant._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Ct.post._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Lg._right
+
+*END
+
+*BEGIN TREE fold_name
+name S.I.Falc._right
+
+*END
+
+*END
+
+*END
+
+*END
+
+*END

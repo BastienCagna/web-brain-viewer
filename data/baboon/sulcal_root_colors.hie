@@ -1,0 +1,293 @@
+# tree 1.0
+
+*BEGIN TREE hierarchy
+graph_syntax CorticalFoldArg
+
+
+*BEGIN TREE fold_name
+name  unknown
+color 255 180 180
+
+*END
+
+
+*BEGIN TREE fold_name
+name  ASOS._left
+color 0 125 80
+
+*END
+
+*BEGIN TREE fold_name
+name  AScS._left
+color 125 255 125
+
+*END
+
+*BEGIN TREE fold_name
+name  AmTS._left
+color 60 0 200
+*END
+
+*BEGIN TREE fold_name
+name  AmTS._left
+color 125 0 180
+
+*END
+
+*BEGIN TREE fold_name
+name CaS._left
+color 180 125 60
+
+*END
+
+
+*BEGIN TREE fold_name
+name CgS._left
+color 60 0 180
+
+*BEGIN TREE fold_name
+name CgS-DE._left
+color 60 80 180
+
+*END
+
+*BEGIN TREE fold_name
+name CgS-VE._left
+color 60 160 180
+
+*END
+
+*BEGIN TREE fold_name
+name CgS-p._left
+color 60 210 180
+
+*END
+
+*END
+
+*BEGIN TREE fold_name
+name  ECS._left
+color 255 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  IArS._left
+color 80 0 80
+
+*END
+
+*BEGIN TREE fold_name
+name  ICaS._left
+color 80 200 80
+
+*END
+
+*BEGIN TREE fold_name
+name  ILS._left
+color 0 180 255
+
+*END
+
+*BEGIN TREE fold_name
+name  IOS._left
+color 60 255 127
+
+*END
+
+*BEGIN TREE fold_name
+name  IPD._left
+color 0 60 255
+
+*END
+
+
+*BEGIN TREE fold_name
+name  IPS._left
+color 0 127 60
+
+*BEGIN TREE fold_name
+name  IPS-d._left
+color 80 127 60
+
+*END
+
+*BEGIN TREE fold_name
+name  IPS-v._left
+color 160 127 60
+
+*END
+
+*BEGIN TREE fold_name
+name  IPS-v._left
+color 220 127 60
+
+*END
+
+*END
+
+
+*BEGIN TREE fold_name
+name  ITS._left
+color 100 50 255
+
+*END
+
+*BEGIN TREE fold_name
+name  LOS._left
+color 0 180 255
+
+*END
+
+*BEGIN TREE fold_name
+name  LS._left
+color 100 0 255
+
+*END
+
+*BEGIN TREE fold_name
+name  LuS._left
+color 100 0 180
+
+*END
+
+
+*BEGIN TREE fold_name
+name  MOS._left
+color 127 50 0
+
+*BEGIN TREE fold_name
+name  MOS-l._left
+color 127 50 80
+
+*END
+
+*BEGIN TREE fold_name
+name  MOS-m._left
+color 127 50 180
+
+*END
+
+*END
+
+
+*BEGIN TREE fold_name
+name  OTS._left
+color 30 255 0
+
+*BEGIN TREE fold_name
+name  OTS-a._left
+color 30 255 80
+
+*END
+
+*BEGIN TREE fold_name
+name  OTS-p._left
+color 30 255 180
+
+*END
+
+*END
+
+
+*BEGIN TREE fold_name
+name  PS._left
+color 255 80 80
+
+*END
+
+*BEGIN TREE fold_name
+name  PSPD._left
+color 80 255 80
+
+*END
+
+*BEGIN TREE fold_name
+name  PScS._left
+color 80 80 255
+
+*END
+
+*BEGIN TREE fold_name
+name  PmTS._left
+color 127 190 0
+
+*END
+
+*BEGIN TREE fold_name
+name  PoCS._left
+color 0 180 255
+
+*END
+
+*BEGIN TREE fold_name
+name  PrCS._left
+color 255 180 0
+
+*END
+
+*BEGIN TREE fold_name
+name  ROS._left
+color 125 125 0
+
+*END
+
+*BEGIN TREE fold_name
+name  RS._left
+color 180 0 60
+
+*END
+
+*BEGIN TREE fold_name
+name  S.C._left
+color 255 0 0
+label 01
+
+*END
+
+*BEGIN TREE fold_name
+name  SArS._left
+color 255 90 0
+
+*END
+
+*BEGIN TREE fold_name
+name  SCaS._left
+color 170 30 90
+
+*END
+
+*BEGIN TREE fold_name
+name  STS._left
+color 180 0 0
+
+*END
+
+*BEGIN TREE fold_name
+name  mPrOS._left
+color 60 60 180
+
+*END
+
+*BEGIN TREE fold_name
+name  pCgS-d._left
+color 0 0 255
+
+*END
+
+
+*BEGIN TREE fold_name
+name  cingular._left
+color 40 40 40
+
+*END
+
+*BEGIN TREE fold_name
+name  insula._left
+color 255 0 255
+
+*END
+
+
+*END
+
