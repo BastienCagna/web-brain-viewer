@@ -1,28 +1,4 @@
 {
-  /*
-  "compilerOptions": {
-    //"module": "es6",
-    //"target": "es6",
-    "module": "ES2020",
-    "target": "ES2020",
-    //"moduleResolution": "node",
-    //"removeComments": true,
-    //"preserveConstEnums": true,
-    //"sourceMap": true,
-    "outDir": "./build"
-  },*/
-  /*
-  "compilerOptions": {
-    "outDir": "./dist/",
-    //"noImplicitAny": true,
-    "module": "es6",
-    //"module": "esnext",
-    "target": "es5",
-    "jsx": "react",
-    "allowJs": true,
-    "moduleResolution": "node",
-  }*/
-
   // https://stackoverflow.com/questions/46520882/build-and-distribute-a-typescript-project
   "compileOnSave": true,
   "compilerOptions": {

@@ -1,4 +1,5 @@
 /**
+ * @Module
  * WBViewer
  *
  * Abstract class for 2D and 3D viewers

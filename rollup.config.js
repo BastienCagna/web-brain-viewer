@@ -4,8 +4,8 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 export default {
     input: 'src/main.ts',
     output: [{
-        name: 'WebBrainViewer',
-        file: 'dist/wbv.js',
+        name: 'Web-Brain-Viewer',
+        file: 'dist/web-brain-viewer.js',
         format: 'es'
     }],
 
